@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem; // Novo sistema de Input
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,31 +10,26 @@ public class PlayerController : MonoBehaviour
     [Header("Referências")]
     public Transform cuboSuperior;
     public Transform cuboInferior;
-    public GameObject groundDetector; // Objeto filho com BoxCollider2D nos pés
+    // O groundDetector não será mais necessário com esta abordagem
+    public GameObject groundDetector;
 
     [Header("Agachamento")]
     public float alturaAgachado = 0.5f;
     public float alturaNormal = 1f;
 
+    [Header("Pulo")]
+    public float forcaPulo = 5f;
+    public LayerMask groundLayer;
+
     private bool estaAgachado = false;
+    private bool podePular = false; // Começamos com false, e só ativamos na primeira colisão
     private Rigidbody2D rb;
-    private Collider2D groundCollider;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (groundDetector != null)
-        {
-            groundCollider = groundDetector.GetComponent<Collider2D>();
-            if (groundCollider == null)
-            {
-                Debug.LogError("O objeto groundDetector precisa ter um Collider2D!");
-            }
-        }
-        else
-        {
-            Debug.LogError("GroundDetector não atribuído no Inspector!");
-        }
+        // Note: o groundDetector não é mais necessário aqui.
+        // O próprio BoxCollider2D do personagem será usado para a colisão.
     }
 
     void Update()
@@ -44,45 +39,33 @@ public class PlayerController : MonoBehaviour
         Pular();
     }
 
+    // Removido FixedUpdate, já que a lógica de pulo é baseada em eventos
     void Mover()
     {
         float velocidade = estaAgachado ? velocidadeAgachado : velocidadeNormal;
 
-        // Novo sistema de Input
         float moveX = 0f;
-        float moveY = 0f;
 
         if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
             moveX = -1f;
         else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
             moveX = 1f;
 
-        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
-            moveY = 1f;
-        else if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)
-            moveY = -1f;
-
-        // Se estiver agachado, move só para os lados
-        if (estaAgachado)
-            moveY = 0f;
-
-        Vector2 movimento = new Vector2(moveX, moveY) * velocidade;
-
-        rb.linearVelocity = new Vector2(movimento.x, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(moveX * velocidade, rb.linearVelocity.y);
     }
+
     void Pular()
     {
-        // Novo sistema de Input
-        if (Keyboard.current.wKey.wasPressedThisFrame && EstaNoChao())
+        if (Keyboard.current.wKey.wasPressedThisFrame && podePular)
         {
-            rb.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+            rb.AddForce(Vector2.up * forcaPulo, ForceMode2D.Impulse);
+            // Imediatamente desativa a habilidade de pular
+            podePular = false;
         }
     }
 
-
     void Agachar()
     {
-        // Novo sistema de Input
         bool agachar = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
 
         if (agachar)
@@ -107,20 +90,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool EstaNoChao()
+    // **NOVA LÓGICA DE DETECÇÃO DE CHÃO**
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if (groundCollider == null) return false;
-
-        // Pega os dados do BoxCollider2D
-        var box = groundCollider as BoxCollider2D;
-        if (box == null) return false;
-
-        Vector2 centro = box.bounds.center;
-        Vector2 tamanho = box.size * box.transform.lossyScale;
-
-        // Checa se está sobrepondo algum chão na layer Default
-        return Physics2D.OverlapBox(centro, tamanho, box.transform.eulerAngles.z, LayerMask.GetMask("Default")) != null;
+        // Se a colisão for com um objeto na layer de chão, ativamos o pulo
+        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
+        {
+            podePular = true;
+        }
     }
 
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        // Se a colisão era com o chão, desativamos o pulo
+        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
+        {
+            podePular = false;
+        }
+    }
 }
-
