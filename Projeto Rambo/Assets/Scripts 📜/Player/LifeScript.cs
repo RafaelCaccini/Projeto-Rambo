@@ -1,111 +1,75 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
-public class HealthSystem : MonoBehaviour
+public class LifeScript : MonoBehaviour
 {
-    //Configurações de Vida 
-    [Header("Configurações de Vida")]
-    [SerializeField] private float maxHealth = 100f;
-    [SerializeField] private float damageOnCollision = 10f; // Dano padrão ao colidir
-    private float currentHealth;
+    [Header("Configuração de Vida")]
+    public int vidaMaxima = 100; // valor ajustável no inspetor
+    private int vidaAtual;
 
-    //Feedback Visual de Dano
-    [Header("Feedback Visual de Dano")]
-    [SerializeField] private Renderer[] playerRenderers; // Array para todos os renderers do jogador
-    [SerializeField] private Color damageColor = Color.red;
-    [SerializeField] private float flashDuration = 0.1f;
+    [Header("Configuração de Dano")]
+    public int danoPorToque = 10; // valor ajustável no inspetor
 
-    private Color[] originalColors; // Array para armazenar as cores originais de cada renderer
-    private bool isFlashing = false;
+    [Header("Feedback de Dano")]
+    public Color corDano = Color.red;
+    public float tempoPiscar = 0.1f;
 
-    private void Awake()
+    private SpriteRenderer[] renderers;
+    private Color[] coresOriginais;
+
+    void Start()
     {
-        currentHealth = maxHealth;
+        vidaAtual = vidaMaxima;
 
-        // Se o array de renderers não foi preenchido, tenta pegar todos os renderers nos filhos
-        if (playerRenderers == null || playerRenderers.Length == 0)
-        {
-            playerRenderers = GetComponentsInChildren<Renderer>();
-        }
+        // Pega todos os SpriteRenderers do objeto e filhos pra toidos morrer
+        renderers = GetComponentsInChildren<SpriteRenderer>();
 
-        // Armazena as cores originais de todos os renderers
-        originalColors = new Color[playerRenderers.Length];
-        for (int i = 0; i < playerRenderers.Length; i++)
+        // Guarda as cores originais para ele n ficar vermelho semrpe
+        coresOriginais = new Color[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
         {
-            if (playerRenderers[i] != null)
-            {
-                originalColors[i] = playerRenderers[i].material.color;
-            }
+            coresOriginais[i] = renderers[i].color;
         }
     }
 
-   
-    public void TakeDamage(float amount)
+    void OnCollisionEnter2D(Collision2D col) //Detecta a colisão com outra caixa de colisão. Mesmo sem ser isTrigger.
     {
-        if (currentHealth <= 0) return; // Se já morreu, não faz nada.
-
-        currentHealth -= amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
-        Debug.Log($"Dano aplicado: {amount}. Vida atual: {currentHealth}.");
-
-        // Se a vida for maior que zero, chama o efeito de flash
-        if (currentHealth > 0)
+        if (col.collider.CompareTag("Danger")) // aplica apenas se o objeto tiver a tag Danger.
         {
-            StartCoroutine(FlashDamage());
-        }
-
-        // Se a vida chegou a zero, o objeto morre
-        if (currentHealth <= 0)
-        {
-            Die();
+            TomarDano(danoPorToque);
         }
     }
 
-    private IEnumerator FlashDamage()
+    public void TomarDano(int dano) // metodo para subtrair a vida por toquer no objeto perigoso.
     {
-        if (isFlashing) yield break; // Evita que a corrotina seja chamada múltiplas vezes
-        isFlashing = true;
+        vidaAtual -= dano;
+        StartCoroutine(PiscarVermelho());
 
-        // Altera a cor de todos os renderers para a cor de dano
-        for (int i = 0; i < playerRenderers.Length; i++)
+        if (vidaAtual <= 0)
         {
-            if (playerRenderers[i] != null)
-            {
-                playerRenderers[i].material.color = damageColor;
-            }
+            Morrer();
         }
-
-        yield return new WaitForSeconds(flashDuration);
-
-        // Restaura a cor original de todos os renderers
-        for (int i = 0; i < playerRenderers.Length; i++)
-        {
-            if (playerRenderers[i] != null)
-            {
-                playerRenderers[i].material.color = originalColors[i];
-            }
-        }
-
-        isFlashing = false;
     }
 
-    private void Die()
+    IEnumerator PiscarVermelho() //Função "Pausavel" IEnumerator(serve para criar uma função que só inicia, pausa., e depois volta com outra condição, ou, depois de um timer), no caso, a condição é o contato.
     {
-        Debug.Log($"{gameObject.name} morreu.");
+        // Fica vermelho
+        foreach (var r in renderers)
+        {
+            r.color = corDano;
+        }
+
+        yield return new WaitForSeconds(tempoPiscar);
+
+        // Volta pra cor original
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].color = coresOriginais[i];
+        }
+    }
+
+    void Morrer() // mata o jogador caso a vida seja = a 0, ou menor
+    {
         Destroy(gameObject);
-    }
-
-    /// <summary>
-    /// Detecta colisões físicas.
-    /// </summary>
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Verifica se o objeto colidido tem a tag "Danger"
-        if (collision.gameObject.CompareTag("Danger"))
-        {
-            Debug.Log($"Colisão com objeto perigoso: {collision.gameObject.name}. Aplicando dano.");
-            TakeDamage(damageOnCollision);
-        }
     }
 }
