@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         // Calcula a posição abaixada com base na original
         posicaoAgachadoCuboSuperior = new Vector3(
             posicaoOriginalCuboSuperior.x,
-            posicaoOriginalCuboSuperior.y - 0.5f, // quanto vai abaixar
+            posicaoOriginalCuboSuperior.y - 0.2f, // quanto vai abaixar
             posicaoOriginalCuboSuperior.z
         );
     }
@@ -59,11 +59,11 @@ public class PlayerController : MonoBehaviour
     {
         float velocidade = estaAgachado ? velocidadeAgachado : velocidadeNormal;
         float moveX = 0f;
-
+        //mecanica basicam de movimento, usando as teclas WASD ou setas
         if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
         {
             moveX = -1f;
-            olhandoParaDireita = false;
+            olhandoParaDireita = false; //bool para controlar o flip do personagem.
         }
         else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
         {
@@ -82,11 +82,11 @@ public class PlayerController : MonoBehaviour
 
     void Pular()
     {
-        // trocado para espaço
+        
         if (Keyboard.current.spaceKey.wasPressedThisFrame && podePular)
         {
-            rb.AddForce(Vector2.up * forcaPulo, ForceMode2D.Impulse);
-            podePular = false;
+            rb.AddForce(Vector2.up * forcaPulo, ForceMode2D.Impulse); //Adiciona força no eixo Y
+            podePular = false; //bool q controla se está ou n no chão, para evitar pulos no ar
         }
     }
 
@@ -96,8 +96,8 @@ public class PlayerController : MonoBehaviour
 
         if (agachar && !estaAgachado)
         {
-            estaAgachado = true;
-            cuboSuperior.localPosition = posicaoAgachadoCuboSuperior;
+            estaAgachado = true; //controla se está agachado ou não.
+            cuboSuperior.localPosition = posicaoAgachadoCuboSuperior; // abaixa a primeira metade do personagem.
         }
         else if (!agachar && estaAgachado)
         {
@@ -109,20 +109,20 @@ public class PlayerController : MonoBehaviour
     {
         if (Keyboard.current.eKey.wasPressedThisFrame && prefabTiro != null)
         {
-            Vector2 direcao;
+            Vector2 direcao; 
             Vector3 posicaoDisparo = pontoDisparo.position;
             Quaternion rotacaoTiro = Quaternion.identity;
 
-            // Se W estiver pressionado junto, atira para cima
+            // Se W estiver pressionado junto, atira para cima.
             if (Keyboard.current.wKey.isPressed)
             {
-                direcao = Vector2.up;
+                direcao = Vector2.up; 
 
-                // desloca o ponto de disparo para cima da cabeça
-                posicaoDisparo = cuboSuperior.position + new Vector3(0f, 0.5f, 0f);
+                
+                posicaoDisparo = cuboSuperior.position + new Vector3(0f, 0.5f, 0f);// desloca o ponto de disparo para cima da cabeça
 
-                // gira o tiro para ficar na vertical
-                rotacaoTiro = Quaternion.Euler(0, 0, 90);
+                
+                rotacaoTiro = Quaternion.Euler(0, 0, 90); // gira o tiro para ficar na vertical
             }
             else
             {
@@ -134,17 +134,17 @@ public class PlayerController : MonoBehaviour
             }
 
             GameObject tiro = Instantiate(prefabTiro, posicaoDisparo, rotacaoTiro);
-            tiro.tag = "Danger"; // garante que seja perigoso
+            tiro.tag = "Danger"; //Aplica a tag Danger a força, para evitar bugs
 
             Rigidbody2D rbTiro = tiro.GetComponent<Rigidbody2D>();
             if (rbTiro != null)
-                rbTiro.linearVelocity = direcao * velocidadeTiro;
+                rbTiro.linearVelocity = direcao * velocidadeTiro; // multiplica a direção pela velocidade pra fazer o tiro se mover
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
+        if (((1 << collision.gameObject.layer) & groundLayer) != 0) // detecta colisão com objetos coma layer de chão hehehe.
         {
             podePular = true;
         }
