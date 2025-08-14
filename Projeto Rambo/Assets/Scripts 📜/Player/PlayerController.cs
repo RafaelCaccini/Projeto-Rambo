@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     [Header("Referências")]
     public Transform cuboSuperior;
     public Transform cuboInferior;
-    // O groundDetector não será mais necessário com esta abordagem
     public GameObject groundDetector;
 
     [Header("Agachamento")]
@@ -21,15 +20,31 @@ public class PlayerController : MonoBehaviour
     public float forcaPulo = 5f;
     public LayerMask groundLayer;
 
+    [Header("Tiro")]
+    public GameObject prefabTiro; // arraste aqui seu projétil no Inspector
+    public float velocidadeTiro = 10f;
+    public Transform pontoDisparo; // posição onde nasce o tiro
+
     private bool estaAgachado = false;
-    private bool podePular = false; // Começamos com false, e só ativamos na primeira colisão
+    private bool podePular = false;
     private Rigidbody2D rb;
+    private bool olhandoParaDireita = true; // controle de flip
+    private Vector3 posicaoOriginalCuboSuperior;
+    private Vector3 posicaoAgachadoCuboSuperior;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        // Note: o groundDetector não é mais necessário aqui.
-        // O próprio BoxCollider2D do personagem será usado para a colisão.
+
+        // Guarda a posição inicial real
+        posicaoOriginalCuboSuperior = cuboSuperior.localPosition;
+
+        // Calcula a posição abaixada com base na original
+        posicaoAgachadoCuboSuperior = new Vector3(
+            posicaoOriginalCuboSuperior.x,
+            posicaoOriginalCuboSuperior.y - 0.5f, // quanto vai abaixar
+            posicaoOriginalCuboSuperior.z
+        );
     }
 
     void Update()
@@ -37,29 +52,40 @@ public class PlayerController : MonoBehaviour
         Mover();
         Agachar();
         Pular();
+        Atirar();
     }
 
-    // Removido FixedUpdate, já que a lógica de pulo é baseada em eventos
     void Mover()
     {
         float velocidade = estaAgachado ? velocidadeAgachado : velocidadeNormal;
-
         float moveX = 0f;
 
         if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
+        {
             moveX = -1f;
+            olhandoParaDireita = false;
+        }
         else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+        {
             moveX = 1f;
+            olhandoParaDireita = true;
+        }
 
+        // aplica movimento
         rb.linearVelocity = new Vector2(moveX * velocidade, rb.linearVelocity.y);
+
+        // aplica flip visual
+        Vector3 escala = transform.localScale;
+        escala.x = olhandoParaDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
+        transform.localScale = escala;
     }
 
     void Pular()
     {
-        if (Keyboard.current.wKey.wasPressedThisFrame && podePular)
+        // trocado para espaço
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && podePular)
         {
             rb.AddForce(Vector2.up * forcaPulo, ForceMode2D.Impulse);
-            // Imediatamente desativa a habilidade de pular
             podePular = false;
         }
     }
@@ -68,33 +94,56 @@ public class PlayerController : MonoBehaviour
     {
         bool agachar = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
 
-        if (agachar)
+        if (agachar && !estaAgachado)
         {
-            if (!estaAgachado)
-            {
-                estaAgachado = true;
-                Vector3 pos = cuboSuperior.localPosition;
-                pos.y = alturaAgachado;
-                cuboSuperior.localPosition = pos;
-            }
+            estaAgachado = true;
+            cuboSuperior.localPosition = posicaoAgachadoCuboSuperior;
         }
-        else
+        else if (!agachar && estaAgachado)
         {
-            if (estaAgachado)
+            estaAgachado = false;
+            cuboSuperior.localPosition = posicaoOriginalCuboSuperior;
+        }
+    }
+    void Atirar()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && prefabTiro != null)
+        {
+            Vector2 direcao;
+            Vector3 posicaoDisparo = pontoDisparo.position;
+            Quaternion rotacaoTiro = Quaternion.identity;
+
+            // Se W estiver pressionado junto, atira para cima
+            if (Keyboard.current.wKey.isPressed)
             {
-                estaAgachado = false;
-                Vector3 pos = cuboSuperior.localPosition;
-                pos.y = alturaNormal;
-                cuboSuperior.localPosition = pos;
+                direcao = Vector2.up;
+
+                // desloca o ponto de disparo para cima da cabeça
+                posicaoDisparo = cuboSuperior.position + new Vector3(0f, 0.5f, 0f);
+
+                // gira o tiro para ficar na vertical
+                rotacaoTiro = Quaternion.Euler(0, 0, 90);
             }
+            else
+            {
+                direcao = olhandoParaDireita ? Vector2.right : Vector2.left;
+
+                // gira o tiro pra esquerda se necessário
+                if (!olhandoParaDireita)
+                    rotacaoTiro = Quaternion.Euler(0, 0, 180);
+            }
+
+            GameObject tiro = Instantiate(prefabTiro, posicaoDisparo, rotacaoTiro);
+            tiro.tag = "Danger"; // garante que seja perigoso
+
+            Rigidbody2D rbTiro = tiro.GetComponent<Rigidbody2D>();
+            if (rbTiro != null)
+                rbTiro.linearVelocity = direcao * velocidadeTiro;
         }
     }
 
-    // **NOVA LÓGICA DE DETECÇÃO DE CHÃO**
-
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Se a colisão for com um objeto na layer de chão, ativamos o pulo
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
             podePular = true;
@@ -103,7 +152,6 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        // Se a colisão era com o chão, desativamos o pulo
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
             podePular = false;
