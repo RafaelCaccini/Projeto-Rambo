@@ -2,11 +2,23 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    void OnCollisionEnter2D(Collision2D col) //Detecta a colisão com outra caixa de colisão. Mesmo sem ser isTrigger.
+    // A variável pública "lifeTime" pode ser ajustada no Inspector do Unity
+    public float lifeTime = 10f;
+
+    // O método Start é chamado uma vez no início da vida do objeto
+    void Start()
     {
-        if (col.collider) // aplica apenas se o objeto tiver a tag Danger.
+        // Chama o método "Destroy" após "lifeTime" segundos
+        Destroy(gameObject, lifeTime);
+    }
+
+    // Detecta a colisão com outra caixa de colisão
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.collider)
         {
-            Destroy(gameObject); // Destroi o tiro ao colidir com qualquer coisa
+            // Destroi o tiro imediatamente ao colidir com qualquer coisa
+            Destroy(gameObject);
         }
     }
 }
