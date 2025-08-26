@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement; // necessário pra trocar de cena
 
 public class LifeScript : MonoBehaviour
 {
     [Header("Configuração de Vida")]
     public int vidaMaxima = 100; // valor ajustável no inspetor
-    private int vidaAtual;
+    [SerializeField] private int vidaAtual; // visível no inspector em tempo real
 
     [Header("Configuração de Dano")]
     public int danoPorToque = 10; // valor ajustável no inspetor
@@ -21,10 +22,10 @@ public class LifeScript : MonoBehaviour
     {
         vidaAtual = vidaMaxima;
 
-        // Pega todos os SpriteRenderers do objeto e filhos pra toidos morrer
+        // Pega todos os SpriteRenderers do objeto e filhos
         renderers = GetComponentsInChildren<SpriteRenderer>();
 
-        // Guarda as cores originais para ele n ficar vermelho semrpe
+        // Guarda as cores originais
         coresOriginais = new Color[renderers.Length];
         for (int i = 0; i < renderers.Length; i++)
         {
@@ -32,15 +33,15 @@ public class LifeScript : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D col) //Detecta a colisão com outra caixa de colisão. Mesmo sem ser isTrigger.
+    void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.CompareTag("Danger")) // aplica apenas se o objeto tiver a tag Danger.
+        if (col.collider.CompareTag("Danger"))
         {
             TomarDano(danoPorToque);
         }
     }
 
-    public void TomarDano(int dano) // metodo para subtrair a vida por toquer no objeto perigoso.
+    public void TomarDano(int dano)
     {
         vidaAtual -= dano;
         StartCoroutine(PiscarVermelho());
@@ -51,9 +52,8 @@ public class LifeScript : MonoBehaviour
         }
     }
 
-    IEnumerator PiscarVermelho() //Função "Pausavel" IEnumerator(serve para criar uma função que só inicia, pausa., e depois volta com outra condição, ou, depois de um timer), no caso, a condição é o contato.
+    IEnumerator PiscarVermelho()
     {
-        // Fica vermelho
         foreach (var r in renderers)
         {
             r.color = corDano;
@@ -61,15 +61,21 @@ public class LifeScript : MonoBehaviour
 
         yield return new WaitForSeconds(tempoPiscar);
 
-        // Volta pra cor original
         for (int i = 0; i < renderers.Length; i++)
         {
             renderers[i].color = coresOriginais[i];
         }
     }
 
-    void Morrer() // mata o jogador caso a vida seja = a 0, ou menor
+    void Morrer()
     {
-        Destroy(gameObject);
+        // Carrega a cena "Morte"
+        SceneManager.LoadScene("Morte");
+    }
+
+    // Método público para outros scripts consultarem a vida atual
+    public int GetVidaAtual()
+    {
+        return vidaAtual;
     }
 }

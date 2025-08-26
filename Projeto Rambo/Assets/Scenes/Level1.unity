@@ -922,6 +922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vidaMaxima: 100
+  vidaAtual: 0
   danoPorToque: 10
   corDano: {r: 1, g: 0, b: 0, a: 1}
   tempoPiscar: 0.1
@@ -1078,7 +1079,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.0016742647}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1088,7 +1089,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.0033481}
   m_EdgeRadius: 0
 --- !u!50 &916147278
 Rigidbody2D:
@@ -1098,7 +1099,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916147274}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1185,6 +1186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vidaMaxima: 40
+  vidaAtual: 0
   danoPorToque: 20
   corDano: {r: 1, g: 0, b: 0, a: 1}
   tempoPiscar: 0.1
