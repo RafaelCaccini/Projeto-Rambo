@@ -8,6 +8,39 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/Scenes \U0001F5FA\uFE0F/SampleScene.unity"
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: 1d8215ef4fc8e054da3801e1018be844
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: b2a30d6b6a015bd4c98d72230b15c921
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 47631c450d3823e46b3cd210e18e6bad
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: 35dcdfde044963a488203285025f0d62
+  - enabled: 1
+    path: Assets/Scenes/Morte.unity
+    guid: 5133268ff7839994bb44fc6c5707b8fe
+  - enabled: 1
+    path: Assets/Scenes/Tutorial1.unity
+    guid: 316d48a3b76271f4aa24ae625b3e8d9d
+  - enabled: 1
+    path: Assets/Scenes/Tutorial2.unity
+    guid: 5fc92ae2adf3a3348b2a69ba3459812a
+  - enabled: 1
+    path: Assets/Scenes/Tutorial3.unity
+    guid: b59d9873dd6d5024d93ef4438cdcfa77
+  - enabled: 1
+    path: Assets/Scenes/Tutorial4.unity
+    guid: e34881c6ca4d10142bf333bb8a5245a8
+  - enabled: 1
+    path: Assets/Scenes/Boss.unity
+    guid: c24772ed7a0b8bf42b833be55d987189
+  - enabled: 1
+    path: Assets/Scenes/Mapa.unity
+    guid: eed649d43bea0b548bc1d36f0f614559
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
