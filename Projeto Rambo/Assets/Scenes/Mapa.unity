@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 428853615}
   - component: {fileID: 428853614}
   - component: {fileID: 428853613}
+  - component: {fileID: 428853616}
   m_Layer: 0
   m_Name: Fase1
   m_TagString: Untagged
@@ -167,7 +168,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -253,6 +254,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &428853616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428853612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3580bd095c93c244e904f1b97a0bf778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nomeDaFase: Tutorial1
 --- !u!1 &683885627
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +278,7 @@ GameObject:
   - component: {fileID: 683885630}
   - component: {fileID: 683885629}
   - component: {fileID: 683885628}
+  - component: {fileID: 683885631}
   m_Layer: 0
   m_Name: FaseBoss
   m_TagString: Untagged
@@ -301,7 +316,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -387,6 +402,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &683885631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683885627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3580bd095c93c244e904f1b97a0bf778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nomeDaFase: Boss
 --- !u!1 &1516190966
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,6 +426,7 @@ GameObject:
   - component: {fileID: 1516190969}
   - component: {fileID: 1516190968}
   - component: {fileID: 1516190967}
+  - component: {fileID: 1516190970}
   m_Layer: 0
   m_Name: Fase2
   m_TagString: Untagged
@@ -435,7 +464,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -521,6 +550,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1516190970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516190966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3580bd095c93c244e904f1b97a0bf778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nomeDaFase: Tutorial2
 --- !u!1 &1740511322
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,6 +878,7 @@ GameObject:
   - component: {fileID: 1896518980}
   - component: {fileID: 1896518979}
   - component: {fileID: 1896518978}
+  - component: {fileID: 1896518981}
   m_Layer: 0
   m_Name: Fase3
   m_TagString: Untagged
@@ -873,7 +916,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -959,44 +1002,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2005159507
-GameObject:
+--- !u!114 &1896518981
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2005159508}
-  m_Layer: 0
-  m_Name: Boss
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2005159508
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2005159507}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.37822, y: 1.37274, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 1896518977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3580bd095c93c244e904f1b97a0bf778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nomeDaFase: Tutorial3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1814032422}
   - {fileID: 1740511327}
-  - {fileID: 2005159508}
   - {fileID: 428853615}
   - {fileID: 1516190969}
   - {fileID: 1896518980}
