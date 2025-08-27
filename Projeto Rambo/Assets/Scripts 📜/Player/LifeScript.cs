@@ -70,7 +70,14 @@ public class LifeScript : MonoBehaviour
     void Morrer()
     {
         // Carrega a cena "Morte"
-        SceneManager.LoadScene("Morte");
+        if (CompareTag("Player"))
+        {
+            SceneManager.LoadScene("Morte");
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     // Método público para outros scripts consultarem a vida atual
