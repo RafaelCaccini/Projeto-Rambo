@@ -6,7 +6,7 @@ public class LifeScript : MonoBehaviour
 {
     [Header("Configuração de Vida")]
     public int vidaMaxima = 100; // valor ajustável no inspetor
-    [SerializeField] private int vidaAtual; // visível no inspector em tempo real
+    [SerializeField] public int vidaAtual; // visível no inspector em tempo real
 
     [Header("Configuração de Dano por Tag")]
     public int danoDanger = 10;   // "Danger" normal
