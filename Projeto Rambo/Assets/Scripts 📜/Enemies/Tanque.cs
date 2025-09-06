@@ -63,13 +63,14 @@ public class TanqueSentinela : MonoBehaviour
         if (rb != null)
         {
             rb.gravityScale = 1f;
-            rb.AddForce(pontoDeDisparo.right * forcaTiro);
+
+            // Direção em diagonal (ex: 45° para cima e para frente)
+            Vector2 direcaoDiagonal = (pontoDeDisparo.right + pontoDeDisparo.up).normalized;
+
+            rb.AddForce(direcaoDiagonal * forcaTiro);
         }
 
         proj.tag = "Danger";
-
-        // Faz o projétil sumir sozinho após 2 segundos
-        Destroy(proj, 2f);
 
         // Recuo do cano
         AtivarRecuo();
