@@ -70,7 +70,7 @@ public class TanqueSentinela : MonoBehaviour
             rb.AddForce(direcaoDiagonal * forcaTiro);
         }
 
-        proj.tag = "Danger";
+        proj.tag = "Danger2";
 
         // Recuo do cano
         AtivarRecuo();

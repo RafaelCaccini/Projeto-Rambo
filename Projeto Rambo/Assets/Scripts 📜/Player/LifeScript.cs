@@ -8,8 +8,11 @@ public class LifeScript : MonoBehaviour
     public int vidaMaxima = 100; // valor ajustável no inspetor
     [SerializeField] private int vidaAtual; // visível no inspector em tempo real
 
-    [Header("Configuração de Dano")]
-    public int danoPorToque = 10; // valor ajustável no inspetor
+    [Header("Configuração de Dano por Tag")]
+    public int danoDanger = 10;   // "Danger" normal
+    public int danoDanger2 = 15;  // "Danger2"
+    public int danoDanger3 = 20;  // "Danger3"
+    public int danoDanger4 = 25;  // "Danger4"
 
     [Header("Feedback de Dano")]
     public Color corDano = Color.red;
@@ -35,9 +38,27 @@ public class LifeScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.CompareTag("Danger"))
+        int dano = 0;
+
+        switch (col.collider.tag)
         {
-            TomarDano(danoPorToque);
+            case "Danger":
+                dano = danoDanger;
+                break;
+            case "Danger2":
+                dano = danoDanger2;
+                break;
+            case "Danger3":
+                dano = danoDanger3;
+                break;
+            case "Danger4":
+                dano = danoDanger4;
+                break;
+        }
+
+        if (dano > 0)
+        {
+            TomarDano(dano);
         }
     }
 

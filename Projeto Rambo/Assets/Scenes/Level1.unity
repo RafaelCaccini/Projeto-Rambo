@@ -873,7 +873,7 @@ MonoBehaviour:
   cuboSuperior: {fileID: 276263479}
   cuboInferior: {fileID: 149485627}
   groundDetector: {fileID: 1550019037}
-  alturaAgachado: 0.5
+  alturaAgachado: 0.2
   alturaNormal: 1
   forcaPulo: 5
   groundLayer:
@@ -923,7 +923,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vidaMaxima: 100
   vidaAtual: 0
-  danoPorToque: 10
+  danoDanger: 10
+  danoDanger2: 20
+  danoDanger3: 20
+  danoDanger4: 25
   corDano: {r: 1, g: 0, b: 0, a: 1}
   tempoPiscar: 0.1
 --- !u!1 &343721912
@@ -1274,7 +1277,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vidaMaxima: 40
   vidaAtual: 0
-  danoPorToque: 20
+  danoDanger: 10
+  danoDanger2: 15
+  danoDanger3: 20
+  danoDanger4: 25
   corDano: {r: 1, g: 0, b: 0, a: 1}
   tempoPiscar: 0.1
 --- !u!1 &1169887025
@@ -1627,7 +1633,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732813697}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -6.65, y: -1.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1645,5 +1651,5 @@ SceneRoots:
   - {fileID: 105463362}
   - {fileID: 150552208}
   - {fileID: 294727919}
-  - {fileID: 1732813698}
   - {fileID: 1458329090}
+  - {fileID: 1732813698}
