@@ -50,18 +50,27 @@ public class ColetavelScript : MonoBehaviour
             {
                 vidaMaxima.vidaAtual += valorCura;// Cura o jogador
             }
-            else if (tipo == TipoColetavel.Granada)
+        }
+        //Granadas
+        else if (tipo == TipoColetavel.Granada)
+        {
+            // Aumenta munição de granada
+            PlayerController granada = Rambo.GetComponent<PlayerController>();
+            if (granada != null)
             {
-                // Aumenta munição de granada
-            }
-            else if (tipo == TipoColetavel.Escudo)
-            {
-                // Aplica escudo do jogador
-            }
-            else if (tipo == TipoColetavel.Especial)
-            {
-                // Ativa habilidade especial
+                // Adiciona as granadas, mas limita o máximo a 3
+                granada.granadasRestantes = Mathf.Min(granada.granadasRestantes + granadas, 3);
             }
         }
+
+        else if (tipo == TipoColetavel.Escudo)
+        {
+            // Aplica escudo do jogador
+        }
+
+        else if (tipo == TipoColetavel.Especial)
+        {
+            // Ativa habilidade especial
+        }
+        }
     }
-}
