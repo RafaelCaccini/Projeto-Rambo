@@ -66,6 +66,13 @@ public class ColetavelScript : MonoBehaviour
         else if (tipo == TipoColetavel.Escudo)
         {
             // Aplica escudo do jogador
+            LifeScript vidaMaxima = Rambo.GetComponent<LifeScript>();
+            if (vidaMaxima != null)
+            {
+                vidaMaxima.ignorarDano = true; // Ativa o escudo
+                // Desativa o escudo após a duração
+                vidaMaxima.Invoke("DesativarEscudo", duracaoEscudo);
+            }
         }
 
         else if (tipo == TipoColetavel.Especial)

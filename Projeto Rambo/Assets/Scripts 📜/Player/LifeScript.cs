@@ -13,6 +13,7 @@ public class LifeScript : MonoBehaviour
     public int danoDanger2 = 15;  // "Danger2"
     public int danoDanger3 = 20;  // "Danger3"
     public int danoDanger4 = 25;  // "Danger4"
+    public bool ignorarDano = false; 
 
     [Header("Feedback de Dano")]
     public Color corDano = Color.red;
@@ -64,6 +65,8 @@ public class LifeScript : MonoBehaviour
 
     public void TomarDano(int dano)
     {
+        if (ignorarDano) return;
+
         vidaAtual -= dano;
         StartCoroutine(PiscarVermelho());
 
@@ -106,4 +109,9 @@ public class LifeScript : MonoBehaviour
     {
         return vidaAtual;
     }
+    public void DesativarEscudo()
+    {
+        ignorarDano = false;
+    }
+
 }

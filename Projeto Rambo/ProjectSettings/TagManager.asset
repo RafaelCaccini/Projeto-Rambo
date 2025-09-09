@@ -10,6 +10,7 @@ TagManager:
   - Danger3
   - Danger4
   - Coletaveis
+  - Enemy
   layers:
   - Default
   - TransparentFX
