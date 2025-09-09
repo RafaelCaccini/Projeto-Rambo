@@ -41,6 +41,10 @@ public class PlayerController : MonoBehaviour
     private Vector3 posicaoOriginalCuboSuperior;
     private Vector3 posicaoAgachadoCuboSuperior;
 
+    [Header("Especial")]
+    public bool especial = false;
+    public float raioDoEspecial = 5f; // Raio de alcance do especial
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -70,6 +74,15 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.fKey.wasPressedThisFrame)
         {
             LancarGranada();
+        }
+
+        // Ativa a habilidade especial na tecla Q, apenas se o bool 'especial' for true
+        if (Keyboard.current.qKey.wasPressedThisFrame && especial)
+        {
+            // Chama a função para lançar o especial
+            LancarEspecial(transform.position, raioDoEspecial);
+            // Depois de usar, desativa o especial para que não possa ser usado novamente
+            especial = false;
         }
 
         // Se a vida chegou a 0, troca de cena
@@ -201,6 +214,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Método para lançar o especial.
+    // Ele agora só destrói os inimigos na área, sem se preocupar com a checagem de input.
+    public void LancarEspecial(Vector2 centro, float raio)
+    {
+        // Encontra todos os colliders dentro do raio
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(centro, raio);
+
+        // Para cada collider, verifica se é um inimigo e o destrói
+        foreach (Collider2D col in colliders)
+        {
+            if (col.CompareTag("Enemy"))
+            {
+                Destroy(col.gameObject);
+            }
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
@@ -211,7 +241,6 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
             podePular = false;

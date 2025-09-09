@@ -7,7 +7,6 @@ public class ColetavelScript : MonoBehaviour
     public int valorCura = 20; //Quantia de vida curada
     public int granadas = 3; //Quantia de granadas por coletável
     public float duracaoEscudo = 5f; //tempo de duração do escudo
-    public bool especial = false; //se pode ou não ativar habilidade especial
 
     public enum TipoColetavel //Separa os tipos de coletaveis por "Categorias"
     {
@@ -78,6 +77,11 @@ public class ColetavelScript : MonoBehaviour
         else if (tipo == TipoColetavel.Especial)
         {
             // Ativa habilidade especial
-        }
+            PlayerController especial = Rambo.GetComponent<PlayerController>();
+            if (especial != null)
+            {
+                especial.especial = true; // Ativa a habilidade especial
+            }
         }
     }
+}
