@@ -3,19 +3,19 @@ using System.Collections;
 
 public class TanqueSentinela : MonoBehaviour
 {
-    [Header("ConfiguraÁ„o Geral")]
+    [Header("Configura√ß√£o Geral")]
     public string nomeDoJogador = "Rambo";
 
-    [Header("ConfiguraÁ„o de Disparo")]
+    [Header("Configura√ß√£o de Disparo")]
     public GameObject projetilPrefab;
     public Transform pontoDeDisparo;
     public float forcaTiro = 500f;
     public float intervaloTiros = 2f;
 
-    [Header("DetecÁ„o Do Jogador")]
+    [Header("Detec√ß√£o Do Jogador")]
     public float raioDeteccao = 10f;
 
-    [Header("AnimaÁ„o de Recuo do Cano")]
+    [Header("Anima√ß√£o de Recuo do Cano")]
     public Transform canoTanque;
     public float fatorRecuo = 0.8f;
     public float duracaoRecuo = 0.1f;
@@ -35,7 +35,7 @@ public class TanqueSentinela : MonoBehaviour
         if (objJogador != null)
             jogador = objJogador.transform;
         else
-            Debug.LogWarning($"Jogador '{nomeDoJogador}' n„o encontrado na cena!");
+            Debug.LogWarning($"Jogador '{nomeDoJogador}' n√£o encontrado na cena!");
     }
 
     void Update()
@@ -55,24 +55,62 @@ public class TanqueSentinela : MonoBehaviour
 
     void Atirar()
     {
-        if (projetilPrefab == null || pontoDeDisparo == null) return;
+        if (projetilPrefab == null || pontoDeDisparo == null || jogador == null) return;
 
-        GameObject proj = Instantiate(projetilPrefab, pontoDeDisparo.position, pontoDeDisparo.rotation);
-
+        GameObject proj = Instantiate(projetilPrefab, pontoDeDisparo.position, Quaternion.identity);
         Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+
         if (rb != null)
         {
             rb.gravityScale = 1f;
 
-            // DireÁ„o em diagonal (ex: 45∞ para cima e para frente)
-            Vector2 direcaoDiagonal = (pontoDeDisparo.right + pontoDeDisparo.up).normalized;
+            Vector2 origem = pontoDeDisparo.position;
+            Vector2 alvo = jogador.position;
+            Vector2 d = alvo - origem;
 
-            rb.AddForce(direcaoDiagonal * forcaTiro);
+            float g = Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale;
+            float speed = forcaTiro;
+
+            float dx = d.x;
+            float dy = d.y;
+
+            float s2 = speed * speed;
+            float underRoot = s2 * s2 - g * (g * dx * dx + 2 * dy * s2);
+
+            Vector2 vel;
+
+            if (underRoot >= 0f && Mathf.Abs(dx) > 0.01f)
+            {
+                float root = Mathf.Sqrt(underRoot);
+
+                // MUDAN√áA AQUI: Usando o sinal de mais para o √¢ngulo alto.
+                float tanTheta = (s2 + root) / (g * dx);
+
+                float angle = Mathf.Atan(tanTheta);
+
+                float vx = Mathf.Cos(angle) * speed * Mathf.Sign(dx);
+                float vy = Mathf.Sin(angle) * speed;
+
+                vel = new Vector2(vx, vy);
+            }
+            else
+            {
+                // Se n√£o houver solu√ß√£o f√≠sica (a for√ßa √© muito baixa ou o alvo est√° muito perto), atira em dire√ß√£o ao player.
+                vel = d.normalized * speed;
+            }
+
+            rb.linearVelocity = vel;
+
+            if (canoTanque != null)
+            {
+                float angleInRadians = Mathf.Atan2(vel.y, vel.x);
+                float angleInDegrees = angleInRadians * Mathf.Rad2Deg;
+                canoTanque.rotation = Quaternion.Euler(0, 0, angleInDegrees + 90f);
+            }
         }
 
         proj.tag = "Danger2";
 
-        // Recuo do cano
         AtivarRecuo();
     }
 
