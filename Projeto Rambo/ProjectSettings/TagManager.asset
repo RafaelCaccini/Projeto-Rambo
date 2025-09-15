@@ -18,7 +18,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - Cenario
   - 
   - 
   - 
@@ -47,6 +47,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 2
+    uniqueID: 194861997
     locked: 0
   m_RenderingLayers:
   - Default
