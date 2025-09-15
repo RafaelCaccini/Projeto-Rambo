@@ -105,7 +105,7 @@ public class LifeScript : MonoBehaviour
         {
             SceneManager.LoadScene("Morte");
         }
-        else if (CompareTag("Inimigo"))
+        else if (CompareTag("Enemy"))
         {
             TentarDroparItem();
             Destroy(gameObject);
@@ -125,6 +125,8 @@ public class LifeScript : MonoBehaviour
     {
         ignorarDano = false;
     }
+   
+    //Metodo para dropar o especial
     public void TentarDroparItem()
     {
         float chance = Random.Range(0f, 100f);

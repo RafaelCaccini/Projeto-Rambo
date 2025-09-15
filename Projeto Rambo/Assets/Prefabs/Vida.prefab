@@ -137,9 +137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ec034559256b948a5b67296aa73607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocidadeFlutuacao: 1
+  alturaFlutuacao: 0.05
   valorCura: 20
   granadas: 3
   duracaoEscudo: 5
-  especial: 0
   tipo: 0
   valor: 1

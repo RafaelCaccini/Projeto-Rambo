@@ -1,9 +1,16 @@
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
+using System.Collections; // Adicionado para a coroutine
 
 public class ColetavelScript : MonoBehaviour
 {
+    // Adicionado para a flutuação
+    private Vector3 posicaoInicial;
+    [Header("Configuração de Flutuação")]
+    public float velocidadeFlutuacao = 1f;
+    public float alturaFlutuacao = 0.5f;
+
     public int valorCura = 20; //Quantia de vida curada
     public int granadas = 3; //Quantia de granadas por coletável
     public float duracaoEscudo = 5f; //tempo de duração do escudo
@@ -21,8 +28,23 @@ public class ColetavelScript : MonoBehaviour
     public int valor = 1;
 
     //[Header("Feedback Visual/Sonoro")]
-    //public GameObject efeitoColeta; 
+    //public GameObject efeitoColeta; 
     //public AudioClip somColeta;
+
+    void Start()
+    {
+        // Salva a posição inicial quando o objeto é criado
+        posicaoInicial = transform.position;
+    }
+
+    void Update()
+    {
+        // Calcula a nova posição Y usando a função seno para um movimento suave de flutuação.
+        float novaPosicaoY = posicaoInicial.y + Mathf.Sin(Time.time * velocidadeFlutuacao) * alturaFlutuacao;
+
+        // Atualiza a posição do objeto, mantendo X e Z constantes.
+        transform.position = new Vector3(posicaoInicial.x, novaPosicaoY, posicaoInicial.z);
+    }
 
     private void OnTriggerEnter2D(Collider2D other) //Compara a colisão e ve c tem a tag Player
     {
@@ -34,8 +56,6 @@ public class ColetavelScript : MonoBehaviour
             //if(som coleta)
 
             Destroy(gameObject);
-
-
         }
     }
 
@@ -69,8 +89,8 @@ public class ColetavelScript : MonoBehaviour
             if (vidaMaxima != null)
             {
                 vidaMaxima.ignorarDano = true; // Ativa o escudo
-                // Desativa o escudo após a duração
-                vidaMaxima.Invoke("DesativarEscudo", duracaoEscudo);
+                // Desativa o escudo após a duração usando uma Coroutine para mais controle.
+                StartCoroutine(DesativarEscudo(vidaMaxima, duracaoEscudo));
             }
         }
 
@@ -82,6 +102,16 @@ public class ColetavelScript : MonoBehaviour
             {
                 especial.especial = true; // Ativa a habilidade especial
             }
+        }
+    }
+
+    // Coroutine para desativar o escudo após um tempo determinado
+    private IEnumerator DesativarEscudo(LifeScript vidaScript, float duracao)
+    {
+        yield return new WaitForSeconds(duracao);
+        if (vidaScript != null)
+        {
+            vidaScript.ignorarDano = false;
         }
     }
 }
