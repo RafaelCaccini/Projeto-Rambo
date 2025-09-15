@@ -19,6 +19,13 @@ public class LifeScript : MonoBehaviour
     public Color corDano = Color.red;
     public float tempoPiscar = 0.1f;
 
+    [Tooltip("O item que será dropado.")]
+    public GameObject itemParaDropar;
+
+    [Tooltip("A chance de drop, em porcentagem (ex: 3 para 3%).")]
+    [Range(0, 100)]
+    public float chanceDeDrop = 3f;
+
     private SpriteRenderer[] renderers;
     private Color[] coresOriginais;
 
@@ -98,6 +105,11 @@ public class LifeScript : MonoBehaviour
         {
             SceneManager.LoadScene("Morte");
         }
+        else if (CompareTag("Inimigo"))
+        {
+            TentarDroparItem();
+            Destroy(gameObject);
+        }
         else
         {
             Destroy(gameObject);
@@ -113,5 +125,31 @@ public class LifeScript : MonoBehaviour
     {
         ignorarDano = false;
     }
+    public void TentarDroparItem()
+    {
+        float chance = Random.Range(0f, 100f);
+        // Gera um número aleatório entre 0 e 100.
+        float numeroAleatorio = Random.Range(0f, 100f);
 
+        // Verifica se o número aleatório é menor ou igual à chance de drop.
+        if (numeroAleatorio <= chanceDeDrop)
+        {
+            // Instancia o item na posição do inimigo.
+            if (itemParaDropar != null)
+            {
+                Instantiate(itemParaDropar, transform.position, Quaternion.identity);
+                Debug.Log("Item dropado com sucesso!");
+            }
+            else
+            {
+                Debug.LogWarning("O item a ser dropado não foi definido no Inspector!");
+            }
+        }
+        else
+        {
+            Debug.Log("Nada dropado desta vez. Chance de drop era " + chanceDeDrop + "%.");
+        }
+    }
 }
+
+
