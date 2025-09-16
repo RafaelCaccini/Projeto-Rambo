@@ -1,9 +1,19 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework.Internal.Filters;
+using TMPro;
+using Unity.Cinemachine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement; // necessário pra trocar de cena
 
 public class PlayerController : MonoBehaviour
 {
+    // Adicione esses campos para os Animators
+    [Header("Animações")]
+    public Animator animatorCorpo;
+    public Animator animatorPerna;
+
+    public float moveX;
+
     [Header("Movimentação")]
     public float velocidadeNormal = 5f;
     public float velocidadeAgachado = 2f;
@@ -41,6 +51,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 posicaoOriginalCuboSuperior;
     private Vector3 posicaoAgachadoCuboSuperior;
 
+    // hashes para deixar as ações mais rapidas e leves
+    private int movendoHash = Animator.StringToHash("Movendo");
+    private int saltandoHash = Animator.StringToHash("Saltando");
+    private int movendoCimaHash = Animator.StringToHash("MovendoCima");
+    private int atirandoHash = Animator.StringToHash("Atirando");
+    private int atirandoCimaHash = Animator.StringToHash("AtirandoCima");
+    private int olhandoCimaHash = Animator.StringToHash("OlhandoCima");
+
     [Header("Especial")]
     public bool especial = false;
     public float raioDoEspecial = 5f; // Raio de alcance do especial
@@ -48,7 +66,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        lifeScript = GetComponent<LifeScript>(); // pega o script de vida do mesmo objeto
+        lifeScript = GetComponent<LifeScript>();
 
         posicaoOriginalCuboSuperior = cuboSuperior.localPosition;
         posicaoAgachadoCuboSuperior = new Vector3(
@@ -64,28 +82,48 @@ public class PlayerController : MonoBehaviour
         Agachar();
         Pular();
 
-        // Ativa o método de tiro na tecla E
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        // Lógica para a animação de olhar para cima
+        if (Keyboard.current.wKey.isPressed)
         {
-            Atirar();
+            animatorCorpo.SetBool(olhandoCimaHash, true);
+        }
+        else
+        {
+            animatorCorpo.SetBool(olhandoCimaHash, false);
         }
 
-        // Ativa o método de lançamento de granada na tecla F
+        // Lógica para a animação de tiro lateral
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            animatorCorpo.SetBool(atirandoHash, true);
+            Atirar();
+        }
+        else
+        {
+            animatorCorpo.SetBool(atirandoHash, false);
+        }
+
+        // Lógica para a animação de atirar para cima
+        if (Keyboard.current.eKey.isPressed && Keyboard.current.wKey.isPressed)
+        {
+            animatorCorpo.SetBool(atirandoCimaHash, true);
+        }
+        else
+        {
+            animatorCorpo.SetBool(atirandoCimaHash, false);
+        }
+
         if (Keyboard.current.fKey.wasPressedThisFrame)
         {
             LancarGranada();
         }
 
-        // Ativa a habilidade especial na tecla Q, apenas se o bool 'especial' for true
         if (Keyboard.current.qKey.wasPressedThisFrame && especial)
         {
-            // Chama a função para lançar o especial
             LancarEspecial(transform.position, raioDoEspecial);
-            // Depois de usar, desativa o especial para que não possa ser usado novamente
             especial = false;
         }
 
-        // Se a vida chegou a 0, troca de cena
         if (lifeScript != null && lifeScript.GetVidaAtual() <= 0)
         {
             SceneManager.LoadScene("Morte");
@@ -95,20 +133,34 @@ public class PlayerController : MonoBehaviour
     void Mover()
     {
         float velocidade = estaAgachado ? velocidadeAgachado : velocidadeNormal;
-        float moveX = 0f;
+        moveX = 0f;
 
         if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
         {
             moveX = -1f;
             olhandoParaDireita = false;
+         
         }
         else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
         {
             moveX = 1f;
             olhandoParaDireita = true;
+           
         }
 
         rb.linearVelocity = new Vector2(moveX * velocidade, rb.linearVelocity.y);
+        if(moveX != 0)
+        {
+            //animatorCorpo.SetBool(movendoHash, true);
+            animatorPerna.SetBool(movendoHash, true);
+            animatorCorpo.SetBool(movendoCimaHash, true);
+        }
+        else
+        {
+           //animatorCorpo.SetBool(movendoHash, false);
+            animatorPerna.SetBool(movendoHash, false);
+            animatorCorpo.SetBool(movendoCimaHash, false);
+        }
 
         Vector3 escala = transform.localScale;
         escala.x = olhandoParaDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
@@ -121,6 +173,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector2.up * forcaPulo, ForceMode2D.Impulse);
             podePular = false;
+            animatorPerna.SetBool(saltandoHash, true);
         }
     }
 
@@ -154,15 +207,19 @@ public class PlayerController : MonoBehaviour
 
         if (Keyboard.current.wKey.isPressed)
         {
+            animatorCorpo.SetBool(atirandoCimaHash, true);
             direcao = Vector2.up;
-            posicaoDisparo = cuboSuperior.position + new Vector3(0f, 0.5f, 0f);
+            posicaoDisparo = cuboSuperior.position + new Vector3(0f, 0.7f, 0f);
             rotacaoTiro = Quaternion.Euler(0, 0, 90);
+            
         }
         else
         {
+            
             direcao = olhandoParaDireita ? Vector2.right : Vector2.left;
             if (!olhandoParaDireita)
                 rotacaoTiro = Quaternion.Euler(0, 0, 180);
+            
         }
 
         GameObject tiro = Instantiate(prefabTiro, posicaoDisparo, rotacaoTiro);
@@ -175,16 +232,12 @@ public class PlayerController : MonoBehaviour
 
     void LancarGranada()
     {
-        // Verifica se o tempo de espera da granada já passou E se ainda existem granadas
         if (Time.time < proximoLançamentoGranada || granadasRestantes <= 0)
         {
             return;
         }
 
-        // Diminui a contagem de granadas
         granadasRestantes--;
-
-        // Define o tempo para o próximo lançamento de granada
         proximoLançamentoGranada = Time.time + cooldownGranada;
 
         if (prefabGranada == null || pontoDisparo == null)
@@ -193,13 +246,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // Instancia a granada no ponto de disparo
         GameObject granada = Instantiate(prefabGranada, pontoDisparo.position, Quaternion.identity);
 
         Rigidbody2D rbGranada = granada.GetComponent<Rigidbody2D>();
         if (rbGranada != null)
         {
-            // Define a força inicial, combinando a direção horizontal com um pulo vertical
             Vector2 forcaLancamento;
             if (olhandoParaDireita)
             {
@@ -214,14 +265,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Método para lançar o especial.
-    // Ele agora só destrói os inimigos na área, sem se preocupar com a checagem de input.
     public void LancarEspecial(Vector2 centro, float raio)
     {
-        // Encontra todos os colliders dentro do raio
         Collider2D[] colliders = Physics2D.OverlapCircleAll(centro, raio);
 
-        // Para cada collider, verifica se é um inimigo e o destrói
         foreach (Collider2D col in colliders)
         {
             if (col.CompareTag("Enemy"))
@@ -236,6 +283,7 @@ public class PlayerController : MonoBehaviour
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
             podePular = true;
+            animatorPerna.SetBool(saltandoHash, false);
         }
     }
 
