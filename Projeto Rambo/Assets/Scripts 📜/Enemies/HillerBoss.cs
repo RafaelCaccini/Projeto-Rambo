@@ -1,116 +1,177 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class ChefeHiller : MonoBehaviour
 {
-    [Header("Jogador")]
+    [Header("Referências")]
     public Transform jogador;
 
-    [Header("Configurações do Chefe")]
-    public float raioAtivacao = 5f;   // Raio para ativar o chefe
-    public float velocidade = 2f;      // Velocidade para seguir o jogador
-    public bool chefeVivo = true;      // Controla se o chefe está vivo
+    [Header("Spawn / Projétil")]
+    public Transform PontoTiroHiller;
+    public GameObject prefabProjeteil;
 
-    [Header("Soldados")]
-    public GameObject prefabSoldado;   // Prefab do soldado
-    public Transform[] pontosSpawn;    // Pontos para spawnar soldados
-    public float intervaloSpawn = 8f;  // Intervalo entre spawns
-    private List<GameObject> soldadosAtuais = new List<GameObject>();
+    [Header("Ajustes de Projétil")]
+    public Vector2 localSpawnOffset = new Vector2(0.6f, 0.2f);
+    public float offsetForward = 0.2f;
+    public float velocidadeTiro = 10f;
+    public float cooldownTiro = 2f;
 
-    [Header("Bazuca")]
-    public GameObject prefabProjeteil; // Prefab do projétil da bazuca
-    public float cooldownTiro = 2f;    // Tempo entre tiros
-    public float velocidadeTiro = 10f; // Velocidade do projétil
+    [Header("Spawn / Soldados")]
+    public Transform[] pontosSpawnSoldado;
+    public GameObject prefabSoldado;
+    public float cooldownSpawnSoldado = 5f;
+    public float forcaSpawnVertical = 5f;
+
+    [Header("Chão do Hiller")]
+    public GameObject chaoDoHillerRoot;
+
+    [Header("Ativação")]
+    public float raioAtivacao = 5f;
+
     private float timerTiro = 0f;
-
+    private float timerSpawnSoldado = 0f;
     private bool ativo = false;
+    private Vector3 initialScale;
+
+    // Armazena todos os colliders do próprio Hiller
+    private Collider2D[] hillerColliders;
 
     void Start()
     {
-        timerTiro = 0f; // Pode atirar imediatamente
+        initialScale = transform.localScale;
+        initialScale.z = 1f;
+
+        timerTiro = 0f;
+        timerSpawnSoldado = 0f;
+
+        // **NOVO:** Captura todos os colliders do Hiller (e seus filhos) apenas uma vez
+        hillerColliders = GetComponentsInChildren<Collider2D>();
     }
 
     void Update()
     {
-        if (!chefeVivo) return;
+        if (jogador == null) return;
 
-        // Ativa o chefe se o jogador estiver dentro do raio
+        UpdateFacing();
+
         if (!ativo && Vector2.Distance(transform.position, jogador.position) <= raioAtivacao)
-        {
             ativo = true;
-            StartCoroutine(RotinaSpawnSoldados());
-        }
 
         if (!ativo) return;
 
-        // Segue o jogador
-        SeguirJogador();
-
-        // Dispara a bazuca quando o cooldown acabar
         timerTiro -= Time.deltaTime;
         if (timerTiro <= 0f)
         {
             AtirarBazuca();
             timerTiro = cooldownTiro;
         }
-    }
 
-    void SeguirJogador()
-    {
-        if (jogador == null) return;
-
-        Vector2 direcao = (jogador.position - transform.position).normalized;
-        transform.position += (Vector3)(direcao * velocidade * Time.deltaTime);
-    }
-
-    // Rotina para spawnar soldados continuamente
-    IEnumerator RotinaSpawnSoldados()
-    {
-        while (chefeVivo)
+        timerSpawnSoldado -= Time.deltaTime;
+        if (timerSpawnSoldado <= 0f)
         {
-            SpawnarSoldados();
-            yield return new WaitForSeconds(intervaloSpawn);
+            SpawnSoldados();
+            timerSpawnSoldado = cooldownSpawnSoldado;
         }
     }
 
-    void SpawnarSoldados()
+    // --- Flip do Hiller ---
+    void UpdateFacing()
     {
-        foreach (Transform ponto in pontosSpawn)
-        {
-            GameObject soldado = Instantiate(prefabSoldado, ponto.position, Quaternion.identity);
-            soldadosAtuais.Add(soldado);
-        }
+        bool facingRight = jogador.position.x > transform.position.x;
+        Vector3 s = initialScale;
+        s.x = Mathf.Abs(initialScale.x) * (facingRight ? -1f : 1f);
+        transform.localScale = s;
     }
 
+    // --- Tiro ---
     void AtirarBazuca()
     {
-        if (prefabProjeteil == null || jogador == null) return;
+        if (prefabProjeteil == null || jogador == null || PontoTiroHiller == null)
+        {
+            Debug.LogError("Configuração de projétil incompleta.");
+            return;
+        }
 
-        Vector2 direcao = (jogador.position - transform.position).normalized;
-        Vector2 pontoSpawn = (Vector2)transform.position + direcao * 0.5f; // spawn 0.5 unidades à frente do chefe
-        GameObject projeteil = Instantiate(prefabProjeteil, pontoSpawn, Quaternion.identity);
-        Rigidbody2D rb = projeteil.GetComponent<Rigidbody2D>();
+        Vector2 direcao = (jogador.position - PontoTiroHiller.position).normalized;
+        Vector3 spawnPos = PontoTiroHiller.position + (Vector3)direcao * offsetForward;
+        float angle = Mathf.Atan2(direcao.y, direcao.x) * Mathf.Rad2Deg;
+        Quaternion rot = Quaternion.Euler(0f, 0f, angle);
+
+        GameObject proj = Instantiate(prefabProjeteil, spawnPos, rot);
+
+        Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.linearVelocity = direcao * velocidadeTiro; // projétil se move na direção do jogador
+            rb.linearVelocity = direcao * velocidadeTiro;
+        }
+
+        // **NOVO:** Ignorar colisão com o próprio Hiller
+        IgnoreCollisionWithObject(proj, hillerColliders);
+
+        // Ignorar colisão com o chão do boss
+        if (chaoDoHillerRoot != null)
+        {
+            Collider2D[] chaoColliders = chaoDoHillerRoot.GetComponentsInChildren<Collider2D>();
+            IgnoreCollisionWithObject(proj, chaoColliders);
         }
     }
 
-    // Será chamado pelo seu sistema de especial
-    public void RecebeuEspecial()
+    // --- Spawn de Soldados ---
+    void SpawnSoldados()
     {
-        if (!chefeVivo) return;
+        if (prefabSoldado == null || pontosSpawnSoldado.Length == 0) return;
 
-        chefeVivo = false;
-        Destroy(gameObject);
-        Debug.Log("Chefe derrotado!");
+        foreach (Transform ponto in pontosSpawnSoldado)
+        {
+            if (ponto == null) continue;
+
+            GameObject soldado = Instantiate(prefabSoldado, ponto.position, Quaternion.identity);
+            Rigidbody2D rb = soldado.GetComponent<Rigidbody2D>();
+            if (rb != null && forcaSpawnVertical > 0f)
+                rb.AddForce(Vector2.up * forcaSpawnVertical, ForceMode2D.Impulse);
+        }
     }
 
-    // Mostra o raio de ativação no editor
+    /// <summary>
+    /// Ignora a colisão entre o objeto de ataque e um array de Colliders.
+    /// </summary>
+    void IgnoreCollisionWithObject(GameObject objToIgnore, Collider2D[] targetColliders)
+    {
+        if (objToIgnore == null || targetColliders.Length == 0) return;
+
+        Collider2D[] projColliders = objToIgnore.GetComponentsInChildren<Collider2D>();
+
+        foreach (var projCol in projColliders)
+        {
+            if (projCol == null) continue;
+            foreach (var targetCol in targetColliders)
+            {
+                if (targetCol != null)
+                {
+                    Physics2D.IgnoreCollision(projCol, targetCol, true);
+                }
+            }
+        }
+    }
+
+    // --- Gizmos ---
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, raioAtivacao);
+
+        if (pontosSpawnSoldado != null)
+        {
+            Gizmos.color = Color.yellow;
+            foreach (var ponto in pontosSpawnSoldado)
+                if (ponto != null)
+                    Gizmos.DrawSphere(ponto.position, 0.15f);
+        }
+
+        if (PontoTiroHiller != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawSphere(PontoTiroHiller.position, 0.15f);
+        }
     }
 }
