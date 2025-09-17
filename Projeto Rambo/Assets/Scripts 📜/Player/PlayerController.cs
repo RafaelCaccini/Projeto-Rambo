@@ -58,6 +58,10 @@ public class PlayerController : MonoBehaviour
     private int atirandoHash = Animator.StringToHash("Atirando");
     private int atirandoCimaHash = Animator.StringToHash("AtirandoCima");
     private int olhandoCimaHash = Animator.StringToHash("OlhandoCima");
+    private int granadaHash = Animator.StringToHash("Granada");
+    private int agacharHash = Animator.StringToHash("Agachado");
+    private int andandoAgachadoHash = Animator.StringToHash("AndandoAgachado");
+
 
     [Header("Especial")]
     public bool especial = false;
@@ -162,6 +166,15 @@ public class PlayerController : MonoBehaviour
             animatorCorpo.SetBool(movendoCimaHash, false);
         }
 
+        if (estaAgachado && moveX != 0)
+        {
+            animatorPerna.SetBool(andandoAgachadoHash, true);
+        }
+        else
+        {
+            animatorPerna.SetBool(andandoAgachadoHash, false);
+        }
+
         Vector3 escala = transform.localScale;
         escala.x = olhandoParaDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
         transform.localScale = escala;
@@ -180,14 +193,16 @@ public class PlayerController : MonoBehaviour
     void Agachar()
     {
         bool agachar = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
-
+        
         if (agachar && !estaAgachado)
         {
+            animatorPerna.SetBool(agacharHash, true);
             estaAgachado = true;
             cuboSuperior.localPosition = posicaoAgachadoCuboSuperior;
         }
         else if (!agachar && estaAgachado)
         {
+            animatorPerna.SetBool(agacharHash, false);
             estaAgachado = false;
             cuboSuperior.localPosition = posicaoOriginalCuboSuperior;
         }
@@ -260,7 +275,7 @@ public class PlayerController : MonoBehaviour
             {
                 forcaLancamento = new Vector2(-1, 1).normalized * forcaLancamentoGranada;
             }
-
+            animatorCorpo.SetTrigger(granadaHash);
             rbGranada.AddForce(forcaLancamento, ForceMode2D.Impulse);
         }
     }
