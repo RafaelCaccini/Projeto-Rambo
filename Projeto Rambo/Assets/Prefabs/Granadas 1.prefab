@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7762876550578013174
+--- !u!1 &1376572344710984773
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7173093906781854549}
-  - component: {fileID: 9219482470769517646}
-  - component: {fileID: 8036858279359335505}
-  - component: {fileID: 5562455478546188341}
-  - component: {fileID: -6288310968181329576}
+  - component: {fileID: 6521689999690664801}
+  - component: {fileID: 1229632652229536730}
+  - component: {fileID: 4007729655861234162}
+  - component: {fileID: 5237283665392415050}
   m_Layer: 0
-  m_Name: Granada
-  m_TagString: Untagged
+  m_Name: Granadas 1
+  m_TagString: Coletaveis
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7173093906781854549
+--- !u!4 &6521689999690664801
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7762876550578013174}
+  m_GameObject: {fileID: 1376572344710984773}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8568, y: -1.9603, z: 0}
-  m_LocalScale: {x: 0.3752, y: 0.4069, z: 1}
+  m_LocalPosition: {x: 1.1077831, y: 4.475336, z: 0}
+  m_LocalScale: {x: 0.6151, y: 0.551, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &9219482470769517646
+--- !u!212 &1229632652229536730
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7762876550578013174}
+  m_GameObject: {fileID: 1376572344710984773}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -84,46 +83,38 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 0.5}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &8036858279359335505
-Rigidbody2D:
-  serializedVersion: 5
+--- !u!114 &4007729655861234162
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7762876550578013174}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!70 &5562455478546188341
-CapsuleCollider2D:
+  m_GameObject: {fileID: 1376572344710984773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51ec034559256b948a5b67296aa73607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocidadeFlutuacao: 1
+  alturaFlutuacao: 0.05
+  valorCura: 20
+  granadas: 3
+  duracaoEscudo: 5
+  tipo: 1
+  valor: 1
+--- !u!58 &5237283665392415050
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7762876550578013174}
+  m_GameObject: {fileID: 1376572344710984773}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -147,25 +138,9 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.005807722, y: -0.02483997}
-  m_Size: {x: 0.7560795, y: 0.5389725}
-  m_Direction: 0
---- !u!114 &-6288310968181329576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7762876550578013174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8be8ee4930774f4499479bcc4ba65380, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objetoExplosao: {fileID: 5168734825008711887, guid: d49b28248d5dd984a978712e3e5458e7, type: 3}
-  tempoAteExplodir: 2
-  duracaoExplosao: 0.3
+  m_Offset: {x: 0.011440971, y: -0.034058563}
+  m_Radius: 0.19872281

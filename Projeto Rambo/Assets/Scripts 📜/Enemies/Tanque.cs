@@ -42,8 +42,16 @@ public class TanqueSentinela : MonoBehaviour
     {
         if (jogador == null) return;
 
+        // Calcula a direção que o tanque está "olhando" com base no cano e no ponto de disparo
+        int direcaoTanque = (int)Mathf.Sign(pontoDeDisparo.position.x - canoTanque.position.x);
+
+        // Calcula a direção do jogador em relação ao tanque
+        int direcaoJogador = (int)Mathf.Sign(jogador.position.x - canoTanque.position.x);
+
         float distancia = Vector2.Distance(transform.position, jogador.position);
-        if (distancia <= raioDeteccao)
+
+        // Verifica se o jogador está dentro do raio de detecção e à frente do tanque
+        if (distancia <= raioDeteccao && direcaoTanque == direcaoJogador)
         {
             if (Time.time - ultimoDisparo >= intervaloTiros)
             {
@@ -57,6 +65,7 @@ public class TanqueSentinela : MonoBehaviour
     {
         if (projetilPrefab == null || pontoDeDisparo == null || jogador == null) return;
 
+        // Cria o projétil
         GameObject proj = Instantiate(projetilPrefab, pontoDeDisparo.position, Quaternion.identity);
         Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
 
@@ -83,11 +92,11 @@ public class TanqueSentinela : MonoBehaviour
             {
                 float root = Mathf.Sqrt(underRoot);
 
-                // MUDANÇA AQUI: Usando o sinal de mais para o ângulo alto.
-                float tanTheta = (s2 + root) / (g * dx);
-
+                // MUDANÇA AQUI: Usa o valor absoluto de dx no cálculo de tanTheta para garantir um ângulo consistente.
+                float tanTheta = (s2 + root) / (g * Mathf.Abs(dx));
                 float angle = Mathf.Atan(tanTheta);
 
+                // A direção é aplicada aqui.
                 float vx = Mathf.Cos(angle) * speed * Mathf.Sign(dx);
                 float vy = Mathf.Sin(angle) * speed;
 
@@ -95,7 +104,7 @@ public class TanqueSentinela : MonoBehaviour
             }
             else
             {
-                // Se não houver solução física (a força é muito baixa ou o alvo está muito perto), atira em direção ao player.
+                // Se não houver solução física, atira na direção do jogador.
                 vel = d.normalized * speed;
             }
 
@@ -152,6 +161,7 @@ public class TanqueSentinela : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, raioDeteccao);
     }

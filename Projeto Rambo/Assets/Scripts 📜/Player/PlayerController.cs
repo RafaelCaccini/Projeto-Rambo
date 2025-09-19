@@ -3,7 +3,7 @@ using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement; // necessário pra trocar de cena
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -50,6 +50,9 @@ public class PlayerController : MonoBehaviour
     private bool olhandoParaDireita = true;
     private Vector3 posicaoOriginalCuboSuperior;
     private Vector3 posicaoAgachadoCuboSuperior;
+
+    // Nova variável para contar contatos com o chão
+    private int contatoComChao = 0;
 
     // hashes para deixar as ações mais rapidas e leves
     private int movendoHash = Animator.StringToHash("Movendo");
@@ -119,6 +122,7 @@ public class PlayerController : MonoBehaviour
 
         if (Keyboard.current.fKey.wasPressedThisFrame)
         {
+            animatorCorpo.SetTrigger(granadaHash);
             LancarGranada();
         }
 
@@ -143,36 +147,39 @@ public class PlayerController : MonoBehaviour
         {
             moveX = -1f;
             olhandoParaDireita = false;
-         
         }
         else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
         {
             moveX = 1f;
             olhandoParaDireita = true;
-           
         }
 
         rb.linearVelocity = new Vector2(moveX * velocidade, rb.linearVelocity.y);
-        if(moveX != 0)
+
+        // Lógica para as animações de movimento
+        if (moveX != 0)
         {
-            //animatorCorpo.SetBool(movendoHash, true);
-            animatorPerna.SetBool(movendoHash, true);
+            if (estaAgachado)
+            {
+                // Anda agachado
+                animatorPerna.SetBool(andandoAgachadoHash, true);
+                animatorPerna.SetBool(movendoHash, false);
+            }
+            else
+            {
+                // Anda normalmente
+                animatorPerna.SetBool(andandoAgachadoHash, false);
+                animatorPerna.SetBool(movendoHash, true);
+            }
+            // A animação do corpo movendo-se para cima pode ser independente
             animatorCorpo.SetBool(movendoCimaHash, true);
         }
         else
         {
-           //animatorCorpo.SetBool(movendoHash, false);
+            // Para de se mover
+            animatorPerna.SetBool(andandoAgachadoHash, false);
             animatorPerna.SetBool(movendoHash, false);
             animatorCorpo.SetBool(movendoCimaHash, false);
-        }
-
-        if (estaAgachado && moveX != 0)
-        {
-            animatorPerna.SetBool(andandoAgachadoHash, true);
-        }
-        else
-        {
-            animatorPerna.SetBool(andandoAgachadoHash, false);
         }
 
         Vector3 escala = transform.localScale;
@@ -182,7 +189,7 @@ public class PlayerController : MonoBehaviour
 
     void Pular()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && podePular)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && podePular && !estaAgachado)
         {
             rb.AddForce(Vector2.up * forcaPulo, ForceMode2D.Impulse);
             podePular = false;
@@ -193,16 +200,18 @@ public class PlayerController : MonoBehaviour
     void Agachar()
     {
         bool agachar = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
-        
+
+        // Ativa ou desativa a animação de agachar
+        animatorPerna.SetBool(agacharHash, agachar);
+
         if (agachar && !estaAgachado)
         {
-            animatorPerna.SetBool(agacharHash, true);
             estaAgachado = true;
             cuboSuperior.localPosition = posicaoAgachadoCuboSuperior;
         }
         else if (!agachar && estaAgachado)
         {
-            animatorPerna.SetBool(agacharHash, false);
+
             estaAgachado = false;
             cuboSuperior.localPosition = posicaoOriginalCuboSuperior;
         }
@@ -226,15 +235,15 @@ public class PlayerController : MonoBehaviour
             direcao = Vector2.up;
             posicaoDisparo = cuboSuperior.position + new Vector3(0f, 0.7f, 0f);
             rotacaoTiro = Quaternion.Euler(0, 0, 90);
-            
+
         }
         else
         {
-            
+
             direcao = olhandoParaDireita ? Vector2.right : Vector2.left;
             if (!olhandoParaDireita)
                 rotacaoTiro = Quaternion.Euler(0, 0, 180);
-            
+
         }
 
         GameObject tiro = Instantiate(prefabTiro, posicaoDisparo, rotacaoTiro);
@@ -275,7 +284,7 @@ public class PlayerController : MonoBehaviour
             {
                 forcaLancamento = new Vector2(-1, 1).normalized * forcaLancamentoGranada;
             }
-            animatorCorpo.SetTrigger(granadaHash);
+
             rbGranada.AddForce(forcaLancamento, ForceMode2D.Impulse);
         }
     }
@@ -295,18 +304,22 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // Se a colisão for com o chão
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
-            podePular = true;
+            contatoComChao++;
+            podePular = (contatoComChao > 0);
             animatorPerna.SetBool(saltandoHash, false);
         }
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
+        // Se sair da colisão com o chão
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
-            podePular = false;
+            contatoComChao--;
+            podePular = (contatoComChao > 0);
         }
     }
 }
