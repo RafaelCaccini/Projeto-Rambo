@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 6772869026932955047}
   - component: {fileID: 5879388188928698505}
   - component: {fileID: 8964554836850829221}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Caixa (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 194861997
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 9087615186668657127, guid: 3fdbd6fbb543f3347a5608dd5b4c583c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
