@@ -45,6 +45,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Ceu
+    uniqueID: 362436517
+    locked: 0
+  - name: Nuvem
+    uniqueID: 3062833545
+    locked: 0
+  - name: extra
+    uniqueID: 2746482481
+    locked: 0
+  - name: Predio
+    uniqueID: 3118519485
+    locked: 0
   - name: -1
     uniqueID: 1900831749
     locked: 0
