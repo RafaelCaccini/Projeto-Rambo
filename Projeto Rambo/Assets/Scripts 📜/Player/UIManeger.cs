@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
         if (grenadeCountText != null && playerController != null)
         {
             // Atualiza o texto com a quantidade de granadas
-            grenadeCountText.text = "Granadas: " + playerController.granadasRestantes.ToString();
+            grenadeCountText.text = playerController.granadasRestantes.ToString();
         }
     }
 
