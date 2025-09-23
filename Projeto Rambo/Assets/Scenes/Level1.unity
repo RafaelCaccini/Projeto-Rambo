@@ -22592,6 +22592,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rambo
       objectReference: {fileID: 0}
+    - target: {fileID: 5005054135561044832, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 9e0a5c7f03aac3d4c9d599a0d62d025c, type: 2}
     - target: {fileID: 6751876507612339032, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.9625
@@ -22605,6 +22609,10 @@ PrefabInstance:
       value: 0.12126869
       objectReference: {fileID: 0}
     - target: {fileID: 6816063867734284444, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 9e0a5c7f03aac3d4c9d599a0d62d025c, type: 2}
+    - target: {fileID: 6816063867734284444, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_Offset.y
       value: -0.08602317
       objectReference: {fileID: 0}
@@ -22612,6 +22620,10 @@ PrefabInstance:
       propertyPath: groundLayer.m_Bits
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8586903207495210560, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 8783257343136642864, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.42

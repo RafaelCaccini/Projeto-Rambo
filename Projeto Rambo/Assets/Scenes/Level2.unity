@@ -1874,10 +1874,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rambo 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5005054135561044832, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 9e0a5c7f03aac3d4c9d599a0d62d025c, type: 2}
     - target: {fileID: 6751876507612339032, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.53
       objectReference: {fileID: 0}
+    - target: {fileID: 6816063867734284444, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 9e0a5c7f03aac3d4c9d599a0d62d025c, type: 2}
     - target: {fileID: 8586903207495210560, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_SortingLayer
       value: 1
