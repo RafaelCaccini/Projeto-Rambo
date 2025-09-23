@@ -178,11 +178,9 @@ MonoBehaviour:
   itensPossiveis:
   - itemPrefab: {fileID: 0}
     chance: 20
-  - itemPrefab: {fileID: 0}
+  - itemPrefab: {fileID: 1376572344710984773, guid: 9006b1be6de42bc40bb7c7fbc0abcef3, type: 3}
     chance: 30
-  - itemPrefab: {fileID: 0}
+  - itemPrefab: {fileID: 8912475187753541269, guid: 2c64901a4fcd54a449cdd437c94b432d, type: 3}
     chance: 25
-  - itemPrefab: {fileID: 0}
+  - itemPrefab: {fileID: 8707306742535232427, guid: 550434ddc9a421c448162383cb618379, type: 3}
     chance: 30
-  - itemPrefab: {fileID: 0}
-    chance: 28
