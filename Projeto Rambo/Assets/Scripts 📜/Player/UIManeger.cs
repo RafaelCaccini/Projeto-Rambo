@@ -8,8 +8,10 @@ public class UIManager : MonoBehaviour
     [Header("UI do Jogador")]
     public Slider healthBar;
     public TextMeshProUGUI grenadeCountText;
-    public GameObject specialActiveImage; // Para ícone (recomendado)
-    // public TextMeshProUGUI specialStatusText; // Para texto (alternativa)
+    public GameObject specialActiveImage;
+
+    [Header("UI do Escudo")]
+    public GameObject shieldImage; // O objeto que é a imagem do escudo
 
     // === Referência do Jogador ===
     private PlayerController playerController;
@@ -30,6 +32,12 @@ public class UIManager : MonoBehaviour
             {
                 healthBar.maxValue = lifeScript.vidaMaxima;
             }
+
+            // Garante que a imagem do escudo comece desativada
+            if (shieldImage != null)
+            {
+                shieldImage.SetActive(false);
+            }
         }
         else
         {
@@ -43,6 +51,7 @@ public class UIManager : MonoBehaviour
         UpdateHealthBar();
         UpdateGrenadeCount();
         UpdateSpecialStatus();
+        UpdateShieldStatus(); // Nova função para o escudo
     }
 
     private void UpdateHealthBar()
@@ -70,10 +79,17 @@ public class UIManager : MonoBehaviour
             // Ativa ou desativa a imagem do especial com base na variável booleana 'especial'
             specialActiveImage.SetActive(playerController.especial);
         }
-        // else if (specialStatusText != null && playerController != null)
-        // {
-        //     // Alternativa para texto
-        //     specialStatusText.text = "Especial: " + (playerController.especial ? "ATIVO" : "INATIVO");
-        // }
+    }
+
+    // ---
+    // NOVO MÉTODO PARA O ESCUDO
+    // ---
+    private void UpdateShieldStatus()
+    {
+        if (shieldImage != null && lifeScript != null)
+        {
+            // Ativa ou desativa a imagem do escudo com base na variável 'ignorarDano'
+            shieldImage.SetActive(lifeScript.ignorarDano);
+        }
     }
 }
