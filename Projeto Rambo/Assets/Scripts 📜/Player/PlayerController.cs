@@ -4,6 +4,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections; // Adicionado para a coroutine
 
 public class PlayerController : MonoBehaviour
 {
@@ -88,36 +89,11 @@ public class PlayerController : MonoBehaviour
         Mover();
         Agachar();
         Pular();
+        GerenciarAnimacoesDoCorpo();
 
-        // Lógica para a animação de olhar para cima
-        if (Keyboard.current.wKey.isPressed)
-        {
-            animatorCorpo.SetBool(olhandoCimaHash, true);
-        }
-        else
-        {
-            animatorCorpo.SetBool(olhandoCimaHash, false);
-        }
-
-        // Lógica para a animação de tiro lateral
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-            animatorCorpo.SetBool(atirandoHash, true);
             Atirar();
-        }
-        else
-        {
-            animatorCorpo.SetBool(atirandoHash, false);
-        }
-
-        // Lógica para a animação de atirar para cima
-        if (Keyboard.current.eKey.isPressed && Keyboard.current.wKey.isPressed)
-        {
-            animatorCorpo.SetBool(atirandoCimaHash, true);
-        }
-        else
-        {
-            animatorCorpo.SetBool(atirandoCimaHash, false);
         }
 
         if (Keyboard.current.fKey.wasPressedThisFrame)
@@ -217,6 +193,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void GerenciarAnimacoesDoCorpo()
+    {
+        // Reseta todas as animações para evitar conflitos
+        animatorCorpo.SetBool(olhandoCimaHash, false);
+        animatorCorpo.SetBool(atirandoCimaHash, false);
+        animatorCorpo.SetBool(atirandoHash, false);
+        animatorCorpo.SetBool(agacharHash, false);
+
+        // Lógica de prioridade:
+        if (Keyboard.current.eKey.isPressed && Keyboard.current.wKey.isPressed)
+        {
+            animatorCorpo.SetBool(atirandoCimaHash, true);
+        }
+        else if (Keyboard.current.eKey.isPressed)
+        {
+            animatorCorpo.SetBool(atirandoHash, true);
+        }
+        else if (Keyboard.current.wKey.isPressed)
+        {
+            animatorCorpo.SetBool(olhandoCimaHash, true);
+        }
+        else if (estaAgachado)
+        {
+            animatorCorpo.SetBool(agacharHash, true);
+        }
+    }
+
     void Atirar()
     {
         if (prefabTiro == null || pontoDisparo == null)
@@ -231,19 +234,15 @@ public class PlayerController : MonoBehaviour
 
         if (Keyboard.current.wKey.isPressed)
         {
-            animatorCorpo.SetBool(atirandoCimaHash, true);
             direcao = Vector2.up;
             posicaoDisparo = cuboSuperior.position + new Vector3(0f, 0.7f, 0f);
             rotacaoTiro = Quaternion.Euler(0, 0, 90);
-
         }
         else
         {
-
             direcao = olhandoParaDireita ? Vector2.right : Vector2.left;
             if (!olhandoParaDireita)
                 rotacaoTiro = Quaternion.Euler(0, 0, 180);
-
         }
 
         GameObject tiro = Instantiate(prefabTiro, posicaoDisparo, rotacaoTiro);
@@ -302,9 +301,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Função pública chamada pelo ColetavelScript para ativar o escudo
+    public void AtivarEscudo(float duracao)
+    {
+        if (lifeScript != null)
+        {
+            lifeScript.ignorarDano = true; // Ativa o escudo
+            StartCoroutine(DesativarEscudo(duracao)); // Inicia a corotina a partir do PlayerController
+        }
+    }
+
+    // Coroutine para desativar o escudo após um tempo determinado
+    private IEnumerator DesativarEscudo(float duracao)
+    {
+        yield return new WaitForSeconds(duracao);
+        if (lifeScript != null)
+        {
+            lifeScript.ignorarDano = false; // Desativa o escudo
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Se a colisão for com o chão
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
             contatoComChao++;
@@ -315,7 +333,6 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        // Se sair da colisão com o chão
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
             contatoComChao--;
