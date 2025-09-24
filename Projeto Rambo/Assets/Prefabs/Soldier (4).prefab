@@ -80,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 194861997
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -4094948780994146386, guid: ed6d5f499cdb90a4b8799fbb147cf455, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -180,6 +180,8 @@ MonoBehaviour:
   velocidade: 1
   pontoA: {fileID: 9074225270226264481}
   pontoB: {fileID: 9144905421762274770}
+  usarPontoC: 0
+  pontoC: {fileID: 0}
   firePoint: {fileID: 4975812564732699782}
   bulletPrefab: {fileID: 4460097297499920711, guid: 8f413c5b3c2eb8c4f8716d413a22fa96, type: 3}
   fireCooldown: 1

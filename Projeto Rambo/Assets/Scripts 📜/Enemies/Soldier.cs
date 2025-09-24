@@ -1,11 +1,19 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Soldier : MonoBehaviour
 {
+    // A referência ao Animator para as animações
+    private Animator animator;
+
     [Header("Movimento")]
     public float velocidade = 2f;
     public Transform pontoA;
     public Transform pontoB;
+    [Tooltip("Marque para usar o ponto C como destino inicial.")]
+    public bool usarPontoC = false;
+    public Transform pontoC;
     private Transform alvoAtual;
 
     [Header("Ataque")]
@@ -20,16 +28,48 @@ public class Soldier : MonoBehaviour
     bool playerInRange = false;
 
     private Vector3 escalaOriginal;
+    private bool completouPontoC;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        alvoAtual = pontoB;
+        animator = GetComponent<Animator>(); // Obtém a referência ao Animator
+
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+        {
+            player = playerObject.transform;
+        }
+
+        // Lógica inicial para definir o primeiro destino
+        if (usarPontoC && pontoC != null)
+        {
+            alvoAtual = pontoC;
+            completouPontoC = false;
+        }
+        else
+        {
+            alvoAtual = pontoB;
+            completouPontoC = true;
+        }
+
         escalaOriginal = transform.localScale;
+
+        // Inicia a animação de andar
+        if (animator != null)
+        {
+            animator.SetBool("Andando", true);
+        }
     }
 
     void Update()
     {
+        // Se o player não for encontrado, apenas patrulha
+        if (player == null)
+        {
+            Patrulhar();
+            return;
+        }
+
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         playerInRange = distanceToPlayer <= detectionRange;
 
@@ -37,22 +77,45 @@ public class Soldier : MonoBehaviour
         {
             VirarParaPlayer();
             Atacar();
+            // Para a animação de andar
+            if (animator != null)
+            {
+                animator.SetBool("Andando", false);
+            }
         }
         else
         {
             Patrulhar();
+            // Retoma a animação de andar
+            if (animator != null)
+            {
+                animator.SetBool("Andando", true);
+            }
         }
     }
 
     void Patrulhar()
     {
+        // Move o soldado em direção ao próximo ponto
         transform.position = Vector2.MoveTowards(transform.position, alvoAtual.position, velocidade * Time.deltaTime);
 
         if (Vector2.Distance(transform.position, alvoAtual.position) < 0.2f)
         {
-            alvoAtual = (alvoAtual == pontoA) ? pontoB : pontoA;
+            // Chegou ao destino, agora decide o próximo passo
+            if (!completouPontoC)
+            {
+                // Se completou o ponto C, agora começa a patrulhar A e B
+                completouPontoC = true;
+                alvoAtual = pontoB;
+            }
+            else
+            {
+                // Alterna entre os pontos A e B
+                alvoAtual = (alvoAtual == pontoA) ? pontoB : pontoA;
+            }
         }
 
+        // Vira para o próximo ponto de patrulha
         FlipVisual(alvoAtual.position.x > transform.position.x);
     }
 
@@ -63,7 +126,6 @@ public class Soldier : MonoBehaviour
 
     void FlipVisual(bool olhandoDireita)
     {
-        // Flipa inimigo E o firePoint junto
         Vector3 escala = escalaOriginal;
         escala.x = olhandoDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
         transform.localScale = escala;
@@ -77,21 +139,24 @@ public class Soldier : MonoBehaviour
         {
             fireTimer = 0f;
 
-            if (player.position.y > transform.position.y + 1f)
+            // Comentário para a animação de ataque/tiro:
+            // if (animator != null) { animator.SetTrigger("Atirar"); }
+
+            // Lógica para atirar APENAS na horizontal
+            Vector2 dir;
+            if (transform.localScale.x > 0)
             {
-                // Disparo pra cima
-                GameObject bulletUp = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-                bulletUp.transform.rotation = Quaternion.Euler(0, 0, 90);
-                bulletUp.GetComponent<Rigidbody2D>().linearVelocity = Vector2.up * bulletSpeed;
+                // Inimigo virado para a direita
+                dir = Vector2.right;
             }
             else
             {
-                // Disparo reto (lado que o inimigo está olhando)
-                Vector2 dir = (transform.localScale.x > 0) ? Vector2.right : Vector2.left;
-
-                GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-                bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * bulletSpeed;
+                // Inimigo virado para a esquerda
+                dir = Vector2.left;
             }
+
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+            bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * bulletSpeed;
         }
     }
 
@@ -101,6 +166,11 @@ public class Soldier : MonoBehaviour
         if (pontoA != null && pontoB != null)
         {
             Gizmos.DrawLine(pontoA.position, pontoB.position);
+        }
+        if (usarPontoC && pontoC != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, pontoC.position);
         }
 
         Gizmos.color = Color.red;

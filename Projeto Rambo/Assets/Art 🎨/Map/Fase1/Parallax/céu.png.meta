@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3165786f3786b374c80c7081d79e0095
+guid: 7b6ba00eaddef444da6f38bc14eab608
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -452769906981802092
-    second: "Paralax pr\xE9dios_0"
+      213: -8528407315842523501
+    second: "c\xE9u_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "Paralax pr\xE9dios_0"
+      name: "c\xE9u_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 4544
-        height: 365
+        height: 576
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 49fec512b2077b9f0800000000000000
-      internalID: -452769906981802092
+      spriteID: 39e1d5f4bb205a980800000000000000
+      internalID: -8528407315842523501
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "Paralax pr\xE9dios_0": -452769906981802092
+      "c\xE9u_0": -8528407315842523501
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
