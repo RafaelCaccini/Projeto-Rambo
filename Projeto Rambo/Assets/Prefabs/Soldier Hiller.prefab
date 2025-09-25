@@ -111,6 +111,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.48
       objectReference: {fileID: 0}
+    - target: {fileID: 9077669855622562686, guid: 34eae721d02d5d842ae697161fbeccf7, type: 3}
+      propertyPath: chanceDeDrop
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077669855622562686, guid: 34eae721d02d5d842ae697161fbeccf7, type: 3}
+      propertyPath: itemParaDropar
+      value: 
+      objectReference: {fileID: 7079094241047408164, guid: a5aa7dc4e89a8af40aed869d51d4f49d, type: 3}
     - target: {fileID: 9144905421762274770, guid: 34eae721d02d5d842ae697161fbeccf7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8

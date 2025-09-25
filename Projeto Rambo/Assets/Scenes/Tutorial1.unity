@@ -119,6 +119,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &331931051 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4508713861222497109, guid: 3b6d9abed75b4db48935f5618c796cdf, type: 3}
+  m_PrefabInstance: {fileID: 1257799853933651046}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &757146629
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,13 +582,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3295276778654747211, guid: d1d3f3e1cd3210f47b3b0c4868881175, type: 3}
+      propertyPath: botaoImage
+      value: 
+      objectReference: {fileID: 1370449206}
+    - target: {fileID: 3295276778654747211, guid: d1d3f3e1cd3210f47b3b0c4868881175, type: 3}
       propertyPath: botaoTexto
       value: 
       objectReference: {fileID: 1619012798}
     - target: {fileID: 3295276778654747211, guid: d1d3f3e1cd3210f47b3b0c4868881175, type: 3}
       propertyPath: objeto3Image
       value: 
-      objectReference: {fileID: 1370449206}
+      objectReference: {fileID: 331931051}
     - target: {fileID: 4157374800644208247, guid: d1d3f3e1cd3210f47b3b0c4868881175, type: 3}
       propertyPath: m_Name
       value: AnimatorController

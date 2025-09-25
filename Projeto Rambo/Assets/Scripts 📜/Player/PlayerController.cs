@@ -601,27 +601,33 @@ public class PlayerController : MonoBehaviour
 
 
     public void LancarEspecial(Vector2 centro, float raio)
-
     {
-
         Collider2D[] colliders = Physics2D.OverlapCircleAll(centro, raio);
 
-
-
         foreach (Collider2D col in colliders)
-
         {
-
+            // 1. Verifica se o collider detectado tem a tag "Enemy"
             if (col.CompareTag("Enemy"))
-
             {
+                // 2. Tenta encontrar o script ChefeHiller no próprio objeto OU nos pais
+                ChefeHiller Hiller = col.GetComponentInParent<ChefeHiller>();
 
+                if (Hiller != null)
+                {
+                    // Debug para confirmar que encontramos o Boss
+                    Debug.Log($"Especial Atingiu o Boss: {Hiller.gameObject.name}");
+
+                    // Chama o método no Boss
+                    Hiller.ReceberDanoEspecial();
+
+                    // Saímos do loop. O especial só pode atingir o Boss uma vez.
+                    return;
+                }
+
+                // Se for um inimigo comum (Enemy) que não é o Boss Hiller, destrói.
                 Destroy(col.gameObject);
-
             }
-
         }
-
     }
 
 
