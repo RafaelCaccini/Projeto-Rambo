@@ -152,6 +152,31 @@ public class LifeScript : MonoBehaviour
             Debug.Log("Nada dropado desta vez. Chance de drop era " + chanceDeDrop + "%.");
         }
     }
+    public void IniciarDanoPorTempo(int danoPorTick, float duracaoTotal, float intervalo)
+    {
+        // Inicia a coroutine no Player para aplicar o dano repetidamente.
+        StartCoroutine(AplicarDanoPorTempo(danoPorTick, duracaoTotal, intervalo));
+    }
+
+    IEnumerator AplicarDanoPorTempo(int danoPorTick, float duracaoTotal, float intervalo)
+    {
+        float tempoDecorrido = 0f;
+
+        // Roda enquanto o tempo decorrido for menor que a duração total (3.0 segundos)
+        while (tempoDecorrido < duracaoTotal)
+        {
+            // Aplica o dano (Primeiro tick e subsequentes)
+            TomarDano(danoPorTick);
+            Debug.Log($"Dano por tempo aplicado: -{danoPorTick} ao Player. Restante: {duracaoTotal - tempoDecorrido}s");
+
+            // Espera o intervalo definido (ex: 1.0 segundo)
+            yield return new WaitForSeconds(intervalo);
+
+            tempoDecorrido += intervalo;
+        }
+
+        Debug.Log("Dano por tempo finalizado.");
+    }
 }
 
 
