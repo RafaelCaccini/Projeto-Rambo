@@ -138,10 +138,7 @@ public class Soldier : MonoBehaviour
         if (fireTimer >= fireCooldown)
         {
             fireTimer = 0f;
-
-            // Comentário para a animação de ataque/tiro:
-            // if (animator != null) { animator.SetTrigger("Atirar"); }
-
+           
             // Lógica para atirar APENAS na horizontal
             Vector2 dir;
             if (transform.localScale.x > 0)
@@ -157,6 +154,8 @@ public class Soldier : MonoBehaviour
 
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
             bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * bulletSpeed;
+            animator.SetTrigger("Atirar");
+
         }
     }
 
