@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e2361236f7692064dac5936946fdb2a2
+guid: 5dd58bef6a55a244282f653ab5b61b61
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3022633658632449477
-    second: ZumbiAndando4_0
+      213: 2346303934207881168
+    second: ZumbiAndando3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -96,27 +96,40 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ZumbiAndando4_0
+      name: ZumbiAndando3_0
       rect:
         serializedVersion: 2
-        x: 4
+        x: 0
         y: 0
-        width: 24
-        height: 30
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5cd2de44c4d82f920800000000000000
-      internalID: 3022633658632449477
+      spriteID: 0dfef853ffebf8020800000000000000
+      internalID: 2346303934207881168
       vertices: []
       indices: 
       edges: []
@@ -125,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 05f0f1a44bfc5ee4098b7c9d8aaf317c
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ZumbiAndando4_0: 3022633658632449477
+      ZumbiAndando3_0: 2346303934207881168
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
