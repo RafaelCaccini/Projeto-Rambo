@@ -6,15 +6,13 @@ public class LockY : MonoBehaviour
 
     void Start()
     {
-        // Pega a posição inicial no Y
+        // Guarda a posição Y inicial
         yInicial = transform.position.y;
     }
 
     void LateUpdate()
     {
-        // Mantém o Y travado
+        // Sempre mantém o Y na posição inicial
         transform.position = new Vector3(transform.position.x, yInicial, transform.position.z);
     }
 }
-
-

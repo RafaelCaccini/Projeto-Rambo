@@ -1,73 +1,58 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement; // necessário pra trocar de cena
+using UnityEngine.SceneManagement; // pra trocar de cena
 
 public class LifeScript : MonoBehaviour
 {
     [Header("Configuração de Vida")]
-    public int vidaMaxima = 100; // valor ajustável no inspetor
-    [SerializeField] public int vidaAtual; // visível no inspector em tempo real
+    public int vidaMaxima = 100; // vida máxima ajustável
+    [SerializeField] public int vidaAtual; // vida atual visível no inspector
 
-    [Header("Configuração de Dano por Tag")]
-    public int danoDanger = 10;   // "Danger" normal
-    public int danoDanger2 = 15;  // "Danger2"
-    public int danoDanger3 = 20;  // "Danger3"
-    public int danoDanger4 = 25;  // "Danger4"
-    public bool ignorarDano = false; 
+    [Header("Dano por Tag")]
+    public int danoDanger = 10;
+    public int danoDanger2 = 15;
+    public int danoDanger3 = 20;
+    public int danoDanger4 = 25;
+    public bool ignorarDano = false; // se true, ignora todo dano
 
     [Header("Feedback de Dano")]
-    public Color corDano = Color.red;
-    public float tempoPiscar = 0.1f;
+    public Color corDano = Color.red; // cor que pisca ao tomar dano
+    public float tempoPiscar = 0.1f;  // tempo do piscar
 
-    [Tooltip("O item que será dropado.")]
+    [Tooltip("Item que pode dropar.")]
     public GameObject itemParaDropar;
-
-    [Tooltip("A chance de drop, em porcentagem (ex: 3 para 3%).")]
     [Range(0, 100)]
-    public float chanceDeDrop = 3f;
+    public float chanceDeDrop = 3f; // porcentagem de drop
 
-    private SpriteRenderer[] renderers;
-    private Color[] coresOriginais;
+    private SpriteRenderer[] renderers; // pra piscar
+    private Color[] coresOriginais;     // guarda as cores originais
 
     void Start()
     {
         vidaAtual = vidaMaxima;
 
-        // Pega todos os SpriteRenderers do objeto e filhos
+        // pega todos os sprites do objeto e filhos
         renderers = GetComponentsInChildren<SpriteRenderer>();
-
-        // Guarda as cores originais
         coresOriginais = new Color[renderers.Length];
+
         for (int i = 0; i < renderers.Length; i++)
-        {
             coresOriginais[i] = renderers[i].color;
-        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
         int dano = 0;
 
+        // define o dano baseado na tag
         switch (col.collider.tag)
         {
-            case "Danger":
-                dano = danoDanger;
-                break;
-            case "Danger2":
-                dano = danoDanger2;
-                break;
-            case "Danger3":
-                dano = danoDanger3;
-                break;
-            case "Danger4":
-                dano = danoDanger4;
-                break;
+            case "Danger": dano = danoDanger; break;
+            case "Danger2": dano = danoDanger2; break;
+            case "Danger3": dano = danoDanger3; break;
+            case "Danger4": dano = danoDanger4; break;
         }
 
-        if (dano > 0)
-        {
-            TomarDano(dano);
-        }
+        if (dano > 0) TomarDano(dano);
     }
 
     public void TomarDano(int dano)
@@ -77,36 +62,31 @@ public class LifeScript : MonoBehaviour
         vidaAtual -= dano;
         StartCoroutine(PiscarVermelho());
 
-        if (vidaAtual <= 0)
-        {
-            Morrer();
-        }
+        if (vidaAtual <= 0) Morrer();
     }
 
     IEnumerator PiscarVermelho()
     {
-        foreach (var r in renderers)
-        {
-            r.color = corDano;
-        }
+        // muda cor pra vermelho
+        foreach (var r in renderers) r.color = corDano;
 
         yield return new WaitForSeconds(tempoPiscar);
 
+        // volta à cor original
         for (int i = 0; i < renderers.Length; i++)
-        {
             renderers[i].color = coresOriginais[i];
-        }
     }
 
     void Morrer()
     {
-        // Carrega a cena "Morte"
         if (CompareTag("Player"))
         {
+            // player morre, vai pra cena de morte
             SceneManager.LoadScene("Morte");
         }
         else if (CompareTag("Enemy"))
         {
+            // inimigo morre, tenta dropar item
             TentarDroparItem();
             Destroy(gameObject);
         }
@@ -116,45 +96,34 @@ public class LifeScript : MonoBehaviour
         }
     }
 
-    // Método público para outros scripts consultarem a vida atual
-    public int GetVidaAtual()
-    {
-        return vidaAtual;
-    }
-    public void DesativarEscudo()
-    {
-        ignorarDano = false;
-    }
-   
-    //Metodo para dropar o especial
+    // retorna a vida atual pra outros scripts
+    public int GetVidaAtual() => vidaAtual;
+
+    public void DesativarEscudo() => ignorarDano = false;
+
+    // checa se dropa algum item
     public void TentarDroparItem()
     {
-        float chance = Random.Range(0f, 100f);
-        // Gera um número aleatório entre 0 e 100.
         float numeroAleatorio = Random.Range(0f, 100f);
 
-        // Verifica se o número aleatório é menor ou igual à chance de drop.
         if (numeroAleatorio <= chanceDeDrop)
         {
-            // Instancia o item na posição do inimigo.
             if (itemParaDropar != null)
             {
                 Instantiate(itemParaDropar, transform.position, Quaternion.identity);
-                Debug.Log("Item dropado com sucesso!");
+                Debug.Log("Item dropado!");
             }
-            else
-            {
-                Debug.LogWarning("O item a ser dropado não foi definido no Inspector!");
-            }
+            else Debug.LogWarning("Item de drop não definido!");
         }
         else
         {
-            Debug.Log("Nada dropado desta vez. Chance de drop era " + chanceDeDrop + "%.");
+            Debug.Log($"Nada dropado. Chance era {chanceDeDrop}%.");
         }
     }
+
+    // aplica dano ao longo do tempo
     public void IniciarDanoPorTempo(int danoPorTick, float duracaoTotal, float intervalo)
     {
-        // Inicia a coroutine no Player para aplicar o dano repetidamente.
         StartCoroutine(AplicarDanoPorTempo(danoPorTick, duracaoTotal, intervalo));
     }
 
@@ -162,21 +131,15 @@ public class LifeScript : MonoBehaviour
     {
         float tempoDecorrido = 0f;
 
-        // Roda enquanto o tempo decorrido for menor que a duração total (3.0 segundos)
         while (tempoDecorrido < duracaoTotal)
         {
-            // Aplica o dano (Primeiro tick e subsequentes)
             TomarDano(danoPorTick);
-            Debug.Log($"Dano por tempo aplicado: -{danoPorTick} ao Player. Restante: {duracaoTotal - tempoDecorrido}s");
+            Debug.Log($"Dano por tempo: -{danoPorTick}. Restante: {duracaoTotal - tempoDecorrido}s");
 
-            // Espera o intervalo definido (ex: 1.0 segundo)
             yield return new WaitForSeconds(intervalo);
-
             tempoDecorrido += intervalo;
         }
 
         Debug.Log("Dano por tempo finalizado.");
     }
 }
-
-

@@ -5,14 +5,15 @@ using System.Collections;
 
 public class ColetavelScript : MonoBehaviour
 {
-    private Vector3 posicaoInicial;
-    [Header("Configuração de Flutuação")]
-    public float velocidadeFlutuacao = 1f;
-    public float alturaFlutuacao = 0.5f;
+    private Vector3 posicaoInicial; // guarda onde o item começou
 
-    public int valorCura = 20;
-    public int granadas = 3;
-    public float duracaoEscudo = 5f;
+    [Header("Configuração de Flutuação")]
+    public float velocidadeFlutuacao = 1f; // rapidez do sobe/desce
+    public float alturaFlutuacao = 0.5f;   // altura que sobe e desce
+
+    public int valorCura = 20; // quanto cura se for kit
+    public int granadas = 3;   // quantas granadas dá
+    public float duracaoEscudo = 5f; // tempo do escudo
 
     public enum TipoColetavel
     {
@@ -23,26 +24,27 @@ public class ColetavelScript : MonoBehaviour
     }
 
     [Header("Configuração do Coletável")]
-    public TipoColetavel tipo;
-    public int valor = 1;
+    public TipoColetavel tipo; // define que tipo de item é
+    public int valor = 1;      // quantidade genérica
 
     void Start()
     {
-        posicaoInicial = transform.position;
+        posicaoInicial = transform.position; // salva a posição inicial
     }
 
     void Update()
     {
+        // faz o item flutuar para cima e para baixo
         float novaPosicaoY = posicaoInicial.y + Mathf.Sin(Time.time * velocidadeFlutuacao) * alturaFlutuacao;
         transform.position = new Vector3(posicaoInicial.x, novaPosicaoY, posicaoInicial.z);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player")) // se for o player
         {
-            AplicarEfeito(other.gameObject);
-            Destroy(gameObject);
+            AplicarEfeito(other.gameObject); // aplica o efeito do item
+            Destroy(gameObject); // remove o coletável
         }
     }
 
@@ -53,7 +55,7 @@ public class ColetavelScript : MonoBehaviour
             LifeScript vidaMaxima = Rambo.GetComponent<LifeScript>();
             if (vidaMaxima != null)
             {
-                vidaMaxima.vidaAtual += valorCura;
+                vidaMaxima.vidaAtual += valorCura; // dá vida
             }
         }
         else if (tipo == TipoColetavel.Granada)
@@ -61,6 +63,7 @@ public class ColetavelScript : MonoBehaviour
             PlayerController granada = Rambo.GetComponent<PlayerController>();
             if (granada != null)
             {
+                // aumenta granadas, máximo 3
                 granada.granadasRestantes = Mathf.Min(granada.granadasRestantes + granadas, 3);
             }
         }
@@ -69,8 +72,7 @@ public class ColetavelScript : MonoBehaviour
             PlayerController player = Rambo.GetComponent<PlayerController>();
             if (player != null)
             {
-                // Chama a nova função no PlayerController para gerenciar o escudo
-                player.AtivarEscudo(duracaoEscudo);
+                player.AtivarEscudo(duracaoEscudo); // ativa escudo
             }
         }
         else if (tipo == TipoColetavel.Especial)
@@ -78,7 +80,7 @@ public class ColetavelScript : MonoBehaviour
             PlayerController especial = Rambo.GetComponent<PlayerController>();
             if (especial != null)
             {
-                especial.especial = true;
+                especial.especial = true; // ativa modo especial
             }
         }
     }

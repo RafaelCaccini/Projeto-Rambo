@@ -1,49 +1,34 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 
 public class Projeteil : MonoBehaviour
 {
-    public float tempoDeVida = 6f;
-    public int dano = 20;
+    public float tempoDeVida = 6f; // tempo at√© o proj√©til sumir sozinho
+    public int dano = 20;          // quanto de dano ele causa
 
     void Start()
     {
-        // Garante que o projÈtil ser· destruÌdo apÛs o tempoDeVida
+        // faz o proj√©til sumir depois de um tempo
         Destroy(gameObject, tempoDeVida);
 
-        // *** IMPORTANTE: A lÛgica de Physics2D.IgnoreCollision deve ser chamada
-        // no script ChefeHiller apÛs o Instantiate.***
-        // Remova a lÛgica de Physics2D.IgnoreCollision daqui para focar na
-        // colis„o principal, e evitar o uso lento do GameObject.Find em cada projÈtil.
+        // ‚ö†Ô∏è ignorar colis√µes com o chefe e ch√£o √© feito no script do chefe
     }
 
     void OnCollisionEnter2D(Collision2D colisao)
     {
-        GameObject other = colisao.gameObject;
+        GameObject other = colisao.gameObject; // pega com quem bateu
 
+        // se acertar o jogador
         if (other.CompareTag("Player"))
         {
-            // CÛdigo de dano ao Player (mantenha a vers„o que funciona para vocÍ)
-            Debug.Log("Player atingido pelo projÈtil ó dano: " + dano);
-
-            Destroy(gameObject);
+            Debug.Log("Player levou " + dano + " de dano");
+            Destroy(gameObject); // destr√≥i o proj√©til depois do acerto
             return;
         }
 
-        // Se o projÈtil bater no ch„o (que deveria ter sido ignorado, mas falhou), 
-        // ou em qualquer outra parede/objeto que N√O … O JOGADOR, ele deve ser destruÌdo.
-        // A lÛgica de Physics2D.IgnoreCollision È para evitar a colis„o, n„o a destruiÁ„o.
-
-        // Se o tiro n„o varar, significa que a Colis„o foi detectada. Destrua-o.
-
-        // Para garantir que o tiro n„o seja destruÌdo se colidir com o objeto que o criou (o prÛprio Hiller),
-        // o que pode acontecer se o ponto de spawn estiver muito perto:
+        // se bater em qualquer outra coisa que n√£o seja o chefe ou algo sem tag
         if (!other.CompareTag("Boss") && !other.CompareTag("Untagged"))
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // destr√≥i o proj√©til
         }
-
-        // Se vocÍ tiver certeza que o chaoDoHillerRoot tem a tag "Ground" ou "Platform"
-        // vocÍ pode usar essa verificaÁ„o, mas o mais seguro È Destruir:
-        // Destroy(gameObject); 
     }
 }

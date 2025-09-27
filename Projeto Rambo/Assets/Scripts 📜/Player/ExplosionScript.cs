@@ -1,31 +1,30 @@
 using UnityEngine;
-using static System.Net.WebRequestMethods;
 
 public class ExplosionScript : MonoBehaviour
 {
     [Header("Explosão")]
-    public GameObject objetoExplosao; // prefab do objeto que vai spawnar
-    public float tempoAteExplodir = 2f;
-    public float duracaoExplosao = 0.3f; // tempo que o objeto de explosão fica na cena
+    public GameObject objetoExplosao; // prefab do efeito de explosão
+    public float tempoAteExplodir = 2f; // quanto tempo esperar antes de explodir
+    public float duracaoExplosao = 0.3f; // quanto tempo o efeito fica visível
 
     private void Start()
     {
-        // Inicia a contagem pra explosão
+        // Começa a contagem pra explosão
         Invoke(nameof(Explodir), tempoAteExplodir);
     }
 
     void Explodir()
     {
-        // Instancia o efeito/objeto da explosão
+        // Cria o efeito da explosão na posição atual
         if (objetoExplosao != null)
         {
             GameObject efeito = Instantiate(objetoExplosao, transform.position, Quaternion.identity);
 
-            // Destroi o efeito depois de "duracaoExplosao" segundos
+            // Destroi o efeito depois de um tempo
             Destroy(efeito, duracaoExplosao);
         }
 
-        // Destroi a granada
+        // Remove a granada (ou objeto que explodiu)
         Destroy(gameObject);
     }
 }

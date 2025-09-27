@@ -2,22 +2,22 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float lifeTime = 10f;
+    public float lifeTime = 10f; // tempo que a bala vai existir
 
     void Start()
     {
-        Destroy(gameObject, lifeTime);
+        Destroy(gameObject, lifeTime); // destrói a bala depois do tempo definido
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        // Checa se bateu em uma caixa
+        // verifica se colidiu com uma caixa
         CaixaTeste caixa = col.collider.GetComponent<CaixaTeste>();
         if (caixa != null)
         {
-            caixa.DestruirCaixa(); // chama o método público
+            caixa.DestruirCaixa(); // faz a caixa gerar item e sumir
         }
 
-        Destroy(gameObject); // destrói a bala sempre
+        Destroy(gameObject); // destrói a bala sempre que colide
     }
 }

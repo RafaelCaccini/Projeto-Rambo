@@ -1,58 +1,47 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using TMPro; // **IMPORTANTE: Necessário para usar TextMeshProUGUI**
+using TMPro; // necessário pra usar textos do TextMeshPro
 
 public class AnimacaoDeIntroducao : MonoBehaviour
 {
     [Header("Configurações de Tempo")]
-    [Tooltip("Tempo total da animação principal (Objeto 1), em segundos.")]
-    public float duracaoTotalAnimacao = 3f;
-
-    [Tooltip("Duração do efeito de Fade In (de 0% a 100% de opacidade).")]
-    public float duracaoFade = 1f; // Tempo que leva para os objetos aparecerem
+    public float duracaoTotalAnimacao = 3f; // tempo total da animação
+    public float duracaoFade = 1f; // tempo que leva pra aparecer (fade in)
 
     [Header("Botão (Objeto 2)")]
-    [Tooltip("O componente Image do Botão.")]
-    public Image botaoImage;
-    [Tooltip("O componente TextMeshProUGUI do texto do Botão.")]
-    public TextMeshProUGUI botaoTexto;
+    public Image botaoImage; // imagem do botão
+    public TextMeshProUGUI botaoTexto; // texto do botão
 
     [Header("Imagem 3")]
-    [Tooltip("O componente Image da Imagem 3.")]
-    public Image objeto3Image;
-
+    public Image objeto3Image; // outra imagem que vai aparecer
 
     void Start()
     {
-        // Garante que todos os elementos visuais comecem totalmente transparentes
+        // começa tudo transparente
         DefinirTransparenciaImage(botaoImage, 0f);
         DefinirTransparenciaTexto(botaoTexto, 0f);
         DefinirTransparenciaImage(objeto3Image, 0f);
 
-        // Inicia a corrotina principal
+        // começa a animação
         StartCoroutine(GerenciarAparecimento());
     }
 
     IEnumerator GerenciarAparecimento()
     {
-        // 1. ESPERA: Espera metade do tempo total da animação principal
+        // espera metade do tempo antes de começar o fade
         float tempoEspera = duracaoTotalAnimacao / 2f;
         yield return new WaitForSeconds(tempoEspera);
 
-        // 2. FADE IN: Inicia o processo de aparecimento (Degradê)
-
-        // Inicia o Fade In do Botão (Fundo e Texto)
+        // começa o fade in do botão e da imagem 3
         StartCoroutine(FazerFadeInImage(botaoImage));
         StartCoroutine(FazerFadeInTexto(botaoTexto));
-
-        // Inicia o Fade In da Imagem 3
         StartCoroutine(FazerFadeInImage(objeto3Image));
     }
 
     IEnumerator FazerFadeInImage(Image imagem)
     {
-        if (imagem == null) yield break;
+        if (imagem == null) yield break; // se não tiver imagem, sai
 
         float tempoDecorrido = 0f;
 
@@ -61,17 +50,17 @@ public class AnimacaoDeIntroducao : MonoBehaviour
             tempoDecorrido += Time.deltaTime;
             float alpha = Mathf.Clamp01(tempoDecorrido / duracaoFade);
 
-            DefinirTransparenciaImage(imagem, alpha);
+            DefinirTransparenciaImage(imagem, alpha); // atualiza transparência
 
             yield return null;
         }
 
-        DefinirTransparenciaImage(imagem, 1f);
+        DefinirTransparenciaImage(imagem, 1f); // garante que fique 100% visível
     }
 
     IEnumerator FazerFadeInTexto(TextMeshProUGUI texto)
     {
-        if (texto == null) yield break;
+        if (texto == null) yield break; // se não tiver texto, sai
 
         float tempoDecorrido = 0f;
 
@@ -80,15 +69,15 @@ public class AnimacaoDeIntroducao : MonoBehaviour
             tempoDecorrido += Time.deltaTime;
             float alpha = Mathf.Clamp01(tempoDecorrido / duracaoFade);
 
-            DefinirTransparenciaTexto(texto, alpha);
+            DefinirTransparenciaTexto(texto, alpha); // atualiza transparência
 
             yield return null;
         }
 
-        DefinirTransparenciaTexto(texto, 1f);
+        DefinirTransparenciaTexto(texto, 1f); // garante que fique 100% visível
     }
 
-    // Função auxiliar para mudar a transparência de um componente Image
+    // muda a transparência de uma imagem
     void DefinirTransparenciaImage(Image imagem, float alpha)
     {
         if (imagem != null)
@@ -99,7 +88,7 @@ public class AnimacaoDeIntroducao : MonoBehaviour
         }
     }
 
-    // Função auxiliar para mudar a transparência de um componente TextMeshPro
+    // muda a transparência de um texto
     void DefinirTransparenciaTexto(TextMeshProUGUI texto, float alpha)
     {
         if (texto != null)

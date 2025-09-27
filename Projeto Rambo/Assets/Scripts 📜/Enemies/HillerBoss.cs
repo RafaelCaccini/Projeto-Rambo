@@ -1,67 +1,62 @@
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class ChefeHiller : MonoBehaviour
 {
-    private Animator animator;
+    private Animator animator; // controla as animações do chefe
 
-    [Header("Referências")]
+    // referência ao jogador pra saber onde ele está
     public Transform jogador;
 
-    [Header("Spawn / Projétil")]
-    [Tooltip("Ponto de onde o projétil visual (que só sobe) sai da arma.")]
-    public Transform PontoTiroVisual;
-    [Tooltip("Ponto FORA DA TELA de onde o projétil de ataque (o verdadeiro) sai.")]
-    public Transform PontoTiroAtaque;
+    // pontos de onde os tiros saem e os prefabs dos projéteis
+    public Transform PontoTiroVisual;     // tiro "falso" que sobe
+    public Transform PontoTiroAtaque;     // tiro verdadeiro que causa dano
     public GameObject prefabProjeteil;
-    [Tooltip("O prefab do projétil que APENAS sobe e é destruído (não causa dano).")]
     public GameObject prefabProjetilVisual;
 
-    [Header("Ajustes de Projétil")]
+    // ajustes da velocidade e tempo dos tiros
     public float offsetForward = 0.2f;
     public float velocidadeTiro = 10f;
     public float velocidadeTiroVisual = 5f;
     public float cooldownTiro = 2f;
 
-    [Header("Spawn / Soldados")]
+    // spawn de soldados inimigos
     public Transform[] pontosSpawnSoldado;
     public GameObject prefabSoldado;
     public float cooldownSpawnSoldado = 5f;
     public float forcaSpawnVertical = 5f;
 
-    [Header("Chão do Hiller")]
+    // objeto do chão do chefe (usado pra ignorar colisão dos tiros)
     public GameObject chaoDoHillerRoot;
 
-    [Header("Ativação")]
+    // quando o jogador chega perto, ativa o chefe
     public float raioAtivacao = 5f;
 
-    // Controle de Dano
-    [Header("Controle de Dano")]
-    [Tooltip("O Boss morre quando esta contagem atinge o limite.")]
+    // controle de dano especial — se tomar 2 golpes especiais, morre
     public int contagemAtingidoPorEspecial = 0;
-    public const int LIMITE_ESPECIAL = 2; // Constante para o número de hits
+    public const int LIMITE_ESPECIAL = 2;
 
-    // Hash para o Trigger de animação
-    private readonly int AnimAtirar = Animator.StringToHash("Atirar");
+    private readonly int AnimAtirar = Animator.StringToHash("Atirar"); // otimiza trigger
 
     private float timerTiro = 0f;
     private float timerSpawnSoldado = 0f;
     private bool ativo = false;
     private Vector3 initialScale;
-
     private Collider2D[] hillerColliders;
 
     void Start()
     {
         animator = GetComponent<Animator>();
 
+        // garante que o chefe começa virado pro lado certo
         initialScale = transform.localScale;
         transform.localScale = new Vector3(Mathf.Abs(initialScale.x), initialScale.y, initialScale.z);
 
+        // inicia contadores de tempo
         timerTiro = cooldownTiro;
         timerSpawnSoldado = cooldownSpawnSoldado;
 
+        // pega todos os colliders pra ignorar colisão com os tiros depois
         hillerColliders = GetComponentsInChildren<Collider2D>();
     }
 
@@ -69,21 +64,22 @@ public class ChefeHiller : MonoBehaviour
     {
         if (jogador == null) return;
 
+        // ativa o chefe quando o jogador chega perto
         if (!ativo && Vector2.Distance(transform.position, jogador.position) <= raioAtivacao)
             ativo = true;
 
         if (!ativo) return;
 
+        // controla tempo entre os tiros e dispara quando chega a zero
         timerTiro -= Time.deltaTime;
         if (timerTiro <= 0f)
         {
             if (animator != null)
-            {
                 animator.SetTrigger(AnimAtirar);
-            }
             timerTiro = cooldownTiro;
         }
 
+        // controla tempo entre spawn de soldados
         timerSpawnSoldado -= Time.deltaTime;
         if (timerSpawnSoldado <= 0f)
         {
@@ -92,9 +88,7 @@ public class ChefeHiller : MonoBehaviour
         }
     }
 
-    // ===============================================
-    // MÉTODO DE DANO COM LÓGICA DE MORTE
-    // ===============================================
+    // quando leva dano especial, soma e morre se passar do limite
     public void ReceberDanoEspecial()
     {
         contagemAtingidoPorEspecial++;
@@ -104,34 +98,27 @@ public class ChefeHiller : MonoBehaviour
         {
             Debug.Log("Boss Hiller foi derrotado pelo Especial! Carregando cena 'Mapa'.");
 
-            // 1. Destrói o Boss
-            Destroy(gameObject);
-
-            // 2. Carrega a nova cena
-            SceneManager.LoadScene("Mapa");
+            Destroy(gameObject); // remove o chefe da cena
+            SceneManager.LoadScene("Mapa"); // carrega a próxima cena
         }
     }
 
-    // --- DISPARO VISUAL (FALSO) ---
+    // cria um projétil visual que só sobe (não causa dano)
     public void DispararTiroVisual()
     {
         if (PontoTiroVisual == null || prefabProjetilVisual == null) return;
 
-        // NOVO: Adiciona uma rotação de 90 graus no eixo Z para o sprite
         Quaternion verticalRotation = Quaternion.Euler(0, 0, 90);
-
         GameObject visualProj = Instantiate(prefabProjetilVisual, PontoTiroVisual.position, verticalRotation);
 
         Rigidbody2D visualRb = visualProj.GetComponent<Rigidbody2D>();
         if (visualRb != null)
-        {
             visualRb.linearVelocity = Vector2.up * velocidadeTiroVisual;
-        }
 
-        Destroy(visualProj, 1.5f);
+        Destroy(visualProj, 1.5f); // destrói o tiro depois de 1.5s
     }
 
-    // --- DISPARO DE ATAQUE (REAL) ---
+    // cria o projétil real que vai em direção ao jogador
     public void DispararTiroAtaque()
     {
         if (prefabProjeteil == null || jogador == null)
@@ -144,6 +131,7 @@ public class ChefeHiller : MonoBehaviour
         {
             Vector2 direcao = (jogador.position - PontoTiroAtaque.position).normalized;
 
+            // posição inicial um pouco à frente
             Vector3 spawnPos = PontoTiroAtaque.position + (Vector3)direcao * offsetForward;
 
             float angle = Mathf.Atan2(direcao.y, direcao.x) * Mathf.Rad2Deg;
@@ -153,10 +141,9 @@ public class ChefeHiller : MonoBehaviour
 
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             if (rb != null)
-            {
                 rb.linearVelocity = direcao * velocidadeTiro;
-            }
 
+            // ignora colisão dos tiros com o próprio chefe e com o chão dele
             IgnoreCollisionWithObject(proj, hillerColliders);
             if (chaoDoHillerRoot != null)
             {
@@ -166,8 +153,7 @@ public class ChefeHiller : MonoBehaviour
         }
     }
 
-
-    // --- Spawn de Soldados e Funções Auxiliares (Não alteradas) ---
+    // cria soldados nos pontos configurados
     void SpawnSoldados()
     {
         if (prefabSoldado == null || pontosSpawnSoldado.Length == 0) return;
@@ -183,6 +169,7 @@ public class ChefeHiller : MonoBehaviour
         }
     }
 
+    // impede que projéteis colidam com certos objetos
     void IgnoreCollisionWithObject(GameObject objToIgnore, Collider2D[] targetColliders)
     {
         if (objToIgnore == null || targetColliders.Length == 0) return;
@@ -195,13 +182,12 @@ public class ChefeHiller : MonoBehaviour
             foreach (var targetCol in targetColliders)
             {
                 if (targetCol != null)
-                {
                     Physics2D.IgnoreCollision(projCol, targetCol, true);
-                }
             }
         }
     }
 
+    // desenha no editor o raio de ativação e pontos de spawn
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
