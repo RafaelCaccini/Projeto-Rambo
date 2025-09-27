@@ -2,63 +2,85 @@ using UnityEngine;
 
 public class Templario : MonoBehaviour
 {
-    [Header("Configurações de Movimento")]
+    [Header("ConfiguraÃ§Ãµes de Movimento")]
     public float velocidade = 3f;
+    private Rigidbody2D rb;
 
-    [Header("Configurações de Ataque")]
-    public GameObject objetoDeDanoPrefab; // O objeto que será instanciado para aplicar dano
+    [Header("ReferÃªncias")]
+    [Tooltip("Arraste e solte o objeto do jogador neste campo.")]
+    public Transform jogadorTransform;
+
+    [Header("ConfiguraÃ§Ãµes de Ataque")]
+    public GameObject objetoDeDanoPrefab;
     private bool estaAtacando = false;
 
-    private Transform jogadorTransform;
+    [Header("DetecÃ§Ã£o do Jogador")]
+    [Tooltip("O raio da Ã¡rea de detecÃ§Ã£o do jogador.")]
+    public float raioDeDeteccao = 5f;
+    private bool alvoDetectado = false;
 
     void Start()
     {
-        // Tenta encontrar o objeto do jogador na cena pela tag "Player"
-        GameObject jogadorObjeto = GameObject.FindGameObjectWithTag("Player");
-
-        if (jogadorObjeto != null)
-        {
-            // Pega a referência à Transform do jogador
-            jogadorTransform = jogadorObjeto.transform;
-        }
-        else
-        {
-            Debug.LogWarning("Jogador com a tag 'Player' não encontrado. O Templário não se moverá.");
-        }
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        // Se o Templário não estiver atacando e o jogador foi encontrado,
-        // ele continua se movendo para a esquerda
-        if (!estaAtacando && jogadorTransform != null)
+        if (jogadorTransform == null) return;
+
+        if (!alvoDetectado)
         {
-            transform.Translate(Vector2.left * velocidade * Time.deltaTime);
+            float distancia = Vector2.Distance(transform.position, jogadorTransform.position);
+            if (distancia <= raioDeDeteccao)
+            {
+                alvoDetectado = true;
+                Debug.Log("JOGADOR DETECTADO! O TemplÃ¡rio vai comeÃ§ar a se mover.");
+            }
+        }
+
+        if (alvoDetectado && !estaAtacando)
+        {
+            rb.AddForce(Vector2.left * velocidade * 5f);
+        }
+        else
+        {
+            rb.linearVelocity = Vector2.zero;
         }
     }
 
+    // --- ColisÃµes e Ataque ---
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Verifica se a colisão é com o jogador
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Para o movimento do Templário
+            rb.linearVelocity = Vector2.zero;
             estaAtacando = true;
 
-            // Spawna o objeto de dano no mesmo local da colisão
-            if (objetoDeDanoPrefab != null)
-            {
-                GameObject objetoDeDano = Instantiate(objetoDeDanoPrefab, transform.position, Quaternion.identity);
-                // Atribui a tag "Danger" ao objeto recém-instanciado
-                objetoDeDano.tag = "Danger";
-
-                // Destrói o objeto de dano após um pequeno tempo,
-                // para que ele não fique na cena.
-                Destroy(objetoDeDano, 0.1f);
-            }
-
-            // O Templário não será mais destruído aqui. 
-            // Ele permanecerá na cena até ser destruído por outra lógica (ex: tomar dano).
+            // Chama a funÃ§Ã£o de ataque aqui
+            RealizarAtaque();
         }
+    }
+
+    // NOVA FUNÃ‡ÃƒO: LÃ³gica de ataque separada
+    private void RealizarAtaque()
+    {
+        if (objetoDeDanoPrefab != null)
+        {
+            // Debug para confirmar que o ataque foi acionado
+            Debug.Log("Realizando Ataque! Objeto de dano instanciado.");
+
+            GameObject objetoDeDano = Instantiate(objetoDeDanoPrefab, transform.position, Quaternion.identity);
+            objetoDeDano.tag = "Danger";
+
+            // DestrÃ³i o objeto de dano apÃ³s 0.1 segundos
+            Destroy(objetoDeDano, 0.1f);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, raioDeDeteccao);
     }
 }
