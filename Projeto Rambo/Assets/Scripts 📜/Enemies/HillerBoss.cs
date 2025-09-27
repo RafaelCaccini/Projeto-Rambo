@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement; // <<== NOVO: NECESSÁRIO PARA CARREGAR CENAS
+using UnityEngine.SceneManagement;
 
 public class ChefeHiller : MonoBehaviour
 {
@@ -108,7 +108,7 @@ public class ChefeHiller : MonoBehaviour
             Destroy(gameObject);
 
             // 2. Carrega a nova cena
-            SceneManager.LoadScene("Mapa"); // <<== AÇÃO PRINCIPAL
+            SceneManager.LoadScene("Mapa");
         }
     }
 
@@ -117,7 +117,10 @@ public class ChefeHiller : MonoBehaviour
     {
         if (PontoTiroVisual == null || prefabProjetilVisual == null) return;
 
-        GameObject visualProj = Instantiate(prefabProjetilVisual, PontoTiroVisual.position, Quaternion.identity);
+        // NOVO: Adiciona uma rotação de 90 graus no eixo Z para o sprite
+        Quaternion verticalRotation = Quaternion.Euler(0, 0, 90);
+
+        GameObject visualProj = Instantiate(prefabProjetilVisual, PontoTiroVisual.position, verticalRotation);
 
         Rigidbody2D visualRb = visualProj.GetComponent<Rigidbody2D>();
         if (visualRb != null)
