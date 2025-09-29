@@ -11,6 +11,7 @@ TagManager:
   - Danger4
   - Coletaveis
   - Enemy
+  - Boss
   layers:
   - Default
   - TransparentFX
