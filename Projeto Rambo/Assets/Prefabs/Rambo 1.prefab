@@ -282,7 +282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorCorpo: {fileID: 5101184610952862447}
   animatorPerna: {fileID: 8418783854190849286}
-  moveX: 0
   velocidadeNormal: 3
   velocidadeAgachado: 1
   cuboSuperior: {fileID: 491182643103796564}
@@ -326,6 +325,8 @@ MonoBehaviour:
   tempoPiscar: 0.1
   itemParaDropar: {fileID: 0}
   chanceDeDrop: 3
+  carregarCenaAoMorrer: 1
+  nomeCenaMorte: Mapa
 --- !u!61 &2390543346913909414
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -449,7 +449,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4405913073636660194, guid: 3b14e2970d8332c4bb792615e391f9bd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.895672
+      value: -37.00433
       objectReference: {fileID: 0}
     - target: {fileID: 4405913073636660194, guid: 3b14e2970d8332c4bb792615e391f9bd, type: 3}
       propertyPath: m_LocalPosition.y
@@ -606,7 +606,7 @@ Transform:
   m_GameObject: {fileID: 242210706}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.895672, y: 1.3954144, z: -20}
+  m_LocalPosition: {x: -37.00433, y: 1.3954144, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1863,6 +1863,14 @@ PrefabInstance:
       propertyPath: danoDanger
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1091008102921393872, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: nomeCenaMorte
+      value: Morte
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091008102921393872, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: carregarCenaAoMorrer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1591551283980546739, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_Name
       value: Rambo 1
@@ -1901,7 +1909,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8783257343136642864, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.5
+      value: -37.4
       objectReference: {fileID: 0}
     - target: {fileID: 8783257343136642864, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2205,6 +2213,8 @@ MonoBehaviour:
   tempoPiscar: 0.1
   itemParaDropar: {fileID: 0}
   chanceDeDrop: 3
+  carregarCenaAoMorrer: 1
+  nomeCenaMorte: Tutorial3
 --- !u!50 &880719657
 Rigidbody2D:
   serializedVersion: 5
@@ -24191,7 +24201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5452099502353663698, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.9840035
+      value: -0.19400358
       objectReference: {fileID: 0}
     - target: {fileID: 6279469961375110912, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_Name
@@ -24199,7 +24209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6955734959194207079, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.598599
+      value: 1.7714018
       objectReference: {fileID: 0}
     - target: {fileID: 8937603767547244563, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: parallaxCamera
@@ -25665,6 +25675,14 @@ PrefabInstance:
     - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788544149139799238, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788544149139799238, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7569051707313618695, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
       propertyPath: jogadorTransform

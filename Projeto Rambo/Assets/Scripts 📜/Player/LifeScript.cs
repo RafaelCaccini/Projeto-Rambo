@@ -24,6 +24,10 @@ public class LifeScript : MonoBehaviour
     [Range(0, 100)]
     public float chanceDeDrop = 3f; // porcentagem de drop
 
+    [Header("Carregar Cena ao Morrer")]
+    public bool carregarCenaAoMorrer = false; // se true, carrega cena ao morrer
+    public string nomeCenaMorte; // nome da cena a carregar
+
     private SpriteRenderer[] renderers; // pra piscar
     private Color[] coresOriginais;     // guarda as cores originais
 
@@ -79,6 +83,12 @@ public class LifeScript : MonoBehaviour
 
     void Morrer()
     {
+        if (carregarCenaAoMorrer && !string.IsNullOrEmpty(nomeCenaMorte))
+        {
+            SceneManager.LoadScene(nomeCenaMorte);
+            return;
+        }
+
         if (CompareTag("Player"))
         {
             // player morre, vai pra cena de morte
