@@ -8,7 +8,22 @@ public class CarregadorDeFase : MonoBehaviour
     [Tooltip("Nome da cena para carregar (igual ao nome em Build Settings)")]
     public string nomeDaFase; // Qual cena carregar
 
-    private bool playerDentro = false; // Player está na área?
+    [Header("Configuração de Visibilidade")]
+    [Tooltip("Arraste aqui o objeto que deve se tornar visível.")]
+    public SpriteRenderer objetoVisivel; // O bagulho que vai aparecer
+
+    private bool playerDentro = false; // Player ta na area?
+
+    void Start()
+    {
+        // Esse bagulho precisa começar invisível
+        if (objetoVisivel != null)
+        {
+            Color cor = objetoVisivel.color;
+            cor.a = 0f; // Seta o canal alfa (transparência) pra 0
+            objetoVisivel.color = cor;
+        }
+    }
 
     void Update()
     {
@@ -33,6 +48,14 @@ public class CarregadorDeFase : MonoBehaviour
         {
             playerDentro = true;
             Debug.Log("Player entrou na área do carregador.");
+
+            // NOVO COMENTÁRIO: AÍ SIM! Deixa o bagulho visível
+            if (objetoVisivel != null)
+            {
+                Color cor = objetoVisivel.color;
+                cor.a = 1f; // Seta o canal alfa pra 1
+                objetoVisivel.color = cor;
+            }
         }
     }
 
@@ -43,6 +66,14 @@ public class CarregadorDeFase : MonoBehaviour
         {
             playerDentro = false;
             Debug.Log("Player saiu da área do carregador.");
+
+            // Deixa o bagulho invisível de novo.
+            if (objetoVisivel != null)
+            {
+                Color cor = objetoVisivel.color;
+                cor.a = 0f;
+                objetoVisivel.color = cor;
+            }
         }
     }
 }
