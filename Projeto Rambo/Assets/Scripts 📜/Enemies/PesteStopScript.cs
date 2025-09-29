@@ -1,40 +1,46 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class pesteStopScript : MonoBehaviour
 {
-    // A refer�ncia para a peste que deve parar o movimento
+    // Referência para o script da peste que será parada ao colidir com o player.
+    // Você precisa arrastar no Inspector o objeto que tem o "pesteScript" para que funcione.
     [Tooltip("Arraste a Peste aqui para que ela possa ser parada.")]
     public pesteScript PesteParaParar;
 
 
 
+    // Classe interna que congela a posição de um objeto.
+    // ⚠️ Obs: como está dentro de pesteStopScript, ela só vai funcionar se for usada dentro desse script.
+    // Se quiser usar em outro objeto separadamente, o ideal é mover essa classe para outro arquivo.
     public class FreezePosition : MonoBehaviour
     {
-        private Vector3 initialPosition;
+        private Vector3 initialPosition; // Armazena a posição inicial do objeto
 
         void Start()
         {
-            // Salva a posi��o inicial do objeto
+            // Guarda a posição inicial do objeto assim que o jogo começa
             initialPosition = transform.position;
         }
 
         void Update()
         {
-            // For�a a posi��o do objeto a ser sempre a mesma do in�cio do jogo
+            // Mantém o objeto travado sempre na mesma posição (sem se mover)
             transform.position = initialPosition;
         }
     }
 
 
 
+    // Detecta quando algo entra na área de trigger (precisa de um Collider2D com "Is Trigger" marcado)
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Verifica se o objeto que entrou no trigger � o jogador
+        // Verifica se quem entrou no trigger tem a tag "Player"
         if (other.CompareTag("Player"))
         {
-            // Se a refer�ncia para a Peste existe, chame o m�todo para par�-la
+            // Se a referência da peste estiver atribuída no Inspector...
             if (PesteParaParar != null)
             {
+                // ... chama o método que deve parar o movimento dela
                 PesteParaParar.PararMovimento();
             }
         }

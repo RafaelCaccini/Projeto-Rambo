@@ -1,675 +1,278 @@
 ﻿using TMPro;
-
 using Unity.Cinemachine;
-
 using UnityEngine;
-
 using UnityEngine.InputSystem;
-
 using UnityEngine.SceneManagement;
-
 using System.Collections;
 
-
-
 public class PlayerController : MonoBehaviour
-
 {
-
-    // Adicione esses campos para os Animators
-
-    [Header("Animações")]
-
+    [Header("Animações")]
     public Animator animatorCorpo;
-
     public Animator animatorPerna;
 
-
-
-    public float moveX;
-
-
-
     [Header("Movimentação")]
-
     public float velocidadeNormal = 5f;
-
     public float velocidadeAgachado = 2f;
 
-
-
     [Header("Referências")]
-
     public Transform cuboSuperior;
-
     public Transform cuboInferior;
-
     public GameObject groundDetector;
+    private LifeScript lifeScript;
 
-    private LifeScript lifeScript; // referência ao script de vida
-
-
-
-    [Header("Agachamento")]
-
+    [Header("Agachamento")]
     public float alturaAgachado = 0.5f;
-
     public float alturaNormal = 1f;
 
-
-
     [Header("Pulo")]
-
     public float forcaPulo = 5f;
-
     public LayerMask groundLayer;
 
-
-
     [Header("Tiro")]
-
     public GameObject prefabTiro;
-
     public float velocidadeTiro = 10f;
+    public Transform pontoDisparo;
 
-    public Transform pontoDisparo; // Ponto de onde o tiro e a granada saem
+    [Header("Granada")]
+    public GameObject prefabGranada;
+    public float forcaLancamentoGranada = 5f;
+    public float cooldownGranada = 1f;
+    public int granadasRestantes = 3;
+    private float proximoLancamentoGranada;
 
-
-
-    [Header("Granada")]
-
-    public GameObject prefabGranada; // O objeto que será lançado
-
-    public float forcaLancamentoGranada = 5f; // Força do arremesso da granada
-
-    public float cooldownGranada = 1f; // Tempo de espera entre os lançamentos
-
-    public int granadasRestantes = 3; // Quantidade de granadas que o jogador começa
-
-    private float proximoLançamentoGranada;
-
-
-
-    private bool estaAgachado = false;
-
-    private bool podePular = false;
+    [Header("Especial")]
+    public bool especial = false;
+    public float raioDoEspecial = 5f;
 
     private Rigidbody2D rb;
-
+    private bool estaAgachado = false;
+    private bool podePular = false;
     private bool olhandoParaDireita = true;
 
     private Vector3 posicaoOriginalCuboSuperior;
-
     private Vector3 posicaoAgachadoCuboSuperior;
+    private int contatoComChao = 0;
 
-
-
-    // Nova variável para contar contatos com o chão
-
-    private int contatoComChao = 0;
-
-
-
-    // hashes para deixar as ações mais rapidas e leves
-
-    private int movendoHash = Animator.StringToHash("Movendo");
-
+    // Hashes de animação para otimizar
+    private int movendoHash = Animator.StringToHash("Movendo");
     private int saltandoHash = Animator.StringToHash("Saltando");
-
     private int movendoCimaHash = Animator.StringToHash("MovendoCima");
-
     private int atirandoHash = Animator.StringToHash("Atirando");
-
     private int atirandoCimaHash = Animator.StringToHash("AtirandoCima");
-
     private int olhandoCimaHash = Animator.StringToHash("OlhandoCima");
-
     private int granadaHash = Animator.StringToHash("Granada");
-
     private int agacharHash = Animator.StringToHash("Agachado");
-
     private int andandoAgachadoHash = Animator.StringToHash("AndandoAgachado");
 
-
-
-
-
-    [Header("Especial")]
-
-    public bool especial = false;
-
-    public float raioDoEspecial = 5f; // Raio de alcance do especial
-
-
-
-    void Start()
-
+    void Start()
     {
-
         rb = GetComponent<Rigidbody2D>();
-
         lifeScript = GetComponent<LifeScript>();
 
-
-
+        // Calcula posições do cubo superior para agachar
         posicaoOriginalCuboSuperior = cuboSuperior.localPosition;
-
-        posicaoAgachadoCuboSuperior = new Vector3(
-
-          posicaoOriginalCuboSuperior.x,
-
-          posicaoOriginalCuboSuperior.y - 0.2f,
-
-          posicaoOriginalCuboSuperior.z
-
-        );
-
+        posicaoAgachadoCuboSuperior = posicaoOriginalCuboSuperior - new Vector3(0f, 0.2f, 0f);
     }
-
-
 
     void Update()
-
     {
-
         Mover();
-
         Agachar();
-
         Pular();
 
+        AtualizarAnimacoes();
 
-
-        // Lógica para a animação de olhar para cima
-
-        if (Keyboard.current.wKey.isPressed)
-
-        {
-
-            animatorCorpo.SetBool(olhandoCimaHash, true);
-
-        }
-
-        else
-
-        {
-
-            animatorCorpo.SetBool(olhandoCimaHash, false);
-
-        }
-
-
-
-        // Lógica para a animação de tiro lateral
-
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-
-        {
-
-            animatorCorpo.SetBool(atirandoHash, true);
-
+        if (Keyboard.current.eKey.wasPressedThisFrame)
             Atirar();
 
-        }
-
-        else
-
-        {
-
-            animatorCorpo.SetBool(atirandoHash, false);
-
-        }
-
-
-
-        // Lógica para a animação de atirar para cima
-
-        if (Keyboard.current.eKey.isPressed && Keyboard.current.wKey.isPressed)
-
-        {
-
-            animatorCorpo.SetBool(atirandoCimaHash, true);
-
-        }
-
-        else
-
-        {
-
-            animatorCorpo.SetBool(atirandoCimaHash, false);
-
-        }
-
-
-
         if (Keyboard.current.fKey.wasPressedThisFrame)
-
-        {
-
-            animatorCorpo.SetTrigger(granadaHash);
-
             LancarGranada();
 
-        }
-
-
-
         if (Keyboard.current.qKey.wasPressedThisFrame && especial)
-
         {
-
             LancarEspecial(transform.position, raioDoEspecial);
-
             especial = false;
-
         }
-
-
 
         if (lifeScript != null && lifeScript.GetVidaAtual() <= 0)
-
-        {
-
             SceneManager.LoadScene("Morte");
-
-        }
-
-    }
-    // Adicione esta nova função ao seu script PlayerController
-    public void AtivarEscudo(float duracao)
-    {
-        if (lifeScript != null)
-        {
-            lifeScript.ignorarDano = true; // Ativa o escudo
-            StartCoroutine(DesativarEscudo(duracao)); // Inicia a corotina a partir do PlayerController
-        }
     }
 
-    // Coroutine para desativar o escudo após um tempo determinado
-    private IEnumerator DesativarEscudo(float duracao)
-    {
-        yield return new WaitForSeconds(duracao);
-        if (lifeScript != null)
-        {
-            lifeScript.ignorarDano = false; // Desativa o escudo
-        }
-    }
-
-    // ... o restante do seu script PlayerController
-
-
+    #region Movimentação
     void Mover()
-
     {
-
         float velocidade = estaAgachado ? velocidadeAgachado : velocidadeNormal;
-
-        moveX = 0f;
-
-
+        float moveX = 0f;
 
         if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
-
         {
-
             moveX = -1f;
-
             olhandoParaDireita = false;
-
         }
-
         else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
-
         {
-
             moveX = 1f;
-
             olhandoParaDireita = true;
-
         }
-
-
 
         rb.linearVelocity = new Vector2(moveX * velocidade, rb.linearVelocity.y);
 
-
-
-        // Lógica para as animações de movimento
-
-        if (moveX != 0)
-
-        {
-
-            if (estaAgachado)
-
-            {
-
-                // Anda agachado
-
-                animatorPerna.SetBool(andandoAgachadoHash, true);
-
-                animatorPerna.SetBool(movendoHash, false);
-
-            }
-
-            else
-
-            {
-
-                // Anda normalmente
-
-                animatorPerna.SetBool(andandoAgachadoHash, false);
-
-                animatorPerna.SetBool(movendoHash, true);
-
-            }
-
-            // A animação do corpo movendo-se para cima pode ser independente
-
-            animatorCorpo.SetBool(movendoCimaHash, true);
-
-        }
-
-        else
-
-        {
-
-            // Para de se mover
-
-            animatorPerna.SetBool(andandoAgachadoHash, false);
-
-            animatorPerna.SetBool(movendoHash, false);
-
-            animatorCorpo.SetBool(movendoCimaHash, false);
-
-        }
-
-
-
+        // Ajusta escala do sprite para olhar para o lado certo
         Vector3 escala = transform.localScale;
-
         escala.x = olhandoParaDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
-
         transform.localScale = escala;
 
-    }
-
-
-
-    void Pular()
-
-    {
-
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && podePular && !estaAgachado)
-
+        // Atualiza animações de movimento
+        if (moveX != 0)
         {
-
-            rb.AddForce(Vector2.up * forcaPulo, ForceMode2D.Impulse);
-
-            podePular = false;
-
-            animatorPerna.SetBool(saltandoHash, true);
-
+            animatorPerna.SetBool(andandoAgachadoHash, estaAgachado);
+            animatorPerna.SetBool(movendoHash, !estaAgachado);
+            animatorCorpo.SetBool(movendoCimaHash, true);
         }
-
+        else
+        {
+            animatorPerna.SetBool(andandoAgachadoHash, false);
+            animatorPerna.SetBool(movendoHash, false);
+            animatorCorpo.SetBool(movendoCimaHash, false);
+        }
     }
-
-
 
     void Agachar()
-
     {
-
         bool agachar = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
-
-
-
-        // Ativa ou desativa a animação de agachar
-
-        animatorPerna.SetBool(agacharHash, agachar);
-
-
+        animatorPerna.SetBool(agacharHash, agachar);
 
         if (agachar && !estaAgachado)
-
         {
-
             estaAgachado = true;
-
             cuboSuperior.localPosition = posicaoAgachadoCuboSuperior;
-
         }
-
         else if (!agachar && estaAgachado)
-
         {
-
-
-
             estaAgachado = false;
-
             cuboSuperior.localPosition = posicaoOriginalCuboSuperior;
-
         }
-
     }
 
-
-
-    void Atirar()
-
+    void Pular()
     {
-
-        if (prefabTiro == null || pontoDisparo == null)
-
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && podePular && !estaAgachado)
         {
-
-            Debug.LogWarning("Prefab do Tiro ou Ponto de Disparo não estão configurados.");
-
-            return;
-
+            rb.AddForce(Vector2.up * forcaPulo, ForceMode2D.Impulse);
+            podePular = false;
+            animatorPerna.SetBool(saltandoHash, true);
         }
+    }
+    #endregion
 
+    #region Ataques
+    void Atirar()
+    {
+        if (prefabTiro == null || pontoDisparo == null) return;
 
-
-        Vector2 direcao;
-
+        Vector2 direcao = olhandoParaDireita ? Vector2.right : Vector2.left;
+        Quaternion rotacao = Quaternion.identity;
         Vector3 posicaoDisparo = pontoDisparo.position;
 
-        Quaternion rotacaoTiro = Quaternion.identity;
-
-
-
         if (Keyboard.current.wKey.isPressed)
-
         {
-
-            animatorCorpo.SetBool(atirandoCimaHash, true);
-
             direcao = Vector2.up;
-
             posicaoDisparo = cuboSuperior.position + new Vector3(0f, 0.7f, 0f);
-
-            rotacaoTiro = Quaternion.Euler(0, 0, 90);
-
-
-
+            rotacao = Quaternion.Euler(0, 0, 90);
         }
-
-        else
-
+        else if (!olhandoParaDireita)
         {
-
-
-
-            direcao = olhandoParaDireita ? Vector2.right : Vector2.left;
-
-            if (!olhandoParaDireita)
-
-                rotacaoTiro = Quaternion.Euler(0, 0, 180);
-
-
-
+            rotacao = Quaternion.Euler(0, 0, 180);
         }
 
-
-
-        GameObject tiro = Instantiate(prefabTiro, posicaoDisparo, rotacaoTiro);
-
+        GameObject tiro = Instantiate(prefabTiro, posicaoDisparo, rotacao);
         tiro.tag = "Danger";
 
-
-
         Rigidbody2D rbTiro = tiro.GetComponent<Rigidbody2D>();
-
         if (rbTiro != null)
-
             rbTiro.linearVelocity = direcao * velocidadeTiro;
-
     }
-
-
 
     void LancarGranada()
-
     {
-
-        if (Time.time < proximoLançamentoGranada || granadasRestantes <= 0)
-
-        {
-
-            return;
-
-        }
-
-
+        if (Time.time < proximoLancamentoGranada || granadasRestantes <= 0) return;
 
         granadasRestantes--;
+        proximoLancamentoGranada = Time.time + cooldownGranada;
 
-        proximoLançamentoGranada = Time.time + cooldownGranada;
-
-
-
-        if (prefabGranada == null || pontoDisparo == null)
-
-        {
-
-            Debug.LogWarning("Prefab da Granada ou Ponto de Disparo não estão configurados.");
-
-            return;
-
-        }
-
-
+        if (prefabGranada == null || pontoDisparo == null) return;
 
         GameObject granada = Instantiate(prefabGranada, pontoDisparo.position, Quaternion.identity);
-
-
-
         Rigidbody2D rbGranada = granada.GetComponent<Rigidbody2D>();
-
         if (rbGranada != null)
-
         {
-
-            Vector2 forcaLancamento;
-
-            if (olhandoParaDireita)
-
-            {
-
-                forcaLancamento = new Vector2(1, 1).normalized * forcaLancamentoGranada;
-
-            }
-
-            else
-
-            {
-
-                forcaLancamento = new Vector2(-1, 1).normalized * forcaLancamentoGranada;
-
-            }
-
-
-
-            rbGranada.AddForce(forcaLancamento, ForceMode2D.Impulse);
-
+            Vector2 forca = new Vector2(olhandoParaDireita ? 1 : -1, 1).normalized * forcaLancamentoGranada;
+            rbGranada.AddForce(forca, ForceMode2D.Impulse);
         }
-
     }
-
-
 
     public void LancarEspecial(Vector2 centro, float raio)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(centro, raio);
-
         foreach (Collider2D col in colliders)
         {
-            // 1. Verifica se o collider detectado tem a tag "Enemy"
             if (col.CompareTag("Enemy"))
             {
-                // 2. Tenta encontrar o script ChefeHiller no próprio objeto OU nos pais
-                ChefeHiller Hiller = col.GetComponentInParent<ChefeHiller>();
-
-                if (Hiller != null)
+                ChefeHiller boss = col.GetComponentInParent<ChefeHiller>();
+                if (boss != null)
                 {
-                    // Debug para confirmar que encontramos o Boss
-                    Debug.Log($"Especial Atingiu o Boss: {Hiller.gameObject.name}");
-
-                    // Chama o método no Boss
-                    Hiller.ReceberDanoEspecial();
-
-                    // Saímos do loop. O especial só pode atingir o Boss uma vez.
+                    Debug.Log($"Especial atingiu o Boss: {boss.gameObject.name}");
+                    boss.ReceberDanoEspecial();
                     return;
                 }
-
-                // Se for um inimigo comum (Enemy) que não é o Boss Hiller, destrói.
-                Destroy(col.gameObject);
+                Destroy(col.gameObject); // inimigo comum
             }
         }
     }
+    #endregion
 
-
-
-    void OnCollisionEnter2D(Collision2D collision)
-
+    #region Escudo
+    public void AtivarEscudo(float duracao)
     {
+        if (lifeScript == null) return;
 
-        // Se a colisão for com o chão
-
-        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
-
-        {
-
-            contatoComChao++;
-
-            podePular = (contatoComChao > 0);
-
-            animatorPerna.SetBool(saltandoHash, false);
-
-        }
-
+        lifeScript.ignorarDano = true;
+        StartCoroutine(DesativarEscudo(duracao));
     }
 
+    private IEnumerator DesativarEscudo(float duracao)
+    {
+        yield return new WaitForSeconds(duracao);
+        if (lifeScript != null) lifeScript.ignorarDano = false;
+    }
+    #endregion
 
+    #region Detecção de chão
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
+        {
+            contatoComChao++;
+            podePular = contatoComChao > 0;
+            animatorPerna.SetBool(saltandoHash, false);
+        }
+    }
 
     void OnCollisionExit2D(Collision2D collision)
-
     {
-
-        // Se sair da colisão com o chão
-
-        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
-
+        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
-
             contatoComChao--;
-
-            podePular = (contatoComChao > 0);
-
+            podePular = contatoComChao > 0;
         }
-
     }
+    #endregion
 
+    void AtualizarAnimacoes()
+    {
+        animatorCorpo.SetBool(olhandoCimaHash, Keyboard.current.wKey.isPressed);
+        animatorCorpo.SetBool(atirandoHash, Keyboard.current.eKey.wasPressedThisFrame);
+        animatorCorpo.SetBool(atirandoCimaHash, Keyboard.current.eKey.isPressed && Keyboard.current.wKey.isPressed);
+    }
 }

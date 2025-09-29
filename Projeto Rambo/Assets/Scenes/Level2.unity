@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c622bf59b1b31c345a5de98d03397f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 2
+  velocidade: 1
   jogadorTransform: {fileID: 1428638258}
   objetoDeDanoPrefab: {fileID: 4752347124141737984, guid: 4834b9b5cd4af5546830c227749577db, type: 3}
   raioDeDeteccao: 5
