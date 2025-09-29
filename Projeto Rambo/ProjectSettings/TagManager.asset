@@ -12,6 +12,7 @@ TagManager:
   - Coletaveis
   - Enemy
   - Boss
+  - Shield
   layers:
   - Default
   - TransparentFX

@@ -10,8 +10,7 @@ public class pesteStopScript : MonoBehaviour
 
 
     // Classe interna que congela a posição de um objeto.
-    // ⚠️ Obs: como está dentro de pesteStopScript, ela só vai funcionar se for usada dentro desse script.
-    // Se quiser usar em outro objeto separadamente, o ideal é mover essa classe para outro arquivo.
+    // Obs: como está dentro de pesteStopScript, ela só vai funcionar se for usada dentro desse script.
     public class FreezePosition : MonoBehaviour
     {
         private Vector3 initialPosition; // Armazena a posição inicial do objeto

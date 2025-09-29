@@ -206,7 +206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2031475730201312248, guid: a4bdf2154b8ee4f419a0809fdcad81d5, type: 3}
       propertyPath: m_Name
-      value: Canvas 1 2 Variant
+      value: Canvas Layout
       objectReference: {fileID: 0}
     - target: {fileID: 2730966586636535601, guid: a4bdf2154b8ee4f419a0809fdcad81d5, type: 3}
       propertyPath: m_AnchoredPosition.x
