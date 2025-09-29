@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3437432960899533168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8016427875858080850}
+  - component: {fileID: 3030319419600371212}
+  m_Layer: 0
+  m_Name: DialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8016427875858080850
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437432960899533168}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1238.5785, y: 609.7476, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3030319419600371212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437432960899533168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc316de9e95dd1649850b162ea6bfb8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeDelay: 0.05
+  textObject: {fileID: 0}
+  fullText: "Sentinela - \"Agente Rony?! Na esculta?\"\\n \\n  Rony - \"Na esculta
+    Sentinela.\"\\n \\n  Sentinela - \"\xD3timo, o relat\xF3rio da miss\xE3o \xE9
+    o seguinte, algum bastardo inventou de tocar em uma caixa maldita que estava
+    escondida em algum lugar da Europa. Isso desencadeou eventos que n\xE3o deviam
+    acontecer. Sua miss\xE3o nesse momento \xE9 exterminar as criaturas que foram
+    despertadas na Alemanha. A caixa levantou os mortos da segunda guerra mundial,
+    voc\xEA ter\xE1 que lidar com soldados zumbis, tanques de guerra e o comandante
+    deles. Te desejo uma boa sorte e mantenha a esperan\xE7a!\"\\n \\n  Rony - \"Entendido
+    Sentinela. Farei o meu melhor\"\\n \\n  Sentinela - \"Agora vamos! saia do lugar
+    antes que voc\xEA seja bombardeado!\""
+  startDelay: 3
+  showSecondaryText: 1
+  secondaryText: "Comandos:\\n   A - Andar para a esquerda \\n  D - Andar para a
+    direita \\n  W - Olha para cima \\n  S - Agachar \\n  Espa\xE7o - Pular \\n 
+    E - Disparar \\n  F - Lan\xE7ar Granadas \\n  Q \xB4Lan\xE7ar o Especial"
+  delayBetweenTexts: 2
