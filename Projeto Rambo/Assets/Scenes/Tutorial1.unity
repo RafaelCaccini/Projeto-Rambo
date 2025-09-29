@@ -582,9 +582,30 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1944508334595781837, guid: a11fc1a758e52544f84b56968a202459, type: 3}
+      propertyPath: fullText
+      value: "Sentinela - \"Agente Rony?! Na esculta?\"\\n \\n  Rony - \"Na esculta
+        Sentinela.\"\\n \\n  Sentinela - \"\xD3timo, o relat\xF3rio da miss\xE3o
+        \xE9 o seguinte, algum bastardo inventou de tocar em uma caixa maldita que
+        estava escondida em algum lugar da Europa. Isso desencadeou eventos que n\xE3o
+        deviam acontecer. Sua miss\xE3o nesse momento \xE9 exterminar as criaturas
+        que foram despertadas na Alemanha. A caixa levantou os mortos da segunda
+        guerra mundial, voc\xEA ter\xE1 que lidar com soldados zumbis, tanques de
+        guerra e o comandante deles, ele n\xE3o morrer\xE1 com balas, voc\xEA precisar\xE1
+        usar um bombardeio de Esperan\xE7a. Te desejo uma boa sorte e mantenha a
+        esperan\xE7a!\"\\n \\n  Rony - \"Entendido Sentinela. Farei o meu melhor\"\\n
+        \\n  Sentinela - \"Agora vamos! saia do lugar antes que voc\xEA seja bombardeado!\"
+        \\n \\n...(Aguarde)"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944508334595781837, guid: a11fc1a758e52544f84b56968a202459, type: 3}
       propertyPath: textObject
       value: 
       objectReference: {fileID: 7161710430110673008}
+    - target: {fileID: 1944508334595781837, guid: a11fc1a758e52544f84b56968a202459, type: 3}
+      propertyPath: secondaryText
+      value: "Comandos:\\n   A - Andar para a esquerda \\n  D - Andar para a direita
+        \\n  W - Olha para cima \\n  S - Agachar \\n  Espa\xE7o - Pular \\n  E -
+        Disparar \\n  F - Lan\xE7ar Granadas \\n  Q - Bombardeio de Esperan\xE7a"
+      objectReference: {fileID: 0}
     - target: {fileID: 2253387934193648561, guid: a11fc1a758e52544f84b56968a202459, type: 3}
       propertyPath: m_Name
       value: DialogueManager
