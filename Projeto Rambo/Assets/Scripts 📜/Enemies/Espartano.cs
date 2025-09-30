@@ -8,50 +8,45 @@ public class Espartano : MonoBehaviour
     [Tooltip("Distância para o Espartano começar a andar em direção ao jogador.")]
     public float raioDeDeteccao = 5f;
     private Rigidbody2D rb;
-    private SpriteRenderer sp;
 
     [Header("Configurações de Virar")]
     [Tooltip("Tempo de atraso para o Espartano virar após o jogador passar para o outro lado.")]
     public float delayParaVirar = 0.5f;
     private bool estaViradoParaDireita = true;
+    public bool EstaViradoParaDireita { get { return estaViradoParaDireita; } }
     private float timerVirar;
+    [Tooltip("Arraste o objeto 'Visuals' filho do Espartano aqui.")]
+    public Transform visualsTransform;
 
     [Header("Ataque e Defesa")]
     [Tooltip("Distância que o Espartano precisa estar do jogador para atacar.")]
     public float distanciaDeAtaque = 0.8f;
     [Tooltip("Prefab do objeto de escudo que será gerado.")]
     public GameObject escudoPrefab;
-    [Tooltip("Prefab do objeto que causa dano.")]
-    public GameObject danoPrefab;
     [Tooltip("Distância que o escudo aparece à frente do Espartano.")]
-    public float distanciaEscudo = 0.5f; // NOVO: Distância para o escudo
+    public float distanciaEscudo = 0.5f;
     private Transform escudoInstanciado;
 
     [Header("Referências")]
     [Tooltip("Arraste e solte o objeto do jogador aqui.")]
     public Transform jogadorTransform;
 
+    //---------------------------------------------------------
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        sp = GetComponent<SpriteRenderer>();
-        // Bora criar o escudo do Espartano
         if (escudoPrefab != null)
         {
-            escudoInstanciado = Instantiate(escudoPrefab, transform).transform;
+            // O escudo agora é filho do objeto 'Visuals'
+            escudoInstanciado = Instantiate(escudoPrefab, visualsTransform).transform;
             escudoInstanciado.localPosition = new Vector3(0, 0, 0);
-        }
-        else
-        {
-            Debug.LogWarning("O prefab do escudo ta faltando, não tem defesa!");
         }
     }
 
     void Update()
     {
         if (jogadorTransform == null) return;
-
         Flipar();
     }
 
@@ -78,31 +73,16 @@ public class Espartano : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
         }
 
-        // AGORA USA A VARIÁVEL
         if (escudoInstanciado != null)
         {
             float direcaoX = (jogadorTransform.position.x - transform.position.x > 0) ? 1 : -1;
-            escudoInstanciado.localPosition = new Vector3(direcaoX * distanciaEscudo, 0, 0); 
+            escudoInstanciado.localPosition = new Vector3(direcaoX * distanciaEscudo, 0, 0);
         }
     }
 
-    // --- Colisão e Ataque ---
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void TomarDano(float dano)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (danoPrefab != null)
-            {
-                float direcaoInstanciar = (estaViradoParaDireita) ? 0.5f : -0.5f;
-                Vector3 spawnPosition = transform.position + new Vector3(direcaoInstanciar, 0, 0);
-
-                GameObject danoObjeto = Instantiate(danoPrefab, spawnPosition, Quaternion.identity);
-                danoObjeto.tag = "Danger";
-
-                Destroy(danoObjeto, 0.1f);
-            }
-        }
+        Debug.Log("Espartano tomou dano!");
     }
 
     // --- Lógica de Flipar ---
@@ -114,7 +94,8 @@ public class Espartano : MonoBehaviour
             timerVirar += Time.deltaTime;
             if (timerVirar >= delayParaVirar)
             {
-                sp.flipX = true;
+                // Agora vira a escala do objeto 'Visuals'
+                visualsTransform.localScale = new Vector3(-1, 1, 1);
                 estaViradoParaDireita = false;
                 timerVirar = 0;
             }
@@ -124,7 +105,8 @@ public class Espartano : MonoBehaviour
             timerVirar += Time.deltaTime;
             if (timerVirar >= delayParaVirar)
             {
-                sp.flipX = false;
+                // Vira a escala do objeto 'Visuals'
+                visualsTransform.localScale = new Vector3(1, 1, 1);
                 estaViradoParaDireita = true;
                 timerVirar = 0;
             }
