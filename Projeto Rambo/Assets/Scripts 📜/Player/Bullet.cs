@@ -19,42 +19,6 @@ public class Bullet : MonoBehaviour
             caixa.DestruirCaixa(); // faz a caixa gerar item e sumir
         }
 
-        // NOVO: Verifica se a colisão é com o Espartano
-        Espartano espartano = col.collider.GetComponent<Espartano>();
-        if (espartano != null)
-        {
-            // Se a gente bateu em um Espartano...
-            bool espartanoViradoParaDireita = espartano.EstaViradoParaDireita;
-            float direcaoDoTiro = transform.position.x - espartano.transform.position.x;
-
-            bool hitNasCostas = false;
-
-            // Vê se acertou nas costas
-            if (espartanoViradoParaDireita && direcaoDoTiro < 0)
-            {
-                hitNasCostas = true;
-            }
-            else if (!espartanoViradoParaDireita && direcaoDoTiro > 0)
-            {
-                hitNasCostas = true;
-            }
-
-            if (hitNasCostas)
-            {
-                // Spawna o objeto de dano pra ser detectado pelo script de vida do Espartano
-                if (danoPrefab != null)
-                {
-                    GameObject danoObjeto = Instantiate(danoPrefab, espartano.transform.position, Quaternion.identity);
-                    danoObjeto.tag = "Danger";
-                    Destroy(danoObjeto, 0.1f);
-                }
-            }
-            else
-            {
-                Debug.Log("O escudo bloqueou! O Espartano não tomou dano.");
-            }
-        }
-
         Destroy(gameObject); // destrói a bala sempre que colide
     }
 }

@@ -2,127 +2,134 @@ using UnityEngine;
 
 public class Espartano : MonoBehaviour
 {
-    [Header("Configurações de Movimento")]
-    [Tooltip("Velocidade do Espartano ao se mover.")]
-    public float velocidade = 2.5f;
-    [Tooltip("Distância para o Espartano começar a andar em direção ao jogador.")]
-    public float raioDeDeteccao = 5f;
-    private Rigidbody2D rb;
-
-    [Header("Configurações de Virar")]
-    [Tooltip("Tempo de atraso para o Espartano virar após o jogador passar para o outro lado.")]
-    public float delayParaVirar = 0.5f;
-    private bool estaViradoParaDireita = true;
-    public bool EstaViradoParaDireita { get { return estaViradoParaDireita; } }
-    private float timerVirar;
-    [Tooltip("Arraste o objeto 'Visuals' filho do Espartano aqui.")]
-    public Transform visualsTransform;
-
-    [Header("Ataque e Defesa")]
-    [Tooltip("Distância que o Espartano precisa estar do jogador para atacar.")]
-    public float distanciaDeAtaque = 0.8f;
-    [Tooltip("Prefab do objeto de escudo que será gerado.")]
-    public GameObject escudoPrefab;
-    [Tooltip("Distância que o escudo aparece à frente do Espartano.")]
-    public float distanciaEscudo = 0.5f;
-    private Transform escudoInstanciado;
-
     [Header("Referências")]
-    [Tooltip("Arraste e solte o objeto do jogador aqui.")]
-    public Transform jogadorTransform;
+    public Transform jogador;              // arrasta o Player
+    public GameObject escudoPrefab;        // objeto invisível (escudo)
+    public GameObject dangerPrefab;        // prefab com tag "Danger"
+    public Transform spawnEscudo;          // ponto de spawn na frente
+    public Transform spawnDanger;          // ponto de spawn do ataque
 
-    //---------------------------------------------------------
+    [Header("Movimento")]
+    public float velocidade = 2f;
+    public float distanciaAtaque = 1.5f;
+    public float tempoEntreAtaques = 1.2f; // cooldown entre ataques
+
+    [Header("Detecção")]
+    public float raioDeteccao = 6f; // alcance em que começa a perseguir
+    private bool jogadorNoAlcance = false;
+
+    [Header("Flip")]
+    public float tempoParaVirar = 0.5f; // delay ao virar
+    private bool olhandoDireita = true;
+    private float tempoUltimaTroca = 0f;
+
+    [Header("Escudo")]
+    private GameObject escudoAtual;
+
+    private Rigidbody2D rb;
+    private Animator anim;
+    private float tempoUltimoAtaque = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (escudoPrefab != null)
+        anim = GetComponent<Animator>();
+
+        // Spawna o escudo inicial
+        if (escudoPrefab != null && spawnEscudo != null)
         {
-            // O escudo agora é filho do objeto 'Visuals'
-            escudoInstanciado = Instantiate(escudoPrefab, visualsTransform).transform;
-            escudoInstanciado.localPosition = new Vector3(0, 0, 0);
+            escudoAtual = Instantiate(escudoPrefab, spawnEscudo.position, Quaternion.identity, transform);
         }
     }
 
     void Update()
     {
-        if (jogadorTransform == null) return;
-        Flipar();
-    }
+        if (jogador == null) return;
 
-    void FixedUpdate()
-    {
-        if (jogadorTransform == null) return;
+        // Checa se o player está dentro do raio de detecção
+        float distancia = Vector2.Distance(transform.position, jogador.position);
+        jogadorNoAlcance = distancia <= raioDeteccao;
 
-        float distanciaAoJogador = Vector2.Distance(transform.position, jogadorTransform.position);
-
-        if (distanciaAoJogador <= raioDeDeteccao)
+        if (!jogadorNoAlcance)
         {
-            if (distanciaAoJogador > distanciaDeAtaque)
-            {
-                Vector2 direcao = (jogadorTransform.position - transform.position).normalized;
-                rb.linearVelocity = new Vector2(direcao.x * velocidade, rb.linearVelocity.y);
-            }
-            else
-            {
-                rb.linearVelocity = Vector2.zero;
-            }
+            Parar();
+            anim?.SetBool("Andando", false);
+            return;
+        }
+
+        if (distancia > distanciaAtaque)
+        {
+            Mover();
+            //anim?.SetBool("Andando", true);
         }
         else
         {
-            rb.linearVelocity = Vector2.zero;
-        }
+            Parar();
+            //anim?.SetBool("Andando", false);
 
-        if (escudoInstanciado != null)
-        {
-            float direcaoX = (jogadorTransform.position.x - transform.position.x > 0) ? 1 : -1;
-            escudoInstanciado.localPosition = new Vector3(direcaoX * distanciaEscudo, 0, 0);
-        }
-    }
-
-    public void TomarDano(float dano)
-    {
-        Debug.Log("Espartano tomou dano!");
-    }
-
-    // --- Lógica de Flipar ---
-
-    private void Flipar()
-    {
-        if (estaViradoParaDireita && jogadorTransform.position.x < transform.position.x)
-        {
-            timerVirar += Time.deltaTime;
-            if (timerVirar >= delayParaVirar)
+            if (Time.time >= tempoUltimoAtaque + tempoEntreAtaques)
             {
-                // Agora vira a escala do objeto 'Visuals'
-                visualsTransform.localScale = new Vector3(-1, 1, 1);
-                estaViradoParaDireita = false;
-                timerVirar = 0;
+                Atacar();
+                tempoUltimoAtaque = Time.time;
             }
         }
-        else if (!estaViradoParaDireita && jogadorTransform.position.x > transform.position.x)
+
+        FlipDelay();
+    }
+
+    private void Mover()
+    {
+        Vector2 direcao = (jogador.position - transform.position).normalized;
+        rb.linearVelocity = new Vector2(direcao.x * velocidade, rb.linearVelocity.y);
+
+        // mantém escudo na frente
+        if (escudoAtual != null && spawnEscudo != null)
         {
-            timerVirar += Time.deltaTime;
-            if (timerVirar >= delayParaVirar)
-            {
-                // Vira a escala do objeto 'Visuals'
-                visualsTransform.localScale = new Vector3(1, 1, 1);
-                estaViradoParaDireita = true;
-                timerVirar = 0;
-            }
-        }
-        else
-        {
-            timerVirar = 0;
+            escudoAtual.transform.position = spawnEscudo.position;
         }
     }
 
-    private void OnDrawGizmosSelected()
+    private void Parar()
     {
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+    }
+
+    private void Atacar()
+    {
+        if (dangerPrefab != null && spawnDanger != null)
+        {
+            // cria a hitbox na frente
+            GameObject hitbox = Instantiate(dangerPrefab, spawnDanger.position, Quaternion.identity, transform);
+
+            // some rapidão (0.2s por exemplo)
+            Destroy(hitbox, 0.2f);
+        }
+    }
+
+
+    private void FlipDelay()
+    {
+        bool deveOlharDireita = jogador.position.x > transform.position.x;
+
+        if (deveOlharDireita != olhandoDireita && Time.time - tempoUltimaTroca > tempoParaVirar)
+        {
+            olhandoDireita = deveOlharDireita;
+            tempoUltimaTroca = Time.time;
+
+            Vector3 escala = transform.localScale;
+            escala.x *= -1; // inverte tudo, inclusive filhos
+            transform.localScale = escala;
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Gizmo do raio de detecção
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, raioDeteccao);
+
+        // Gizmo do alcance de ataque
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, distanciaDeAtaque);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, raioDeDeteccao);
+        Gizmos.DrawWireSphere(transform.position, distanciaAtaque);
     }
 }
