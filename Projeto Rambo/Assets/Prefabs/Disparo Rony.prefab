@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 5174712456505058540}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.0205, y: -2.1138, z: 0}
-  m_LocalScale: {x: 0.7893532, y: 0.81315297, z: 0.42548}
+  m_LocalPosition: {x: -5.0217, y: -2.1132, z: 0}
+  m_LocalScale: {x: 0.7850907, y: 0.806973, z: 0.42548}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -151,7 +151,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.000000059604645, y: 0.0014521629}
+  m_Offset: {x: -0.02217815, y: 0.0014521629}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -161,7 +161,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.5691589, y: 0.2071042}
+  m_Size: {x: 0.44453764, y: 0.2071042}
   m_EdgeRadius: 0
 --- !u!114 &7211784935084861597
 MonoBehaviour:
@@ -176,3 +176,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 7
+  danoPrefab: {fileID: 0}
