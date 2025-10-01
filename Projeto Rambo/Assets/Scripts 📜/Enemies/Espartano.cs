@@ -53,7 +53,7 @@ public class Espartano : MonoBehaviour
         if (!jogadorNoAlcance)
         {
             Parar();
-            anim?.SetBool("Andando", false);
+            //anim?.SetBool("Andando", false);
             return;
         }
 
