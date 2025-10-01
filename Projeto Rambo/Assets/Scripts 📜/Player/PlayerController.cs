@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     public GameObject prefabTiro;
     public float velocidadeTiro = 10f;
     public Transform pontoDisparo;
+    public Transform disparoPonta; // <--- referência para o DisparoPonta
+    private Vector3 posicaoRelativaDisparoPonta; // posição relativa ao cuboSuperior
 
     [Header("Granada")]
     public GameObject prefabGranada;
@@ -73,6 +75,10 @@ public class PlayerController : MonoBehaviour
         // Calcula posições do cubo superior para agachar
         posicaoOriginalCuboSuperior = cuboSuperior.localPosition;
         posicaoAgachadoCuboSuperior = posicaoOriginalCuboSuperior - new Vector3(0f, 0.2f, 0f);
+
+        // Calcula posição relativa do DisparoPonta ao cuboSuperior
+        if (disparoPonta != null)
+            posicaoRelativaDisparoPonta = disparoPonta.localPosition - cuboSuperior.localPosition;
     }
 
     void Update()
@@ -153,6 +159,10 @@ public class PlayerController : MonoBehaviour
             estaAgachado = false;
             cuboSuperior.localPosition = posicaoOriginalCuboSuperior;
         }
+
+        // Atualiza posição do DisparoPonta para seguir o cuboSuperior
+        if (disparoPonta != null)
+            disparoPonta.localPosition = cuboSuperior.localPosition + posicaoRelativaDisparoPonta;
     }
 
     void Pular()
