@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 926f91af2d59e27489a2c5a650efe41d
+guid: a8e69285bf51166469b8059621b7b029
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 99457956374149716
-    second: CorvoIdle1_0
+      213: -7432146144176773787
+    second: CorvoGrito6_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CorvoIdle1_0
+      name: CorvoGrito6_0
       rect:
         serializedVersion: 2
-        x: 4
+        x: 0
         y: 0
-        width: 40
-        height: 43
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 45a74cffb78516100800000000000000
-      internalID: 99457956374149716
+      spriteID: 565ed858576bbd890800000000000000
+      internalID: -7432146144176773787
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 015cef6bf36489b499acdc321f22b27c
     internalID: 0
     vertices: []
     indices: 
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      CorvoGrito6_0: -7432146144176773787
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -2,52 +2,46 @@ using UnityEngine;
 
 public class BossCorvo : MonoBehaviour
 {
-    private LifeScript lifeScript;   // controla a vida do chefe
-    private Animator animator;       // controla as animações dele
+    private LifeScript lifeScript;
+    private Animator animator;
 
-    // controla quando o chefe muda para a segunda fase
     private bool fase2Ativada = false;
+    private bool executandoTransicaoFase2 = false; // trava enquanto roda a animação
     private float vidaMetade;
 
-    // pontos que o chefe vai andar de um lado pro outro
     public Transform pontoA;
     public Transform pontoB;
     public float velocidadeFase1 = 3f;
-    public float velocidadeFase2 = 6f; // mais rápido na fase 2
+    public float velocidadeFase2 = 6f;
     private float velocidadeAtual;
     private Transform alvoAtual;
 
-    // configurações de ataque do chefe
-    public Transform firePoint;           // lugar onde o tiro nasce
-    public GameObject projetilPrefab;     // o tiro em si
-    public float detectionRange = 10f;    // distância que ele "vê" o jogador
+    public Transform firePoint;
+    public GameObject projetilPrefab;
+    public float detectionRange = 10f;
     public float fireCooldownFase1 = 2.5f;
-    public float fireCooldownFase2 = 0.8f; // atira mais rápido na fase 2
+    public float fireCooldownFase2 = 0.8f;
     public float velocidadeProjetilFase1 = 10f;
     public float velocidadeProjetilFase2 = 6f;
     private float fireCooldownAtual;
 
-    Transform player;    // referência pro jogador
+    Transform player;
     float fireTimer = 0f;
 
-    private Vector3 escalaOriginal;  // guarda a escala original pra virar o chefe
+    private Vector3 escalaOriginal;
 
     void Start()
     {
-        // pega os componentes de vida e animação do chefe
         lifeScript = GetComponent<LifeScript>();
         animator = GetComponent<Animator>();
 
-        // procura o jogador na cena
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if (playerObject != null)
             player = playerObject.transform;
 
-        // calcula qual é a metade da vida total
         if (lifeScript != null)
             vidaMetade = lifeScript.vidaMaxima / 2f;
 
-        // define ponto inicial da patrulha e velocidade inicial
         alvoAtual = pontoB;
         escalaOriginal = transform.localScale;
         velocidadeAtual = velocidadeFase1;
@@ -58,11 +52,12 @@ public class BossCorvo : MonoBehaviour
     {
         if (player == null) return;
 
-        VerificarFase(); // checa se precisa mudar pra fase 2
+        VerificarFase();
+
+        if (executandoTransicaoFase2) return; // trava tudo durante animação de transição
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        // se o jogador estiver perto, ele persegue e ataca
         if (distanceToPlayer <= detectionRange)
         {
             Patrulhar();
@@ -71,61 +66,86 @@ public class BossCorvo : MonoBehaviour
         }
         else
         {
-            // se não estiver perto, só patrulha
             Patrulhar();
         }
     }
 
     void VerificarFase()
     {
-        // muda pra fase 2 quando a vida estiver pela metade
         if (!fase2Ativada && lifeScript != null && lifeScript.vidaAtual <= vidaMetade)
         {
             fase2Ativada = true;
-            velocidadeAtual = velocidadeFase2;
-            fireCooldownAtual = fireCooldownFase2;
-            Debug.Log("Boss Corvo entrou na FASE 2: Mais rápido, mais disparos, projéteis lentos!");
+            executandoTransicaoFase2 = true;
+
+            // trava movimento e desliga LifeScript
+            velocidadeAtual = 0f;
+            if (lifeScript != null)
+                lifeScript.enabled = false;
+
+            // dispara animação da fase 2
+            animator.SetTrigger("Fase2");
         }
+    }
+
+    // chamado via Animation Event no final da animação "Fase2"
+    public void FinalizarTransicaoFase2()
+    {
+        executandoTransicaoFase2 = false;
+
+        // libera movimento e aumenta velocidade
+        velocidadeAtual = velocidadeFase2;
+        fireCooldownAtual = fireCooldownFase2;
+
+        if (lifeScript != null)
+            lifeScript.enabled = true;
     }
 
     void Patrulhar()
     {
-        // movimenta o chefe entre os pontos A e B
         transform.position = Vector2.MoveTowards(transform.position, alvoAtual.position, velocidadeAtual * Time.deltaTime);
 
-        // troca o alvo quando chega perto
         if (Vector2.Distance(transform.position, alvoAtual.position) < 0.2f)
             alvoAtual = (alvoAtual == pontoA) ? pontoB : pontoA;
     }
 
     void VirarParaPlayer()
     {
-        // faz o chefe "virar" pro lado do jogador
-        Vector3 escala = escalaOriginal;
+        if (executandoTransicaoFase2) return;
+
         bool olhandoDireita = player.position.x > transform.position.x;
-        escala.x = olhandoDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
-        transform.localScale = escala;
+
+        // aqui ajustamos porque o sprite ORIGINAL olha pra ESQUERDA
+        if (olhandoDireita)
+        {
+            // se o player está à direita → invertemos a escala
+            transform.localScale = new Vector3(-Mathf.Abs(escalaOriginal.x), escalaOriginal.y, escalaOriginal.z);
+        }
+        else
+        {
+            // se o player está à esquerda → mantemos a escala original
+            transform.localScale = new Vector3(Mathf.Abs(escalaOriginal.x), escalaOriginal.y, escalaOriginal.z);
+        }
     }
+
+
 
     void Atacar()
     {
         fireTimer += Time.deltaTime;
 
-        // dispara quando o tempo de recarga acabar
         if (fireTimer >= fireCooldownAtual)
         {
             fireTimer = 0f;
+            animator.SetTrigger("Atacando"); // animação de ataque
 
             if (fase2Ativada)
             {
-                // na fase 2 atira 3 projéteis com ângulos diferentes
                 DispararProjetil(velocidadeProjetilFase2);
                 DispararProjetil(velocidadeProjetilFase2, -15f);
                 DispararProjetil(velocidadeProjetilFase2, 15f);
             }
             else
             {
-                // na fase 1 atira só 1 projétil
                 DispararProjetil(velocidadeProjetilFase1);
             }
         }
@@ -135,15 +155,12 @@ public class BossCorvo : MonoBehaviour
     {
         if (firePoint == null || projetilPrefab == null) return;
 
-        // calcula a direção do tiro em direção ao jogador
         Vector2 direcao = (player.position - firePoint.position).normalized;
         Quaternion rotacao = Quaternion.LookRotation(Vector3.forward, direcao);
 
-        // aplica o ângulo de desvio se tiver
         rotacao *= Quaternion.Euler(0, 0, anguloDesvio);
         direcao = rotacao * Vector2.up;
 
-        // cria o projétil e aplica a velocidade
         GameObject projetil = Instantiate(projetilPrefab, firePoint.position, rotacao);
         Rigidbody2D rb = projetil.GetComponent<Rigidbody2D>();
         if (rb != null)
@@ -152,7 +169,6 @@ public class BossCorvo : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        // desenha no editor o caminho da patrulha e o alcance de detecção
         Gizmos.color = Color.yellow;
         if (pontoA != null && pontoB != null)
             Gizmos.DrawLine(pontoA.position, pontoB.position);
