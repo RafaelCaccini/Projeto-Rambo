@@ -21099,6 +21099,14 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -702192909
       objectReference: {fileID: 0}
+    - target: {fileID: 5632410232621791123, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
+      propertyPath: parallaxFactor
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5715964918897156195, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
+      propertyPath: parallaxFactor
+      value: -0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6279469961375110912, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_Name
       value: Parallax
