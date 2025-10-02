@@ -33,8 +33,8 @@ public class PlayerController : MonoBehaviour
     public GameObject prefabTiro;
     public float velocidadeTiro = 10f;
     public Transform pontoDisparo;
-    public Transform disparoPonta; // <--- referência para o DisparoPonta
-    private Vector3 posicaoRelativaDisparoPonta; // posição relativa ao cuboSuperior
+    public Transform disparoPonta;
+    private Vector3 posicaoRelativaDisparoPonta;
 
     [Header("Granada")]
     public GameObject prefabGranada;
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 posicaoAgachadoCuboSuperior;
     private int contatoComChao = 0;
 
-    // Hashes de animação para otimizar
+    // Hashes de animação
     private int movendoHash = Animator.StringToHash("Movendo");
     private int saltandoHash = Animator.StringToHash("Saltando");
     private int movendoCimaHash = Animator.StringToHash("MovendoCima");
@@ -124,12 +124,12 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = new Vector2(moveX * velocidade, rb.linearVelocity.y);
 
-        // Ajusta escala do sprite para olhar para o lado certo
+        // Ajusta escala do sprite
         Vector3 escala = transform.localScale;
         escala.x = olhandoParaDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
         transform.localScale = escala;
 
-        // Atualiza animações de movimento
+        // Atualiza animações
         if (moveX != 0)
         {
             animatorPerna.SetBool(andandoAgachadoHash, estaAgachado);
@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
             cuboSuperior.localPosition = posicaoOriginalCuboSuperior;
         }
 
-        // Atualiza posição do DisparoPonta para seguir o cuboSuperior
+        // Atualiza posição do DisparoPonta
         if (disparoPonta != null)
             disparoPonta.localPosition = cuboSuperior.localPosition + posicaoRelativaDisparoPonta;
     }
@@ -206,11 +206,19 @@ public class PlayerController : MonoBehaviour
 
     void LancarGranada()
     {
+        // só verifica cooldown e granadas
         if (Time.time < proximoLancamentoGranada || granadasRestantes <= 0) return;
 
         granadasRestantes--;
         proximoLancamentoGranada = Time.time + cooldownGranada;
 
+        // apenas toca a animação do corpo
+        animatorCorpo.SetTrigger(granadaHash);
+    }
+
+    // este método será chamado via Animation Event
+    public void SpawnGranada()
+    {
         if (prefabGranada == null || pontoDisparo == null) return;
 
         GameObject granada = Instantiate(prefabGranada, pontoDisparo.position, Quaternion.identity);

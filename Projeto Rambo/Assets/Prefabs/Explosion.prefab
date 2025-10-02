@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1185035082079086857}
   - component: {fileID: 1488218837960381025}
   - component: {fileID: 7209886473560869182}
+  - component: {fileID: 8972643035784139687}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Danger4
@@ -116,7 +117,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!58 &1488218837960381025
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -175,3 +176,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8972643035784139687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5168734825008711887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82aa0c28e438b5c49909eb1b90bfda62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

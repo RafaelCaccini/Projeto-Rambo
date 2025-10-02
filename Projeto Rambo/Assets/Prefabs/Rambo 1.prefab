@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 8586903207495210560}
   - component: {fileID: 5005054135561044832}
   - component: {fileID: 5101184610952862447}
+  - component: {fileID: 1692355809151250549}
   m_Layer: 6
   m_Name: Cima
   m_TagString: Untagged
@@ -201,6 +202,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1692355809151250549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802151550245900919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbdaef556fb18124a9ed3a14fb5b44bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1591551283980546739
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,7 +311,7 @@ MonoBehaviour:
   pontoDisparo: {fileID: 4593726938786988388}
   disparoPonta: {fileID: 4593726938786988388}
   prefabGranada: {fileID: 7836771694518431761, guid: 81f081c96f9fd3e4abf3d4b81af2e59b, type: 3}
-  forcaLancamentoGranada: 8
+  forcaLancamentoGranada: 6
   cooldownGranada: 2
   granadasRestantes: 3
   especial: 0
@@ -628,7 +641,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.2587089, y: -0.9980779}
+  m_Offset: {x: -0.2587089, y: -0.9851278}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -638,5 +651,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.47027746, y: 0.23251545}
+  m_Size: {x: 0.47027743, y: 0.20661521}
   m_EdgeRadius: 0
