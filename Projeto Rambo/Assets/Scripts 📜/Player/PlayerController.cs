@@ -46,6 +46,10 @@ public class PlayerController : MonoBehaviour
     [Header("Especial")]
     public bool especial = false;
     public float raioDoEspecial = 5f;
+    public EspecialScript especialObj; // arrasta o objeto especial aqui
+
+
+
 
     private Rigidbody2D rb;
     private bool estaAgachado = false;
@@ -79,6 +83,7 @@ public class PlayerController : MonoBehaviour
         // Calcula posição relativa do DisparoPonta ao cuboSuperior
         if (disparoPonta != null)
             posicaoRelativaDisparoPonta = disparoPonta.localPosition - cuboSuperior.localPosition;
+
     }
 
     void Update()
@@ -99,10 +104,12 @@ public class PlayerController : MonoBehaviour
         {
             LancarEspecial(transform.position, raioDoEspecial);
             especial = false;
+
+            // pede para o objeto especial ativar a animação/visibilidade
+            if (especialObj != null)
+                especialObj.AtivarEspecial();
         }
 
-        if (lifeScript != null && lifeScript.GetVidaAtual() <= 0)
-            SceneManager.LoadScene("Morte");
     }
 
     #region Movimentação
@@ -291,6 +298,7 @@ public class PlayerController : MonoBehaviour
     {
         animatorCorpo.SetBool(olhandoCimaHash, Keyboard.current.wKey.isPressed);
         animatorCorpo.SetBool(atirandoHash, Keyboard.current.oKey.wasPressedThisFrame);
-        animatorCorpo.SetBool(atirandoCimaHash, Keyboard.current.eKey.isPressed && Keyboard.current.wKey.isPressed);
+        animatorCorpo.SetBool(atirandoCimaHash, Keyboard.current.oKey.isPressed && Keyboard.current.wKey.isPressed);
     }
+
 }
