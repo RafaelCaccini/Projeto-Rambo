@@ -12714,6 +12714,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[1].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[2].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[3].chance
+      value: 33
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12790,6 +12806,22 @@ PrefabInstance:
     - target: {fileID: 5238552317659960880, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[1].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[2].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[3].chance
+      value: 33
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12997,6 +13029,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[1].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[2].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[3].chance
+      value: 33
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13073,6 +13121,22 @@ PrefabInstance:
     - target: {fileID: 5238552317659960880, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[1].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[2].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[3].chance
+      value: 33
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13363,6 +13427,22 @@ PrefabInstance:
     - target: {fileID: 5238552317659960880, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[1].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[2].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[3].chance
+      value: 33
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13815,6 +13895,22 @@ PrefabInstance:
     - target: {fileID: 5238552317659960880, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[1].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[2].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[3].chance
+      value: 33
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15073,6 +15169,22 @@ PrefabInstance:
     - target: {fileID: 5238552317659960880, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[1].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[2].chance
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964554836850829221, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
+      propertyPath: itensPossiveis.Array.data[3].chance
+      value: 33
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
