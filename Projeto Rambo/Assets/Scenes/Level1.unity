@@ -20622,6 +20622,10 @@ PrefabInstance:
       propertyPath: danoDanger
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1091008102921393872, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: especialObj
+      value: 
+      objectReference: {fileID: 1054236155}
     - target: {fileID: 1591551283980546739, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_Name
       value: Rambo

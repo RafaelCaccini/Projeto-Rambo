@@ -11478,6 +11478,7 @@ MonoBehaviour:
   chanceDeDrop: 3
   carregarCenaAoMorrer: 1
   nomeCenaMorte: Menu
+  especialObj: {fileID: 0}
 --- !u!114 &483827501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12211,6 +12212,7 @@ MonoBehaviour:
   chanceDeDrop: 3
   carregarCenaAoMorrer: 0
   nomeCenaMorte: 
+  especialObj: {fileID: 0}
 --- !u!50 &762627714
 Rigidbody2D:
   serializedVersion: 5
@@ -12950,6 +12952,7 @@ MonoBehaviour:
   chanceDeDrop: 3
   carregarCenaAoMorrer: 0
   nomeCenaMorte: 
+  especialObj: {fileID: 0}
 --- !u!50 &1096331819
 Rigidbody2D:
   serializedVersion: 5
@@ -13503,6 +13506,7 @@ MonoBehaviour:
   chanceDeDrop: 3
   carregarCenaAoMorrer: 0
   nomeCenaMorte: 
+  especialObj: {fileID: 0}
 --- !u!50 &1149650677
 Rigidbody2D:
   serializedVersion: 5
@@ -14049,6 +14053,7 @@ MonoBehaviour:
   chanceDeDrop: 3
   carregarCenaAoMorrer: 0
   nomeCenaMorte: 
+  especialObj: {fileID: 0}
 --- !u!50 &1466629989
 Rigidbody2D:
   serializedVersion: 5
@@ -16044,6 +16049,7 @@ MonoBehaviour:
   chanceDeDrop: 3
   carregarCenaAoMorrer: 0
   nomeCenaMorte: 
+  especialObj: {fileID: 0}
 --- !u!50 &1752076595
 Rigidbody2D:
   serializedVersion: 5
@@ -16397,6 +16403,10 @@ PrefabInstance:
       propertyPath: danoDanger
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1091008102921393872, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: especialObj
+      value: 
+      objectReference: {fileID: 2111167430}
     - target: {fileID: 1591551283980546739, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_Name
       value: Rambo 1
@@ -16698,6 +16708,7 @@ MonoBehaviour:
   chanceDeDrop: 3
   carregarCenaAoMorrer: 0
   nomeCenaMorte: 
+  especialObj: {fileID: 0}
 --- !u!50 &1968244361
 Rigidbody2D:
   serializedVersion: 5
@@ -16882,6 +16893,7 @@ MonoBehaviour:
   chanceDeDrop: 3
   carregarCenaAoMorrer: 0
   nomeCenaMorte: 
+  especialObj: {fileID: 0}
 --- !u!50 &1997072865
 Rigidbody2D:
   serializedVersion: 5

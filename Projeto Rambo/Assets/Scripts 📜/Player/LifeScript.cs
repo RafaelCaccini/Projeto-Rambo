@@ -28,6 +28,9 @@ public class LifeScript : MonoBehaviour
     public bool carregarCenaAoMorrer = false; // se true, carrega cena ao morrer
     public string nomeCenaMorte; // nome da cena a carregar
 
+    [Header("Referências")]
+    public EspecialScript especialObj; // referência ao objeto especial
+
     private SpriteRenderer[] renderers; // pra piscar
     private Color[] coresOriginais;     // guarda as cores originais
 
@@ -71,14 +74,25 @@ public class LifeScript : MonoBehaviour
 
     IEnumerator PiscarVermelho()
     {
-        // muda cor pra vermelho
-        foreach (var r in renderers) r.color = corDano;
+        foreach (var r in renderers)
+        {
+            // ignora o objeto especial
+            if (especialObj != null && r.gameObject == especialObj.gameObject)
+                continue;
+
+            r.color = corDano;
+        }
 
         yield return new WaitForSeconds(tempoPiscar);
 
-        // volta à cor original
         for (int i = 0; i < renderers.Length; i++)
+        {
+            // ignora o objeto especial ao restaurar a cor
+            if (especialObj != null && renderers[i].gameObject == especialObj.gameObject)
+                continue;
+
             renderers[i].color = coresOriginais[i];
+        }
     }
 
     void Morrer()
