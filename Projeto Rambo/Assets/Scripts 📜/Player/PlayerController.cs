@@ -89,13 +89,13 @@ public class PlayerController : MonoBehaviour
 
         AtualizarAnimacoes();
 
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        if (Keyboard.current.oKey.wasPressedThisFrame)
             Atirar();
 
-        if (Keyboard.current.fKey.wasPressedThisFrame)
+        if (Keyboard.current.qKey.wasPressedThisFrame)
             LancarGranada();
 
-        if (Keyboard.current.qKey.wasPressedThisFrame && especial)
+        if (Keyboard.current.fKey.wasPressedThisFrame && especial)
         {
             LancarEspecial(transform.position, raioDoEspecial);
             especial = false;
@@ -290,7 +290,7 @@ public class PlayerController : MonoBehaviour
     void AtualizarAnimacoes()
     {
         animatorCorpo.SetBool(olhandoCimaHash, Keyboard.current.wKey.isPressed);
-        animatorCorpo.SetBool(atirandoHash, Keyboard.current.eKey.wasPressedThisFrame);
+        animatorCorpo.SetBool(atirandoHash, Keyboard.current.oKey.wasPressedThisFrame);
         animatorCorpo.SetBool(atirandoCimaHash, Keyboard.current.eKey.isPressed && Keyboard.current.wKey.isPressed);
     }
 }

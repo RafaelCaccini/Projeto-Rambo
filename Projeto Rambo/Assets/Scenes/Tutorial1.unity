@@ -698,8 +698,8 @@ PrefabInstance:
     - target: {fileID: 1944508334595781837, guid: a11fc1a758e52544f84b56968a202459, type: 3}
       propertyPath: secondaryText
       value: "Comandos:\\n  A - Andar para a esquerda \\n  D - Andar para a direita
-        \\n  W - Olha para cima \\n  S - Agachar \\n  Espa\xE7o - Pular \\n  E -
-        Disparar \\n  F - Lan\xE7ar Granadas \\n  Q - Bombardeio de Esperan\xE7a"
+        \\n  W - Olha para cima \\n  S - Agachar \\n  Espa\xE7o - Pular \\n  O -
+        Disparar \\n  Q - Lan\xE7ar Granadas \\n  F - Bombardeio de Esperan\xE7a"
       objectReference: {fileID: 0}
     - target: {fileID: 2253387934193648561, guid: a11fc1a758e52544f84b56968a202459, type: 3}
       propertyPath: m_Name
