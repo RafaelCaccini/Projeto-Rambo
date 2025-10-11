@@ -1,12 +1,12 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement; // pra trocar de cena
+using UnityEngine.SceneManagement; // NÃO usamos para carregar a cena do Player aqui (Animation Event fará isso)
 
 public class LifeScript : MonoBehaviour
 {
-    [Header("Configura��o de Vida")]
-    public int vidaMaxima = 100; // vida m�xima ajust�vel
-    [SerializeField] public int vidaAtual; // vida atual vis�vel no inspector
+    [Header("Configuração de Vida")]
+    public int vidaMaxima = 100; // vida máxima ajustável
+    [SerializeField] public int vidaAtual; // vida atual visível no inspector
 
     [Header("Dano por Tag")]
     public int danoDanger = 10;
@@ -25,14 +25,23 @@ public class LifeScript : MonoBehaviour
     public float chanceDeDrop = 3f; // porcentagem de drop
 
     [Header("Carregar Cena ao Morrer")]
-    public bool carregarCenaAoMorrer = false; // se true, carrega cena ao morrer
-    public string nomeCenaMorte; // nome da cena a carregar
+    // OBS: para o Player, a cena deve ser carregada via Animation Event (no torso). 
+    // Este campo é mantido para compatibilidade com outros usos.
+    public bool carregarCenaAoMorrer = false;
+    public string nomeCenaMorte;
 
-    [Header("Refer�ncias")]
-    public EspecialScript especialObj; // refer�ncia ao objeto especial
+    [Header("Referências")]
+    public EspecialScript especialObj; // referência ao objeto especial (se existir)
+    public Animator animadorCima; // Animator da parte de cima — arraste no inspector (usado para trigger "Morrendo")
 
     private SpriteRenderer[] renderers; // pra piscar
     private Color[] coresOriginais;     // guarda as cores originais
+
+    private bool morto = false;
+
+    // Evento opcional caso outros scripts queiram reagir ao morrer
+    public delegate void MorteDelegate();
+    public event MorteDelegate OnMorte;
 
     void Start()
     {
@@ -48,6 +57,8 @@ public class LifeScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (morto) return;
+
         int dano = 0;
 
         // define o dano baseado na tag
@@ -64,19 +75,25 @@ public class LifeScript : MonoBehaviour
 
     public void TomarDano(int dano)
     {
-        if (ignorarDano) return;
+        if (ignorarDano || morto) return;
 
         vidaAtual -= dano;
         StartCoroutine(PiscarVermelho());
 
-        if (vidaAtual <= 0) Morrer();
+        if (vidaAtual <= 0)
+        {
+            vidaAtual = 0;
+            Morrer();
+        }
     }
 
     IEnumerator PiscarVermelho()
     {
+        if (renderers == null) yield break;
+
         foreach (var r in renderers)
         {
-            // ignora o objeto especial
+            // ignora o objeto especial (se quiser que ele não pisque)
             if (especialObj != null && r.gameObject == especialObj.gameObject)
                 continue;
 
@@ -87,7 +104,6 @@ public class LifeScript : MonoBehaviour
 
         for (int i = 0; i < renderers.Length; i++)
         {
-            // ignora o objeto especial ao restaurar a cor
             if (especialObj != null && renderers[i].gameObject == especialObj.gameObject)
                 continue;
 
@@ -95,37 +111,93 @@ public class LifeScript : MonoBehaviour
         }
     }
 
+    // Lógica central de morte (Player vs outros)
     void Morrer()
     {
-        if (carregarCenaAoMorrer && !string.IsNullOrEmpty(nomeCenaMorte))
-        {
-            SceneManager.LoadScene(nomeCenaMorte);
-            return;
-        }
+        if (morto) return;
+        morto = true;
+        OnMorte?.Invoke();
 
         if (CompareTag("Player"))
         {
-            // player morre, vai pra cena de morte
-            SceneManager.LoadScene("Morte");
+            // Dispara trigger de morte no animator de cima
+            if (animadorCima != null)
+                animadorCima.SetTrigger("Morrendo");
+
+            // Deixa parte de baixo (pernas) totalmente invisível
+            var player = GetComponent<PlayerController>();
+            if (player != null && player.animatorPerna != null)
+            {
+                var renderers = player.animatorPerna.GetComponentsInChildren<SpriteRenderer>();
+                foreach (var r in renderers)
+                {
+                    Color c = r.color;
+                    c.a = 0f; // invisível total
+                    r.color = c;
+                }
+            }
+
+            // Desativa física e movimento
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.simulated = false;
+            }
+
+            return; // cena será carregada pelo Animation Event
         }
-        else if (CompareTag("Enemy"))
+
+        if (CompareTag("Enemy"))
         {
-            // inimigo morre, tenta dropar item
             TentarDroparItem();
             Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+
+        Destroy(gameObject);
     }
 
-    // retorna a vida atual pra outros scripts
+
+    // Força morte programaticamente (útil para debug/cheats)
+    public void ForcarMorte()
+    {
+        if (morto) return;
+        vidaAtual = 0;
+        Morrer();
+    }
+
+    // Retorna a vida atual pra outros scripts
     public int GetVidaAtual() => vidaAtual;
 
+    // Reativa o recebimento de dano
     public void DesativarEscudo() => ignorarDano = false;
 
-    // checa se dropa algum item
+    // ===================== Dano por tempo (DOT) =====================
+    // Inicia dano por tempo: danoPorTick em intervalos, por duracaoTotal segundos.
+    public void IniciarDanoPorTempo(int danoPorTick, float duracaoTotal, float intervalo)
+    {
+        if (morto) return;
+        StartCoroutine(AplicarDanoPorTempo(danoPorTick, duracaoTotal, intervalo));
+    }
+
+    private IEnumerator AplicarDanoPorTempo(int danoPorTick, float duracaoTotal, float intervalo)
+    {
+        float tempoDecorrido = 0f;
+
+        while (tempoDecorrido < duracaoTotal && !morto)
+        {
+            TomarDano(danoPorTick);
+            // Debug.Log($"Dano por tempo: -{danoPorTick}. Restante: {duracaoTotal - tempoDecorrido}s");
+
+            yield return new WaitForSeconds(intervalo);
+            tempoDecorrido += intervalo;
+        }
+
+        // Debug.Log("Dano por tempo finalizado.");
+    }
+
+
     public void TentarDroparItem()
     {
         float numeroAleatorio = Random.Range(0f, 100f);
@@ -135,35 +207,16 @@ public class LifeScript : MonoBehaviour
             if (itemParaDropar != null)
             {
                 Instantiate(itemParaDropar, transform.position, Quaternion.identity);
-                Debug.Log("Item dropado!");
+                // Debug.Log("Item dropado!");
             }
-            else Debug.LogWarning("Item de drop n�o definido!");
+            else
+            {
+                Debug.LogWarning("Item de drop não definido!");
+            }
         }
         else
         {
-            Debug.Log($"Nada dropado. Chance era {chanceDeDrop}%.");
+            // Debug.Log($"Nada dropado. Chance era {chanceDeDrop}%.");
         }
-    }
-
-    // aplica dano ao longo do tempo
-    public void IniciarDanoPorTempo(int danoPorTick, float duracaoTotal, float intervalo)
-    {
-        StartCoroutine(AplicarDanoPorTempo(danoPorTick, duracaoTotal, intervalo));
-    }
-
-    IEnumerator AplicarDanoPorTempo(int danoPorTick, float duracaoTotal, float intervalo)
-    {
-        float tempoDecorrido = 0f;
-
-        while (tempoDecorrido < duracaoTotal)
-        {
-            TomarDano(danoPorTick);
-            Debug.Log($"Dano por tempo: -{danoPorTick}. Restante: {duracaoTotal - tempoDecorrido}s");
-
-            yield return new WaitForSeconds(intervalo);
-            tempoDecorrido += intervalo;
-        }
-
-        Debug.Log("Dano por tempo finalizado.");
     }
 }

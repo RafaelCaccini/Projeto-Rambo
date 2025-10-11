@@ -46,15 +46,13 @@ public class PlayerController : MonoBehaviour
     [Header("Especial")]
     public bool especial = false;
     public float raioDoEspecial = 5f;
-    public EspecialScript especialObj; // arrasta o objeto especial aqui
-
-
-
+    public EspecialScript especialObj;
 
     private Rigidbody2D rb;
     private bool estaAgachado = false;
     private bool podePular = false;
     private bool olhandoParaDireita = true;
+    private bool morto = false;
 
     private Vector3 posicaoOriginalCuboSuperior;
     private Vector3 posicaoAgachadoCuboSuperior;
@@ -70,28 +68,27 @@ public class PlayerController : MonoBehaviour
     private int granadaHash = Animator.StringToHash("Granada");
     private int agacharHash = Animator.StringToHash("Agachado");
     private int andandoAgachadoHash = Animator.StringToHash("AndandoAgachado");
+    private int morrendoHash = Animator.StringToHash("Morrendo");
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         lifeScript = GetComponent<LifeScript>();
 
-        // Calcula posições do cubo superior para agachar
         posicaoOriginalCuboSuperior = cuboSuperior.localPosition;
         posicaoAgachadoCuboSuperior = posicaoOriginalCuboSuperior - new Vector3(0f, 0.2f, 0f);
 
-        // Calcula posição relativa do DisparoPonta ao cuboSuperior
         if (disparoPonta != null)
             posicaoRelativaDisparoPonta = disparoPonta.localPosition - cuboSuperior.localPosition;
-
     }
 
     void Update()
     {
+        if (morto) return;
+
         Mover();
         Agachar();
         Pular();
-
         AtualizarAnimacoes();
 
         if (Keyboard.current.oKey.wasPressedThisFrame)
@@ -105,11 +102,15 @@ public class PlayerController : MonoBehaviour
             LancarEspecial(transform.position, raioDoEspecial);
             especial = false;
 
-            // pede para o objeto especial ativar a animação/visibilidade
             if (especialObj != null)
                 especialObj.AtivarEspecial();
         }
 
+        // Detecta morte do player (vida chegou a zero)
+        if (lifeScript != null && lifeScript.GetVidaAtual() <= 0 && !morto)
+        {
+            OnPlayerMorreu();
+        }
     }
 
     #region Movimentação
@@ -131,12 +132,10 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = new Vector2(moveX * velocidade, rb.linearVelocity.y);
 
-        // Ajusta escala do sprite
         Vector3 escala = transform.localScale;
         escala.x = olhandoParaDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
         transform.localScale = escala;
 
-        // Atualiza animações
         if (moveX != 0)
         {
             animatorPerna.SetBool(andandoAgachadoHash, estaAgachado);
@@ -167,7 +166,6 @@ public class PlayerController : MonoBehaviour
             cuboSuperior.localPosition = posicaoOriginalCuboSuperior;
         }
 
-        // Atualiza posição do DisparoPonta
         if (disparoPonta != null)
             disparoPonta.localPosition = cuboSuperior.localPosition + posicaoRelativaDisparoPonta;
     }
@@ -213,17 +211,13 @@ public class PlayerController : MonoBehaviour
 
     void LancarGranada()
     {
-        // só verifica cooldown e granadas
         if (Time.time < proximoLancamentoGranada || granadasRestantes <= 0) return;
 
         granadasRestantes--;
         proximoLancamentoGranada = Time.time + cooldownGranada;
-
-        // apenas toca a animação do corpo
         animatorCorpo.SetTrigger(granadaHash);
     }
 
-    // este método será chamado via Animation Event
     public void SpawnGranada()
     {
         if (prefabGranada == null || pontoDisparo == null) return;
@@ -251,7 +245,7 @@ public class PlayerController : MonoBehaviour
                     boss.ReceberDanoEspecial();
                     return;
                 }
-                Destroy(col.gameObject); // inimigo comum
+                Destroy(col.gameObject);
             }
         }
     }
@@ -261,7 +255,6 @@ public class PlayerController : MonoBehaviour
     public void AtivarEscudo(float duracao)
     {
         if (lifeScript == null) return;
-
         lifeScript.ignorarDano = true;
         StartCoroutine(DesativarEscudo(duracao));
     }
@@ -273,7 +266,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    #region Detecção de chão
+    #region Chão
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
@@ -301,4 +294,29 @@ public class PlayerController : MonoBehaviour
         animatorCorpo.SetBool(atirandoCimaHash, Keyboard.current.oKey.isPressed && Keyboard.current.wKey.isPressed);
     }
 
+    // === Chamado quando a vida chega a 0 ===
+    public void OnPlayerMorreu()
+    {
+        morto = true;
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;
+
+        if (animatorCorpo != null)
+            animatorCorpo.SetTrigger(morrendoHash);
+    }
+
+    // === Chamado pelo Animation Event no início da animação de morte ===
+    public void FicarComPernaTransparente()
+    {
+        if (animatorPerna != null)
+        {
+            var renderers = animatorPerna.GetComponentsInChildren<SpriteRenderer>();
+            foreach (var r in renderers)
+            {
+                Color c = r.color;
+                c.a = 0.3f;
+                r.color = c;
+            }
+        }
+    }
 }
