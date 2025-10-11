@@ -1,43 +1,46 @@
 using UnityEngine;
 
+[RequireComponent(typeof(LifeScript))]
 public class Soldier : MonoBehaviour
 {
-    private Animator animator; // controla as animações do soldado
+    private Animator animator;
+    private LifeScript lifeScript;
 
     [Header("Movimento")]
-    public float velocidade = 2f; // velocidade do soldado
-    public Transform pontoA; // ponto inicial da patrulha
-    public Transform pontoB; // ponto final da patrulha
-    public bool usarPontoC = false; // se vai começar indo pro ponto C
-    public Transform pontoC; // ponto opcional de início
-    private Transform alvoAtual; // ponto atual que ele vai
+    public float velocidade = 2f;
+    public Transform pontoA;
+    public Transform pontoB;
+    public bool usarPontoC = false;
+    public Transform pontoC;
+    private Transform alvoAtual;
+    private Vector3 escalaOriginal;
+    private bool completouPontoC;
 
     [Header("Ataque")]
-    public Transform firePoint; // lugar de onde a bala sai
-    public GameObject bulletPrefab; // bala que ele dispara
-    public float fireCooldown = 2f; // tempo entre tiros
-    public float detectionRange = 6f; // distância pra ele ver o jogador
-    public float bulletSpeed = 8f; // velocidade da bala
+    public Transform firePoint;
+    public GameObject bulletPrefab;
+    public float fireCooldown = 2f;
+    public float detectionRange = 6f;
+    public float bulletSpeed = 8f;
 
-    Transform player; // referência ao jogador
-    float fireTimer = 0f; // cronômetro pro tiro
-    bool playerInRange = false; // se o jogador tá perto
+    private Transform player;
+    private float fireTimer = 0f;
+    private bool playerInRange = false;
 
-    private Vector3 escalaOriginal; // guarda a escala inicial
-    private bool completouPontoC; // se ele já passou pelo ponto C
+    void Awake()
+    {
+        lifeScript = GetComponent<LifeScript>();
+        animator = GetComponent<Animator>();
+
+        // conecta LifeScript com Soldier (opcional: pode reagir a morte)
+        lifeScript.OnMorte += OnMorte;
+    }
 
     void Start()
     {
-        animator = GetComponent<Animator>(); // pega o animador
-
-        // acha o jogador na cena
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        if (playerObject != null)
-        {
-            player = playerObject.transform;
-        }
+        if (playerObject != null) player = playerObject.transform;
 
-        // define pra onde ir primeiro
         if (usarPontoC && pontoC != null)
         {
             alvoAtual = pontoC;
@@ -50,52 +53,39 @@ public class Soldier : MonoBehaviour
         }
 
         escalaOriginal = transform.localScale;
-
-        // começa com a animação de andar
-        if (animator != null)
-        {
-            animator.SetBool("Andando", true);
-        }
+        if (animator != null) animator.SetBool("Andando", true);
     }
 
     void Update()
     {
-        // se não tiver jogador, ele só patrulha
+        if (lifeScript.GetVidaAtual() <= 0) return; // bloqueia updates após morte
+
         if (player == null)
         {
             Patrulhar();
             return;
         }
 
-        // vê se o jogador está perto
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         playerInRange = distanceToPlayer <= detectionRange;
 
         if (playerInRange)
         {
-            VirarParaPlayer(); // vira pro jogador
-            Atacar(); // começa a atirar
-            if (animator != null)
-            {
-                animator.SetBool("Andando", false); // para de andar
-            }
+            VirarParaPlayer();
+            Atacar();
+            if (animator != null) animator.SetBool("Andando", false);
         }
         else
         {
-            Patrulhar(); // continua andando
-            if (animator != null)
-            {
-                animator.SetBool("Andando", true);
-            }
+            Patrulhar();
+            if (animator != null) animator.SetBool("Andando", true);
         }
     }
 
     void Patrulhar()
     {
-        // anda até o ponto atual
         transform.position = Vector2.MoveTowards(transform.position, alvoAtual.position, velocidade * Time.deltaTime);
 
-        // quando chega no ponto, decide o próximo
         if (Vector2.Distance(transform.position, alvoAtual.position) < 0.2f)
         {
             if (!completouPontoC)
@@ -109,19 +99,16 @@ public class Soldier : MonoBehaviour
             }
         }
 
-        // vira na direção que está indo
         FlipVisual(alvoAtual.position.x > transform.position.x);
     }
 
     void VirarParaPlayer()
     {
-        // vira pro lado do jogador
         FlipVisual(player.position.x > transform.position.x);
     }
 
     void FlipVisual(bool olhandoDireita)
     {
-        // espelha o sprite pra esquerda ou direita
         Vector3 escala = escalaOriginal;
         escala.x = olhandoDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
         transform.localScale = escala;
@@ -130,32 +117,33 @@ public class Soldier : MonoBehaviour
     void Atacar()
     {
         fireTimer += Time.deltaTime;
-
-        // atira se passou o tempo do cooldown
         if (fireTimer >= fireCooldown)
         {
             fireTimer = 0f;
-
-            // define a direção do tiro baseado no lado que ele está virado
             Vector2 dir = (transform.localScale.x > 0) ? Vector2.right : Vector2.left;
-
-            // cria a bala e aplica velocidade
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
             bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * bulletSpeed;
-
-            // toca a animação de tiro
-            animator.SetTrigger("Atirar");
+            if (animator != null) animator.SetTrigger("Atirar");
         }
+    }
+
+    // este método é chamado quando o LifeScript detecta que morreu
+    void OnMorte()
+    {
+        // dispara a animação de morte
+        if (animator != null)
+            animator.SetTrigger("InimigoMorrendo");
+
+        // aqui não destrói nem troca de cena: Animation Event na animação cuida disso
+        // se quiser, pode bloquear movimento e ataque
     }
 
     void OnDrawGizmosSelected()
     {
-        // mostra as linhas dos pontos de patrulha e o alcance de visão
         Gizmos.color = Color.green;
         if (pontoA != null && pontoB != null)
-        {
             Gizmos.DrawLine(pontoA.position, pontoB.position);
-        }
+
         if (usarPontoC && pontoC != null)
         {
             Gizmos.color = Color.blue;
@@ -165,7 +153,9 @@ public class Soldier : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
-}
 
-// Mariane Duarte Nunes
-// 2025
+    void DestruirPosMorte()
+    {
+        Destroy(gameObject);
+    }
+}

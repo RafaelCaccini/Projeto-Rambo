@@ -3698,6 +3698,8 @@ MonoBehaviour:
   chaoDoHillerRoot: {fileID: 0}
   raioAtivacao: 5
   contagemAtingidoPorEspecial: 0
+  nomeCenaMorte: Tutorial2
+  delayAntesMorte: 5
 --- !u!50 &112078256
 Rigidbody2D:
   serializedVersion: 5
@@ -4305,7 +4307,7 @@ Transform:
   m_GameObject: {fileID: 200417524}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.2843275, y: -0.530596, z: -20}
+  m_LocalPosition: {x: 51.39567, y: -0.530596, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20619,6 +20621,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1091008102921393872, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: vidaAtual
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091008102921393872, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: danoDanger
       value: 5
       objectReference: {fileID: 0}
@@ -20626,6 +20632,10 @@ PrefabInstance:
       propertyPath: especialObj
       value: 
       objectReference: {fileID: 1054236155}
+    - target: {fileID: 1091008102921393872, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
+      propertyPath: ignorarDano
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1591551283980546739, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_Name
       value: Rambo
@@ -20656,7 +20666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6972281588380731318, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: especial
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6972281588380731318, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: prefabTiro
@@ -20696,7 +20706,7 @@ PrefabInstance:
       objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 8783257343136642864, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.68
+      value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 8783257343136642864, guid: 07cb8c57bfc52d149b6618de344ca437, type: 3}
       propertyPath: m_LocalPosition.y
@@ -20760,7 +20770,7 @@ PrefabInstance:
       objectReference: {fileID: 1169887026}
     - target: {fileID: 7420638506996856221, guid: a0bdf24cf3245b74a82c80877ff9e8db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.2843275
+      value: 51.39567
       objectReference: {fileID: 0}
     - target: {fileID: 7420638506996856221, guid: a0bdf24cf3245b74a82c80877ff9e8db, type: 3}
       propertyPath: m_LocalPosition.y
@@ -21144,6 +21154,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -702192909
       objectReference: {fileID: 0}
+    - target: {fileID: 352527352892901149, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.364003
+      objectReference: {fileID: 0}
     - target: {fileID: 1465849978817344727, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_SortingLayer
       value: 2
@@ -21224,6 +21238,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -702192909
       objectReference: {fileID: 0}
+    - target: {fileID: 5452099502353663698, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -17.018
+      objectReference: {fileID: 0}
     - target: {fileID: 5632410232621791123, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: parallaxFactor
       value: -0.1
@@ -21235,6 +21253,10 @@ PrefabInstance:
     - target: {fileID: 6279469961375110912, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_Name
       value: Parallax
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955734959194207079, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.3566077
       objectReference: {fileID: 0}
     - target: {fileID: 7041443565865037705, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_SortingLayer

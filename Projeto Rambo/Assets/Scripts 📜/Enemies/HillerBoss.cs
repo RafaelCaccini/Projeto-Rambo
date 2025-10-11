@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class ChefeHiller : MonoBehaviour
 {
@@ -43,6 +44,8 @@ public class ChefeHiller : MonoBehaviour
     private bool ativo = false;
     private Vector3 initialScale;
     private Collider2D[] hillerColliders;
+    public string nomeCenaMorte;     // nome da cena que será carregada
+    public float delayAntesMorte = 2f; // tempo de espera em segundos
 
     void Start()
     {
@@ -212,6 +215,26 @@ public class ChefeHiller : MonoBehaviour
         {
             Gizmos.color = Color.magenta;
             Gizmos.DrawSphere(PontoTiroAtaque.position, 0.3f);
+        }
+    }
+
+    public void FinalizarMorte()
+    {
+        StartCoroutine(DestruirEDepoisTrocarCena());
+    }
+
+    private IEnumerator DestruirEDepoisTrocarCena()
+    {
+        // espera o tempo configurado
+        yield return new WaitForSeconds(delayAntesMorte);
+
+        // destrói o boss
+        Destroy(gameObject);
+
+        // carrega a cena se o nome estiver definido
+        if (!string.IsNullOrEmpty(nomeCenaMorte))
+        {
+            SceneManager.LoadScene(nomeCenaMorte);
         }
     }
 }
