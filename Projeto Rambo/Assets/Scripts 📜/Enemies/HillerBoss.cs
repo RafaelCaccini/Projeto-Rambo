@@ -5,61 +5,49 @@ using System.Collections;
 public class ChefeHiller : MonoBehaviour
 {
     private Animator animator; // controla as animações do chefe
+    public Transform jogador; // referência ao jogador
 
-    // referência ao jogador pra saber onde ele está
-    public Transform jogador;
-
-    // pontos de onde os tiros saem e os prefabs dos projéteis
-    public Transform PontoTiroVisual;     // tiro "falso" que sobe
-    public Transform PontoTiroAtaque;     // tiro verdadeiro que causa dano
+    public Transform PontoTiroVisual;
+    public Transform PontoTiroAtaque;
     public GameObject prefabProjeteil;
     public GameObject prefabProjetilVisual;
 
-    // ajustes da velocidade e tempo dos tiros
     public float offsetForward = 0.2f;
     public float velocidadeTiro = 10f;
     public float velocidadeTiroVisual = 5f;
     public float cooldownTiro = 2f;
 
-    // spawn de soldados inimigos
     public Transform[] pontosSpawnSoldado;
     public GameObject prefabSoldado;
     public float cooldownSpawnSoldado = 5f;
     public float forcaSpawnVertical = 5f;
 
-    // objeto do chão do chefe (usado pra ignorar colisão dos tiros)
     public GameObject chaoDoHillerRoot;
 
-    // quando o jogador chega perto, ativa o chefe
     public float raioAtivacao = 5f;
-
-    // controle de dano especial — se tomar 2 golpes especiais, morre
     public int contagemAtingidoPorEspecial = 0;
     public const int LIMITE_ESPECIAL = 2;
 
-    private readonly int AnimAtirar = Animator.StringToHash("Atirar"); // otimiza trigger
+    private readonly int AnimAtirar = Animator.StringToHash("Atirar");
 
     private float timerTiro = 0f;
     private float timerSpawnSoldado = 0f;
     private bool ativo = false;
     private Vector3 initialScale;
     private Collider2D[] hillerColliders;
-    public string nomeCenaMorte;     // nome da cena que será carregada
-    public float delayAntesMorte = 2f; // tempo de espera em segundos
+
+    public string nomeCenaMorte;
+    public float delayAntesMorte = 2f; // tempo antes de começar animação de morte
 
     void Start()
     {
         animator = GetComponent<Animator>();
-
-        // garante que o chefe começa virado pro lado certo
         initialScale = transform.localScale;
         transform.localScale = new Vector3(Mathf.Abs(initialScale.x), initialScale.y, initialScale.z);
 
-        // inicia contadores de tempo
         timerTiro = cooldownTiro;
         timerSpawnSoldado = cooldownSpawnSoldado;
 
-        // pega todos os colliders pra ignorar colisão com os tiros depois
         hillerColliders = GetComponentsInChildren<Collider2D>();
     }
 
@@ -73,16 +61,15 @@ public class ChefeHiller : MonoBehaviour
 
         if (!ativo) return;
 
-        // controla tempo entre os tiros e dispara quando chega a zero
+        // controla tempo de tiro
         timerTiro -= Time.deltaTime;
         if (timerTiro <= 0f)
         {
-            if (animator != null)
-                animator.SetTrigger(AnimAtirar);
+            animator?.SetTrigger(AnimAtirar);
             timerTiro = cooldownTiro;
         }
 
-        // controla tempo entre spawn de soldados
+        // controla spawn de soldados
         timerSpawnSoldado -= Time.deltaTime;
         if (timerSpawnSoldado <= 0f)
         {
@@ -99,14 +86,24 @@ public class ChefeHiller : MonoBehaviour
 
         if (contagemAtingidoPorEspecial >= LIMITE_ESPECIAL)
         {
-            Debug.Log("Boss Hiller foi derrotado pelo Especial! Carregando cena 'Mapa'.");
+            Debug.Log("Boss Hiller derrotado! Preparando animação de morte...");
 
-            Destroy(gameObject); // remove o chefe da cena
-            SceneManager.LoadScene("Mapa"); // carrega a próxima cena
+            ativo = false; // para o comportamento
+            StopAllCoroutines(); // interrompe spawns e ataques
+
+            StartCoroutine(EsperarEIniciarMorte());
         }
     }
 
-    // cria um projétil visual que só sobe (não causa dano)
+    // espera X segundos e depois inicia a animação de morte
+    private IEnumerator EsperarEIniciarMorte()
+    {
+        yield return new WaitForSeconds(delayAntesMorte);
+
+        if (animator != null)
+            animator.SetTrigger("InimigoMorrendo"); // toca a animação de morte
+    }
+
     public void DispararTiroVisual()
     {
         if (PontoTiroVisual == null || prefabProjetilVisual == null) return;
@@ -118,36 +115,28 @@ public class ChefeHiller : MonoBehaviour
         if (visualRb != null)
             visualRb.linearVelocity = Vector2.up * velocidadeTiroVisual;
 
-        Destroy(visualProj, 1.5f); // destrói o tiro depois de 1.5s
+        Destroy(visualProj, 1.5f);
     }
 
-    // cria o projétil real que vai em direção ao jogador
     public void DispararTiroAtaque()
     {
-        if (prefabProjeteil == null || jogador == null)
-        {
-            Debug.LogError("Configuração de projétil incompleta.");
-            return;
-        }
+        if (prefabProjeteil == null || jogador == null) return;
 
         if (PontoTiroAtaque != null)
         {
             Vector2 direcao = (jogador.position - PontoTiroAtaque.position).normalized;
-
-            // posição inicial um pouco à frente
             Vector3 spawnPos = PontoTiroAtaque.position + (Vector3)direcao * offsetForward;
 
             float angle = Mathf.Atan2(direcao.y, direcao.x) * Mathf.Rad2Deg;
             Quaternion rot = Quaternion.Euler(0f, 0f, angle);
 
             GameObject proj = Instantiate(prefabProjeteil, spawnPos, rot);
-
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             if (rb != null)
                 rb.linearVelocity = direcao * velocidadeTiro;
 
-            // ignora colisão dos tiros com o próprio chefe e com o chão dele
             IgnoreCollisionWithObject(proj, hillerColliders);
+
             if (chaoDoHillerRoot != null)
             {
                 Collider2D[] chaoColliders = chaoDoHillerRoot.GetComponentsInChildren<Collider2D>();
@@ -156,7 +145,6 @@ public class ChefeHiller : MonoBehaviour
         }
     }
 
-    // cria soldados nos pontos configurados
     void SpawnSoldados()
     {
         if (prefabSoldado == null || pontosSpawnSoldado.Length == 0) return;
@@ -172,13 +160,11 @@ public class ChefeHiller : MonoBehaviour
         }
     }
 
-    // impede que projéteis colidam com certos objetos
     void IgnoreCollisionWithObject(GameObject objToIgnore, Collider2D[] targetColliders)
     {
         if (objToIgnore == null || targetColliders.Length == 0) return;
 
         Collider2D[] projColliders = objToIgnore.GetComponentsInChildren<Collider2D>();
-
         foreach (var projCol in projColliders)
         {
             if (projCol == null) continue;
@@ -190,7 +176,22 @@ public class ChefeHiller : MonoBehaviour
         }
     }
 
-    // desenha no editor o raio de ativação e pontos de spawn
+    // chamado no final da animação de morte (via Animation Event)
+    public void FinalizarMorte()
+    {
+        StartCoroutine(DestruirEDepoisTrocarCena());
+    }
+
+    private IEnumerator DestruirEDepoisTrocarCena()
+    {
+        yield return new WaitForSeconds(0.2f); // pequeno tempo pra garantir transição
+
+        Destroy(gameObject);
+
+        if (!string.IsNullOrEmpty(nomeCenaMorte))
+            SceneManager.LoadScene(nomeCenaMorte);
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -215,26 +216,6 @@ public class ChefeHiller : MonoBehaviour
         {
             Gizmos.color = Color.magenta;
             Gizmos.DrawSphere(PontoTiroAtaque.position, 0.3f);
-        }
-    }
-
-    public void FinalizarMorte()
-    {
-        StartCoroutine(DestruirEDepoisTrocarCena());
-    }
-
-    private IEnumerator DestruirEDepoisTrocarCena()
-    {
-        // espera o tempo configurado
-        yield return new WaitForSeconds(delayAntesMorte);
-
-        // destrói o boss
-        Destroy(gameObject);
-
-        // carrega a cena se o nome estiver definido
-        if (!string.IsNullOrEmpty(nomeCenaMorte))
-        {
-            SceneManager.LoadScene(nomeCenaMorte);
         }
     }
 }
