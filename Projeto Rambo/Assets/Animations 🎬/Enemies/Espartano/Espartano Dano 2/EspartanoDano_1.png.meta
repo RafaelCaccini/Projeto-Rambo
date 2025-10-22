@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      EspartanoDano_1_0: 4965649957925262410
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
