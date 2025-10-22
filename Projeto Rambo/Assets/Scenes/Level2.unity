@@ -1176,7 +1176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9047710c285ed40b2335444e407a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 2.5
+  velocidade: 2
   tagPlayer: Player
   tagEnemy: Enemy
 --- !u!61 &546191466
@@ -1456,7 +1456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9047710c285ed40b2335444e407a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 2.5
+  velocidade: 2
   tagPlayer: Player
   tagEnemy: Enemy
 --- !u!1 &550734933
@@ -1846,7 +1846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9047710c285ed40b2335444e407a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 2.5
+  velocidade: 2
   tagPlayer: Player
   tagEnemy: Enemy
 --- !u!61 &719907190
@@ -2237,9 +2237,9 @@ MonoBehaviour:
   tempoPiscar: 0.1
   itemParaDropar: {fileID: 0}
   chanceDeDrop: 3
-  carregarCenaAoMorrer: 1
-  nomeCenaMorte: Mapa
   especialObj: {fileID: 0}
+  animadorCima: {fileID: 0}
+  animadorInimigo: {fileID: 0}
 --- !u!50 &880719657
 Rigidbody2D:
   serializedVersion: 5
@@ -2502,7 +2502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9047710c285ed40b2335444e407a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 2.5
+  velocidade: 2
   tagPlayer: Player
   tagEnemy: Enemy
 --- !u!61 &909160437
@@ -7412,7 +7412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9047710c285ed40b2335444e407a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 2.5
+  velocidade: 2
   tagPlayer: Player
   tagEnemy: Enemy
 --- !u!61 &1336139656

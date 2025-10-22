@@ -25,7 +25,7 @@ public class LifeScript : MonoBehaviour
 
     [Header("Referências")]
     public EspecialScript especialObj;
-    public Animator animadorCima;       // Player
+    public Animator animadorCima;      // Player
     public Animator animadorInimigo;    // Enemy/Boss
 
     private SpriteRenderer[] renderers;
@@ -47,6 +47,8 @@ public class LifeScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (!enabled) return; // <--- ADIÇÃO: Ignora colisão se o script estiver desativado
+
         if (morto) return;
 
         int dano = 0;
@@ -63,6 +65,7 @@ public class LifeScript : MonoBehaviour
 
     public void TomarDano(int dano)
     {
+        if (!enabled) return; // <--- ADIÇÃO: Ignora dano direto se o script estiver desativado
         if (ignorarDano || morto) return;
 
         vidaAtual -= dano;
@@ -156,7 +159,8 @@ public class LifeScript : MonoBehaviour
     // ===================== Dano por tempo =====================
     public void IniciarDanoPorTempo(int danoPorTick, float duracaoTotal, float intervalo)
     {
-        if (morto) return;
+        if (!enabled || morto) return; // <--- ADIÇÃO: Checa se o script está ativo antes de iniciar a coroutine
+
         StartCoroutine(AplicarDanoPorTempo(danoPorTick, duracaoTotal, intervalo));
     }
 
@@ -166,6 +170,8 @@ public class LifeScript : MonoBehaviour
 
         while (tempoDecorrido < duracaoTotal && !morto)
         {
+            if (!enabled) yield break; // <--- ADIÇÃO: Para a coroutine se o script for desativado no meio
+
             TomarDano(danoPorTick);
             yield return new WaitForSeconds(intervalo);
             tempoDecorrido += intervalo;

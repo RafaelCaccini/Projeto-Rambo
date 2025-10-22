@@ -1,44 +1,33 @@
 using UnityEngine;
+using System.Collections;
 
 public class Espartano : MonoBehaviour
 {
     [Header("Referências")]
-    public Transform jogador;              // arrasta o Player
-    public GameObject escudoPrefab;        // objeto invisível (escudo)
-    public GameObject dangerPrefab;        // prefab com tag "Danger"
-    public Transform spawnEscudo;          // ponto de spawn na frente
-    public Transform spawnDanger;          // ponto de spawn do ataque
+    public Transform jogador;
+    public Animator animator;
+    public Collider2D zonaAtaque;    // Trigger de ataque
 
-    [Header("Movimento")]
+    [Header("Atributos")]
     public float velocidade = 2f;
-    public float distanciaAtaque = 1.5f;
-    public float tempoEntreAtaques = 1.2f; // cooldown entre ataques
+    public float distanciaMinima = 1.5f;
+    public float distanciaDeteccao = 8f;
+    public float tempoEntreAtaques = 2f;
+    public int danoAtaque = 10;
+    public float delayVirar = 0.5f;
 
-    [Header("Detecção")]
-    public float raioDeteccao = 6f; // alcance em que começa a perseguir
-    private bool jogadorNoAlcance = false;
-
-    [Header("Flip")]
-    public float tempoParaVirar = 0.5f; // delay ao virar
-    private bool olhandoDireita = true;
-    private float tempoUltimaTroca = 0f;
-
-    [Header("Escudo")]
-    private GameObject escudoAtual;
-
-    private Rigidbody2D rb;
-    private Animator anim;
-    private float tempoUltimoAtaque = 0f;
+    private bool viradoDireita = true;
+    private bool podeVirar = true;
+    private bool podeAndar = true;
+    private float contadorAtaque = 0f;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-
-        // Spawna o escudo inicial
-        if (escudoPrefab != null && spawnEscudo != null)
+        if (jogador == null)
         {
-            escudoAtual = Instantiate(escudoPrefab, spawnEscudo.position, Quaternion.identity, transform);
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                jogador = player.transform;
         }
     }
 
@@ -46,90 +35,109 @@ public class Espartano : MonoBehaviour
     {
         if (jogador == null) return;
 
-        // Checa se o player está dentro do raio de detecção
         float distancia = Vector2.Distance(transform.position, jogador.position);
-        jogadorNoAlcance = distancia <= raioDeteccao;
 
-        if (!jogadorNoAlcance)
+        if (distancia <= distanciaDeteccao)
         {
-            Parar();
-            //anim?.SetBool("Andando", false);
-            return;
-        }
-
-        if (distancia > distanciaAtaque)
-        {
-            Mover();
-            //anim?.SetBool("Andando", true);
+            if (distancia > distanciaMinima)
+            {
+                AndarAteJogador();
+            }
+            else
+            {
+                animator.SetBool("Andando", false);
+                Atacar();
+            }
         }
         else
         {
-            Parar();
-            //anim?.SetBool("Andando", false);
+            animator.SetBool("Andando", false);
+        }
 
-            if (Time.time >= tempoUltimoAtaque + tempoEntreAtaques)
+        contadorAtaque -= Time.deltaTime;
+    }
+
+    void AndarAteJogador()
+    {
+        if (!podeAndar) return; // não anda durante virada ou ataque
+
+        animator.SetBool("Andando", true);
+
+        // Vira pro lado certo com delay
+        bool jogadorADireita = jogador.position.x > transform.position.x;
+        if (jogadorADireita != viradoDireita && podeVirar)
+        {
+            StartCoroutine(VirarComDelay());
+        }
+
+        float direcao = viradoDireita ? 1f : -1f;
+        transform.Translate(Vector2.right * direcao * velocidade * Time.deltaTime);
+    }
+
+    void Atacar()
+    {
+        if (contadorAtaque > 0f) return;
+
+        contadorAtaque = tempoEntreAtaques;
+        animator.SetTrigger("Atacar");
+
+        // Durante o ataque, ele para de andar
+        StartCoroutine(PausarMovimento(0.5f)); // 0.5s opcional — depende do timing da animação
+    }
+
+    // 🔹 CHAMADO POR UM ANIMATION EVENT NO MOMENTO DO IMPACTO
+    public void AplicarDano()
+    {
+        if (zonaAtaque == null) return;
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(zonaAtaque.bounds.center, zonaAtaque.bounds.size, 0f);
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.CompareTag("Player"))
             {
-                Atacar();
-                tempoUltimoAtaque = Time.time;
+                LifeScript vidaJogador = hit.GetComponent<LifeScript>();
+                if (vidaJogador != null)
+                {
+                    vidaJogador.TomarDano(danoAtaque);
+                }
             }
         }
-
-        FlipDelay();
     }
 
-    private void Mover()
+    IEnumerator VirarComDelay()
     {
-        Vector2 direcao = (jogador.position - transform.position).normalized;
-        rb.linearVelocity = new Vector2(direcao.x * velocidade, rb.linearVelocity.y);
-
-        // mantém escudo na frente
-        if (escudoAtual != null && spawnEscudo != null)
-        {
-            escudoAtual.transform.position = spawnEscudo.position;
-        }
+        podeVirar = false;
+        podeAndar = false;
+        yield return new WaitForSeconds(delayVirar);
+        Virar();
+        podeAndar = true;
+        podeVirar = true;
     }
 
-    private void Parar()
+    IEnumerator PausarMovimento(float tempo)
     {
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        podeAndar = false;
+        yield return new WaitForSeconds(tempo);
+        podeAndar = true;
     }
 
-    private void Atacar()
+    void Virar()
     {
-        if (dangerPrefab != null && spawnDanger != null)
-        {
-            // cria a hitbox na frente
-            GameObject hitbox = Instantiate(dangerPrefab, spawnDanger.position, Quaternion.identity, transform);
-
-            // some rapidão (0.2s por exemplo)
-            Destroy(hitbox, 0.2f);
-        }
-    }
-
-
-    private void FlipDelay()
-    {
-        bool deveOlharDireita = jogador.position.x > transform.position.x;
-
-        if (deveOlharDireita != olhandoDireita && Time.time - tempoUltimaTroca > tempoParaVirar)
-        {
-            olhandoDireita = deveOlharDireita;
-            tempoUltimaTroca = Time.time;
-
-            Vector3 escala = transform.localScale;
-            escala.x *= -1; // inverte tudo, inclusive filhos
-            transform.localScale = escala;
-        }
+        viradoDireita = !viradoDireita;
+        Vector3 escala = transform.localScale;
+        escala.x *= -1;
+        transform.localScale = escala;
     }
 
     void OnDrawGizmosSelected()
     {
-        // Gizmo do raio de detecção
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, raioDeteccao);
+        if (zonaAtaque != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(zonaAtaque.bounds.center, zonaAtaque.bounds.size);
+        }
 
-        // Gizmo do alcance de ataque
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, distanciaAtaque);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, distanciaDeteccao);
     }
 }
