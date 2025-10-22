@@ -140,4 +140,5 @@ public class Espartano : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, distanciaDeteccao);
     }
+
 }

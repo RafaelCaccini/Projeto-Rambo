@@ -20,8 +20,6 @@ AnimationClip:
   m_PPtrCurves:
   - serializedVersion: 2
     curve:
-    - time: 0
-      value: {fileID: -5887373108063296510, guid: 3853317e5bd2cad49a0bd655eaa445be, type: 3}
     - time: 0.125
       value: {fileID: 988357669986564547, guid: 654153deb409ae94eb1f449a672ab69f, type: 3}
     - time: 0.25
@@ -39,6 +37,8 @@ AnimationClip:
     - time: 1
       value: {fileID: -8020619859808180929, guid: cc9e00974adccef4e92ff905838c21b4, type: 3}
     - time: 1.125
+      value: {fileID: -7857234243156731777, guid: aa4e68e15c286894aab3cb720158d0c3, type: 3}
+    - time: 1.25
       value: {fileID: -7857234243156731777, guid: aa4e68e15c286894aab3cb720158d0c3, type: 3}
     attribute: m_Sprite
     path: 
@@ -62,7 +62,6 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -5887373108063296510, guid: 3853317e5bd2cad49a0bd655eaa445be, type: 3}
     - {fileID: 988357669986564547, guid: 654153deb409ae94eb1f449a672ab69f, type: 3}
     - {fileID: 7632385266274731788, guid: 35cec09c723970a429206d2b703b4cb0, type: 3}
     - {fileID: -2482842257896618998, guid: 1953e6d3a4a485d499b169c81244018a, type: 3}
@@ -72,12 +71,13 @@ AnimationClip:
     - {fileID: -4163762812002404311, guid: 0cb41f3207dc6c444b771396e1cc6d98, type: 3}
     - {fileID: -8020619859808180929, guid: cc9e00974adccef4e92ff905838c21b4, type: 3}
     - {fileID: -7857234243156731777, guid: aa4e68e15c286894aab3cb720158d0c3, type: 3}
+    - {fileID: -7857234243156731777, guid: aa4e68e15c286894aab3cb720158d0c3, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.25
+    m_StopTime: 1.375
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -98,7 +98,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 1.125
-    functionName: 
+    functionName: DestruirPosMorte
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

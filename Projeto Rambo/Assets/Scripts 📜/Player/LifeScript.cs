@@ -26,7 +26,7 @@ public class LifeScript : MonoBehaviour
     [Header("Referências")]
     public EspecialScript especialObj;
     public Animator animadorCima;      // Player
-    public Animator animadorInimigo;    // Enemy/Boss
+    public Animator animadorInimigo;   // Enemy/Boss
 
     private SpriteRenderer[] renderers;
     private Color[] coresOriginais;
@@ -47,8 +47,7 @@ public class LifeScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (!enabled) return; // <--- ADIÇÃO: Ignora colisão se o script estiver desativado
-
+        if (!enabled) return;
         if (morto) return;
 
         int dano = 0;
@@ -65,7 +64,7 @@ public class LifeScript : MonoBehaviour
 
     public void TomarDano(int dano)
     {
-        if (!enabled) return; // <--- ADIÇÃO: Ignora dano direto se o script estiver desativado
+        if (!enabled) return;
         if (ignorarDano || morto) return;
 
         vidaAtual -= dano;
@@ -121,12 +120,8 @@ public class LifeScript : MonoBehaviour
                 }
             }
 
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            if (rb != null)
-            {
-                rb.linearVelocity = Vector2.zero;
-                rb.simulated = false;
-            }
+            // Travar movimento apenas pelos eixos do Rigidbody2D
+            TravarMovimento();
 
             return; // cena será carregada via Animation Event
         }
@@ -137,13 +132,15 @@ public class LifeScript : MonoBehaviour
             if (animadorInimigo != null)
                 animadorInimigo.SetTrigger("InimigoMorrendo");
 
-            TentarDroparItem(); // drop normal
+            TravarMovimento();
+            TentarDroparItem();
 
-            // Cena será carregada via Animation Event no script do inimigo
             return;
         }
 
-        Destroy(gameObject); // outros objetos sem tag específica
+        // Para outros objetos genéricos
+        TravarMovimento();
+        Destroy(gameObject);
     }
 
     public void ForcarMorte()
@@ -159,7 +156,7 @@ public class LifeScript : MonoBehaviour
     // ===================== Dano por tempo =====================
     public void IniciarDanoPorTempo(int danoPorTick, float duracaoTotal, float intervalo)
     {
-        if (!enabled || morto) return; // <--- ADIÇÃO: Checa se o script está ativo antes de iniciar a coroutine
+        if (!enabled || morto) return;
 
         StartCoroutine(AplicarDanoPorTempo(danoPorTick, duracaoTotal, intervalo));
     }
@@ -170,7 +167,7 @@ public class LifeScript : MonoBehaviour
 
         while (tempoDecorrido < duracaoTotal && !morto)
         {
-            if (!enabled) yield break; // <--- ADIÇÃO: Para a coroutine se o script for desativado no meio
+            if (!enabled) yield break;
 
             TomarDano(danoPorTick);
             yield return new WaitForSeconds(intervalo);
@@ -186,5 +183,31 @@ public class LifeScript : MonoBehaviour
         {
             Instantiate(itemParaDropar, transform.position, Quaternion.identity);
         }
+    }
+
+    // NOVO MÉTODO PARA TRAVAR O MOVIMENTO
+    private void TravarMovimento()
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
+        }
+
+        // Para inimigos, ainda desativa o script de movimento
+        if (CompareTag("Enemy") || CompareTag("Boss"))
+        {
+            Espartano espartano = GetComponent<Espartano>();
+            if (espartano != null)
+            {
+                espartano.enabled = false;
+            }
+        }
+    }
+
+    public void DestruirPosMorte()
+    {
+        Destroy(gameObject);
     }
 }
