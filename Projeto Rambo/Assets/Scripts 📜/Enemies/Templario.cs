@@ -1,64 +1,185 @@
 using UnityEngine;
 
+
+
+
+
 public class Templario : MonoBehaviour
+
 {
-    [Header("Configura��es de Movimento")]
-    public float velocidade = 3f;
 
-    [Header("Configura��es de Ataque")]
-    public GameObject objetoDeDanoPrefab; // O objeto que ser� instanciado para aplicar dano
-    private bool estaAtacando = false;
+    [Header("Configurações de Movimento")]
 
-    private Transform jogadorTransform;
+    public float velocidade = 3f; // velocidade que o Templário anda
 
-    void Start()
+    private Rigidbody2D rb; // referência do Rigidbody para movimentação
+
+
+
+    [Header("Referências")]
+
+    [Tooltip("Arraste e solte o objeto do jogador neste campo.")]
+
+    public Transform jogadorTransform; // referência do jogador
+
+
+
+    [Header("Configurações de Ataque")]
+
+    public GameObject objetoDeDanoPrefab; // objeto que causa dano quando ataca
+
+    private bool estaAtacando = false; // se ele está atacando
+
+
+
+    [Header("Detecção do Jogador")]
+
+    [Tooltip("O raio da área de detecção do jogador.")]
+
+    public float raioDeDeteccao = 5f; // alcance para detectar o jogador
+
+    private bool alvoDetectado = false; // se já viu o jogador
+
+    public float TempoDano = 0.05f; // tempo que o objeto de dano fica ativo
+
+
+
+    public Animator Animator; // referência ao Animator para controlar animações
+
+
+
+    void Start()
+
     {
-        // Tenta encontrar o objeto do jogador na cena pela tag "Player"
-        GameObject jogadorObjeto = GameObject.FindGameObjectWithTag("Player");
 
-        if (jogadorObjeto != null)
-        {
-            // Pega a refer�ncia � Transform do jogador
-            jogadorTransform = jogadorObjeto.transform;
-        }
-        else
-        {
-            Debug.LogWarning("Jogador com a tag 'Player' n�o encontrado. O Templ�rio n�o se mover�.");
-        }
-    }
+        rb = GetComponent<Rigidbody2D>(); // pega o Rigidbody
+
+    }
+
+
 
     void Update()
-    {
-        // Se o Templ�rio n�o estiver atacando e o jogador foi encontrado,
-        // ele continua se movendo para a esquerda
-        if (!estaAtacando && jogadorTransform != null)
-        {
-            transform.Translate(Vector2.left * velocidade * Time.deltaTime);
-        }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Verifica se a colis�o � com o jogador
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            // Para o movimento do Templ�rio
-            estaAtacando = true;
 
-            // Spawna o objeto de dano no mesmo local da colis�o
-            if (objetoDeDanoPrefab != null)
+        if (jogadorTransform == null) return; // se não tiver jogador, não faz nada
+
+
+
+        // procura o jogador dentro do raio
+
+        if (!alvoDetectado)
+
+        {
+
+            float distancia = Vector2.Distance(transform.position, jogadorTransform.position);
+
+            if (distancia <= raioDeDeteccao)
+
             {
-                GameObject objetoDeDano = Instantiate(objetoDeDanoPrefab, transform.position, Quaternion.identity);
-                // Atribui a tag "Danger" ao objeto rec�m-instanciado
-                objetoDeDano.tag = "Danger";
 
-                // Destr�i o objeto de dano ap�s um pequeno tempo,
-                // para que ele n�o fique na cena.
-                Destroy(objetoDeDano, 0.1f);
-            }
+                alvoDetectado = true; // agora viu o jogador
 
-            // O Templ�rio n�o ser� mais destru�do aqui. 
-            // Ele permanecer� na cena at� ser destru�do por outra l�gica (ex: tomar dano).
+                Debug.Log("JOGADOR DETECTADO! O Templário vai começar a se mover.");
+
+                Animator.SetBool("Correndo", true); // ativa a animação de andar
+
+            }
+
         }
+
+
+
+        // se viu o jogador e não está atacando, anda para frente
+
+        if (alvoDetectado && !estaAtacando)
+
+        {
+            Animator.SetBool("Correndo", true); // ativa anim de corrida
+            rb.AddForce(Vector2.left * velocidade * 5f); // aplica força para mover
+
+        }
+
+        else
+
+        {
+
+            rb.linearVelocity = Vector2.zero; // para o movimento
+
+        }
+
     }
+
+
+
+    // --- Colisões e Ataque ---
+
+    private void OnCollisionEnter2D(Collision2D collision)
+
+    {
+
+        if (collision.gameObject.CompareTag("Player"))
+
+        {
+
+            rb.linearVelocity = Vector2.zero; // para o movimento ao bater no jogador
+
+
+
+            estaAtacando = true; // começa o ataque
+
+
+
+            RealizarAtaque(); // chama o ataque
+
+        }
+
+    }
+
+
+
+    // função que cria o objeto de dano
+
+    private void RealizarAtaque()
+
+    {
+        
+        if (objetoDeDanoPrefab != null)
+
+        {
+            Animator.SetTrigger("Atacando"); // inicia a animação de ataque
+
+            Debug.Log("Realizando Ataque! Objeto de dano instanciado.");
+
+
+
+            Animator.SetTrigger("Atacando"); // inicia a animação de ataque
+
+            GameObject objetoDeDano = Instantiate(objetoDeDanoPrefab, transform.position, Quaternion.identity);
+            objetoDeDano.tag = "Danger"; // marca o objeto como perigoso
+
+
+
+            Destroy(objetoDeDano, 0.5f); // destrói rapidinho
+
+            Animator.SetBool("Preso", true); // desativa a animação de andar
+
+        }
+
+    }
+
+
+
+    private void OnDrawGizmosSelected()
+
+    {
+
+        // mostra no editor o alcance de detecção
+
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawWireSphere(transform.position, raioDeDeteccao);
+
+    }
+
 }

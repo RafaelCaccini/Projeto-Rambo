@@ -93,7 +93,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6764293405880301327, guid: 34eae721d02d5d842ae697161fbeccf7, type: 3}
       propertyPath: fireCooldown
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8826787533229257051, guid: 34eae721d02d5d842ae697161fbeccf7, type: 3}
       propertyPath: m_Name

@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5190904148630455011
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.0205
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.1138
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250038625079858979, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1208995364228498371, guid: ab72fc9b562e5154892f397dfc928ae0, type: 3}
+    - target: {fileID: 5174712456505058540, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_Name
+      value: Disparo soldado Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7211784935084861597, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: ignoreTag
+      value: Enemy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}

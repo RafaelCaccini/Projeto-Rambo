@@ -1,0 +1,241 @@
+fileFormatVersion: 2
+guid: f1e1ea923ffc0f046b251f45ee918e0c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2054580288868812238
+    second: Parallax nuvens_0
+  - first:
+      213: 4641120572581683385
+    second: Parallax nuvens_1
+  - first:
+      213: -4127477360650005946
+    second: Parallax nuvens_2
+  - first:
+      213: -8327442643903506548
+    second: Parallax nuvens_3
+  - first:
+      213: -8907290023487339185
+    second: Parallax nuvens_4
+  - first:
+      213: -5030865739286014802
+    second: Parallax nuvens_5
+  - first:
+      213: 2998317511063044393
+    second: Parallax nuvens_6
+  - first:
+      213: 4683850122086194446
+    second: Parallax nuvens_7
+  - first:
+      213: -1784921253099646414
+    second: Parallax nuvens_8
+  - first:
+      213: -603638127753791822
+    second: Parallax nuvens_9
+  - first:
+      213: -4524368153665927202
+    second: Parallax nuvens_10
+  - first:
+      213: 4279648346186002142
+    second: Parallax nuvens_11
+  - first:
+      213: 737729773636268793
+    second: Parallax nuvens_12
+  - first:
+      213: 8463078794892530009
+    second: Parallax nuvens_13
+  - first:
+      213: 1986553610621192416
+    second: Parallax nuvens_14
+  - first:
+      213: -3709406319798353091
+    second: Parallax nuvens_15
+  - first:
+      213: 1829622623200864464
+    second: Parallax nuvens_16
+  - first:
+      213: 8895798266215675437
+    second: Parallax nuvens_17
+  - first:
+      213: 3284940217726813946
+    second: Parallax nuvens_18
+  - first:
+      213: 2481209560797647645
+    second: Parallax nuvens_19
+  - first:
+      213: -4332764753483489314
+    second: Parallax nuvens_20
+  - first:
+      213: -8285141627179602603
+    second: Parallax nuvens_21
+  - first:
+      213: -4210869747914671432
+    second: Parallax nuvens_22
+  - first:
+      213: 5070514481078098593
+    second: Parallax nuvens_23
+  - first:
+      213: 2443896113339229334
+    second: Parallax nuvens_24
+  - first:
+      213: 2979800719274539724
+    second: Parallax nuvens_25
+  - first:
+      213: -9113811752639080044
+    second: Parallax nuvens_26
+  - first:
+      213: 109477925397184890
+    second: Parallax nuvens_27
+  - first:
+      213: -444511746154227246
+    second: Parallax nuvens_28
+  - first:
+      213: -3859349014006803833
+    second: Parallax nuvens_29
+  - first:
+      213: 6750261885737275465
+    second: Parallax nuvens_30
+  - first:
+      213: -8560038196560348579
+    second: Parallax nuvens_31
+  - first:
+      213: -6311738421855739344
+    second: Parallax nuvens_32
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Parallax nuvens_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 4544
+        height: 576
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec58b8813e5538c10800000000000000
+      internalID: 2054580288868812238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3a2737d893c4cbb4a883841d99089abe
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":4544.0,"y":576.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Parallax nuvens_0: 2054580288868812238
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

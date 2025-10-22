@@ -1,56 +1,60 @@
 using UnityEngine;
+using System.Collections;
 
 public class pesteScript : MonoBehaviour
 {
     [Header("Configuração de Movimento")]
-    public float velocidade = 2f; // Velocidade de movimento para a direita
+    public float velocidade = 2f; // velocidade da peste
+    private bool movimentoAtivo = true; // controla se a peste se move
 
     [Header("Configuração de Colisão")]
-    public string tagPlayer = "Player";
-    public string tagEnemy = "Enemy";
+    public string tagPlayer = "Player"; // tag do jogador
+    public string tagEnemy = "Enemy";   // tag dos inimigos
 
-    private Collider2D meuCollider;
-    private int objetosNaPeste = 0;
+    private Collider2D meuCollider; // referência ao próprio collider
 
     void Start()
     {
+        // pega o collider do objeto
         meuCollider = GetComponent<Collider2D>();
         if (meuCollider == null)
         {
-            Debug.LogError("PesteScript precisa de um Collider2D no mesmo GameObject.");
-            enabled = false; // Desativa o script se não houver um collider
+            Debug.LogError("pesteScript precisa de um Collider2D."); // avisa se não tiver collider
+            enabled = false;
         }
     }
 
     void Update()
     {
-        // Movimenta o objeto para a direita
-        transform.Translate(Vector2.right * velocidade * Time.deltaTime);
+        // se o movimento estiver ativo, move a peste para a direita
+        if (movimentoAtivo)
+        {
+            transform.Translate(Vector2.right * velocidade * Time.deltaTime);
+        }
+    }
+
+    // função que pode ser chamada de fora pra parar a peste
+    public void PararMovimento()
+    {
+        movimentoAtivo = false;
+        Debug.Log("Movimento da peste foi parado por um trigger externo.");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Verifica se a colisão é com um objeto que deve ser "atravessado"
+        // se bater no jogador ou inimigo, ignora a colisão física
         if (collision.gameObject.CompareTag(tagPlayer) || collision.gameObject.CompareTag(tagEnemy))
         {
-            // Desativa a colisão da Peste para permitir a passagem
-            if (meuCollider != null)
-            {
-                meuCollider.enabled = false;
-            }
+            Physics2D.IgnoreCollision(meuCollider, collision.collider, true);
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        // Reativa a colisão da Peste quando o objeto que estava passando por ela sai
+        // quando sai da colisão com o jogador ou inimigo, volta a colidir normalmente
         if (collision.gameObject.CompareTag(tagPlayer) || collision.gameObject.CompareTag(tagEnemy))
         {
-            // Reativa a colisão apenas se não houver outro objeto "passando"
-            if (meuCollider != null)
-            {
-                meuCollider.enabled = true;
-            }
+            Physics2D.IgnoreCollision(meuCollider, collision.collider, false);
         }
     }
 }

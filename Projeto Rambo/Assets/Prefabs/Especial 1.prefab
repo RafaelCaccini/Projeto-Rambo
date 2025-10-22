@@ -143,4 +143,4 @@ MonoBehaviour:
   granadas: 3
   duracaoEscudo: 5
   tipo: 3
-  valor: 1
+  valor: 10

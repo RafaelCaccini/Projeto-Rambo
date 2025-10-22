@@ -11,6 +11,8 @@ TagManager:
   - Danger4
   - Coletaveis
   - Enemy
+  - Boss
+  - Shield
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - Water
   - UI
   - Cenario
-  - 
+  - Fade
   - 
   - 
   - 
@@ -65,6 +67,12 @@ TagManager:
     locked: 0
   - name: 2
     uniqueID: 194861997
+    locked: 0
+  - name: 3
+    uniqueID: 3592774387
+    locked: 0
+  - name: Tiros
+    uniqueID: 493417609
     locked: 0
   - name: UI
     uniqueID: 3985066941
