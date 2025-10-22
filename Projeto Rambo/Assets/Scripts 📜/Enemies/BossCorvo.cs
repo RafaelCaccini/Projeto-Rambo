@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossCorvo : MonoBehaviour
 {
@@ -175,5 +176,17 @@ public class BossCorvo : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
+    }
+
+    public void TrocarCena(string nomeCena)
+    {
+        if (!string.IsNullOrEmpty(nomeCena))
+        {
+            SceneManager.LoadScene(nomeCena);
+        }
+        else
+        {
+            Debug.LogWarning("Nome da cena não definido para troca!");
+        }
     }
 }

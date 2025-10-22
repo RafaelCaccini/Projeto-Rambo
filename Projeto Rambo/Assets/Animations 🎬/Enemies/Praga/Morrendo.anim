@@ -107,8 +107,8 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 1.2
-    functionName: DestruirPosMorte
-    data: 
+    functionName: TrocarCena
+    data: Tutorial3
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

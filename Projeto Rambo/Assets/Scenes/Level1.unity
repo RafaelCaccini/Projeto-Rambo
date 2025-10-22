@@ -4307,7 +4307,7 @@ Transform:
   m_GameObject: {fileID: 200417524}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 51.39567, y: -0.530596, z: -20}
+  m_LocalPosition: {x: -3.304328, y: -0.530596, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20609,7 +20609,7 @@ PrefabInstance:
       objectReference: {fileID: 1169887026}
     - target: {fileID: 7420638506996856221, guid: a0bdf24cf3245b74a82c80877ff9e8db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 51.39567
+      value: -3.304328
       objectReference: {fileID: 0}
     - target: {fileID: 7420638506996856221, guid: a0bdf24cf3245b74a82c80877ff9e8db, type: 3}
       propertyPath: m_LocalPosition.y
@@ -20843,13 +20843,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3307029560324585084, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
+      propertyPath: ignorarDano
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3807429263428489759, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_Name
       value: Rambo
       objectReference: {fileID: 0}
     - target: {fileID: 6567516884247189404, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 51
+      value: -3.7
       objectReference: {fileID: 0}
     - target: {fileID: 6567516884247189404, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -20975,7 +20979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 352527352892901149, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.364003
+      value: -0.42400324
       objectReference: {fileID: 0}
     - target: {fileID: 1465849978817344727, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_SortingLayer
@@ -21059,7 +21063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5452099502353663698, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.018
+      value: -0.6079979
       objectReference: {fileID: 0}
     - target: {fileID: 5632410232621791123, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: parallaxFactor
@@ -21075,7 +21079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6955734959194207079, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.3566077
+      value: 2.113392
       objectReference: {fileID: 0}
     - target: {fileID: 7041443565865037705, guid: 11db043c87bee3444b57877e80fcb870, type: 3}
       propertyPath: m_SortingLayer
