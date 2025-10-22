@@ -195,8 +195,8 @@ public class LifeScript : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
         }
 
-        // Para inimigos, ainda desativa o script de movimento
-        if (CompareTag("Enemy") || CompareTag("Boss"))
+        // Para inimigos comuns, desativa o script de movimento
+        if (CompareTag("Enemy"))
         {
             Espartano espartano = GetComponent<Espartano>();
             if (espartano != null)
@@ -204,7 +204,9 @@ public class LifeScript : MonoBehaviour
                 espartano.enabled = false;
             }
         }
+        // Para Boss, NÃO desativa nada além do Rigidbody2D!
     }
+
 
     public void DestruirPosMorte()
     {
