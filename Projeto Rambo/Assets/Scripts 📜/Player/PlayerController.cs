@@ -48,6 +48,9 @@ public class PlayerController : MonoBehaviour
     public float raioDoEspecial = 5f;
     public EspecialScript especialObj;
 
+    [Header("Referências de Som")]
+    public AudioSource passos;
+
     private Rigidbody2D rb;
     private bool estaAgachado = false;
     private bool podePular = false;
@@ -106,7 +109,7 @@ public class PlayerController : MonoBehaviour
                 especialObj.AtivarEspecial();
         }
 
-        // Detecta morte do player (vida chegou a zero)
+        // Detecta morte do player
         if (lifeScript != null && lifeScript.GetVidaAtual() <= 0 && !morto)
         {
             OnPlayerMorreu();
@@ -136,20 +139,26 @@ public class PlayerController : MonoBehaviour
         escala.x = olhandoParaDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
         transform.localScale = escala;
 
-        if (moveX != 0)
+        // Controle de animações e som de passos
+        bool estaAndando = moveX != 0 && podePular && !estaAgachado && !morto;
+        animatorPerna.SetBool(andandoAgachadoHash, estaAgachado && moveX != 0);
+        animatorPerna.SetBool(movendoHash, !estaAgachado && moveX != 0);
+        animatorCorpo.SetBool(movendoCimaHash, moveX != 0);
+
+        if (estaAndando)
         {
-            animatorPerna.SetBool(andandoAgachadoHash, estaAgachado);
-            animatorPerna.SetBool(movendoHash, !estaAgachado);
-            animatorCorpo.SetBool(movendoCimaHash, true);
+            if (!passos.isPlaying)
+                passos.Play(); // toca o som de passos enquanto anda
         }
         else
         {
-            animatorPerna.SetBool(andandoAgachadoHash, false);
-            animatorPerna.SetBool(movendoHash, false);
-            animatorCorpo.SetBool(movendoCimaHash, false);
+            if (passos.isPlaying)
+                passos.Stop(); // para o som ao parar de andar
         }
     }
+    #endregion
 
+    #region Agachar / Pular
     void Agachar()
     {
         bool agachar = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
@@ -177,6 +186,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector2.up * forcaPulo, ForceMode2D.Impulse);
             podePular = false;
             animatorPerna.SetBool(saltandoHash, true);
+            if (passos.isPlaying) passos.Stop(); // para som ao pular
         }
     }
     #endregion
@@ -303,6 +313,9 @@ public class PlayerController : MonoBehaviour
 
         if (animatorCorpo != null)
             animatorCorpo.SetTrigger(morrendoHash);
+
+        if (passos.isPlaying)
+            passos.Stop(); // garante que o som pare ao morrer
     }
 
     // === Chamado pelo Animation Event no início da animação de morte ===
