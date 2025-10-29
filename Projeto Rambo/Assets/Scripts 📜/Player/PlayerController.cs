@@ -7,6 +7,14 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Sons")]
+    public AudioSource audioSource;
+    public AudioClip somPulo;
+    public AudioClip somPasso;
+    public AudioClip somTiro;
+    public float intervaloSomPasso = 0.3f;
+    private float proximoSomPasso = 0f;
+
     [Header("Animações")]
     public Animator animatorCorpo;
     public Animator animatorPerna;
@@ -106,11 +114,9 @@ public class PlayerController : MonoBehaviour
                 especialObj.AtivarEspecial();
         }
 
-        // Detecta morte do player (vida chegou a zero)
+        // Detecta morte
         if (lifeScript != null && lifeScript.GetVidaAtual() <= 0 && !morto)
-        {
             OnPlayerMorreu();
-        }
     }
 
     #region Movimentação
@@ -141,6 +147,14 @@ public class PlayerController : MonoBehaviour
             animatorPerna.SetBool(andandoAgachadoHash, estaAgachado);
             animatorPerna.SetBool(movendoHash, !estaAgachado);
             animatorCorpo.SetBool(movendoCimaHash, true);
+
+            // Som de passo
+            if (contatoComChao > 0 && Time.time >= proximoSomPasso)
+            {
+                if (audioSource && somPasso)
+                    audioSource.PlayOneShot(somPasso);
+                proximoSomPasso = Time.time + intervaloSomPasso;
+            }
         }
         else
         {
@@ -177,6 +191,10 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector2.up * forcaPulo, ForceMode2D.Impulse);
             podePular = false;
             animatorPerna.SetBool(saltandoHash, true);
+
+            // Som de pulo
+            if (audioSource && somPulo)
+                audioSource.PlayOneShot(somPulo);
         }
     }
     #endregion
@@ -207,6 +225,10 @@ public class PlayerController : MonoBehaviour
         Rigidbody2D rbTiro = tiro.GetComponent<Rigidbody2D>();
         if (rbTiro != null)
             rbTiro.linearVelocity = direcao * velocidadeTiro;
+
+        // Som de tiro
+        if (audioSource && somTiro)
+            audioSource.PlayOneShot(somTiro);
     }
 
     void LancarGranada()
@@ -305,7 +327,7 @@ public class PlayerController : MonoBehaviour
             animatorCorpo.SetTrigger(morrendoHash);
     }
 
-    // === Chamado pelo Animation Event no início da animação de morte ===
+    // === Chamado pelo Animation Event ===
     public void FicarComPernaTransparente()
     {
         if (animatorPerna != null)
