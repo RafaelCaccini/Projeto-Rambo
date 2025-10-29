@@ -12,16 +12,27 @@ public class CaixaTeste : MonoBehaviour
     [Header("Itens que podem dropar da caixa")]
     public ItemDrop[] itensPossiveis; // Lista de possíveis itens
 
+    [Header("Som da caixa")]
+    public AudioClip somQuebrar;    // Som da quebra
+
     // Método chamado quando a bala destrói a caixa
     public void DestruirCaixa()
     {
-        GerarItem(); // Tenta gerar um item
-        Destroy(gameObject); // Destroi a caixa
+        // Tenta gerar o item
+        GerarItem();
+
+        // Toca o som de quebra separado (sem precisar do AudioSource na caixa)
+        if (somQuebrar != null)
+        {
+            AudioSource.PlayClipAtPoint(somQuebrar, transform.position);
+        }
+
+        // Destroi a caixa imediatamente
+        Destroy(gameObject);
     }
 
     private void GerarItem()
     {
-        // Soma total das chances dos itens
         float totalChance = 0f;
         foreach (ItemDrop drop in itensPossiveis)
             totalChance += drop.chance;
@@ -32,7 +43,6 @@ public class CaixaTeste : MonoBehaviour
             return;
         }
 
-        // Sorteia um número aleatório
         float sorteio = Random.Range(0f, totalChance);
         float acumulado = 0f;
 
@@ -40,12 +50,10 @@ public class CaixaTeste : MonoBehaviour
         {
             acumulado += itensPossiveis[i].chance;
 
-            // Se o número sorteado cair aqui ou for o último item
             if (sorteio < acumulado || i == itensPossiveis.Length - 1)
             {
                 if (itensPossiveis[i].itemPrefab != null)
                 {
-                    // Cria o item no mundo
                     Instantiate(itensPossiveis[i].itemPrefab, transform.position, Quaternion.identity);
                     Debug.Log("Item dropado: " + itensPossiveis[i].itemPrefab.name);
                 }

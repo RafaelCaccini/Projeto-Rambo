@@ -1,87 +1,84 @@
-using TMPro;
-using Unity.Cinemachine;
 using UnityEngine;
-using System.Collections;
 
 public class ColetavelScript : MonoBehaviour
 {
-    private Vector3 posicaoInicial; // guarda onde o item começou
+    private Vector3 posicaoInicial;
 
-    [Header("Configuração de Flutuação")]
-    public float velocidadeFlutuacao = 1f; // rapidez do sobe/desce
-    public float alturaFlutuacao = 0.5f;   // altura que sobe e desce
+    [Header("Flutuação")]
+    public float velocidadeFlutuacao = 1f;
+    public float alturaFlutuacao = 0.5f;
 
-    public int valorCura = 20; // quanto cura se for kit
-    public int granadas = 3;   // quantas granadas dá
-    public float duracaoEscudo = 5f; // tempo do escudo
+    public enum TipoColetavel { Kit, Granada, Escudo, Especial }
 
-    public enum TipoColetavel
+    [Header("Tipo de Coletável")]
+    public TipoColetavel tipo;
+
+
+    [Header("Valores")]
+    public int valorCura = 20;
+    public int granadas = 3;
+    public float duracaoEscudo = 5f;
+
+    [Header("Som do Coletável")]
+    public AudioSource audioSource; // arraste aqui no prefab
+
+    private void Start()
     {
-        Kit,
-        Granada,
-        Escudo,
-        Especial
+        posicaoInicial = transform.position;
     }
 
-    [Header("Configuração do Coletável")]
-    public TipoColetavel tipo; // define que tipo de item é
-    public int valor = 1;      // quantidade genérica
-
-    void Start()
+    private void Update()
     {
-        posicaoInicial = transform.position; // salva a posição inicial
-    }
-
-    void Update()
-    {
-        // faz o item flutuar para cima e para baixo
-        float novaPosicaoY = posicaoInicial.y + Mathf.Sin(Time.time * velocidadeFlutuacao) * alturaFlutuacao;
-        transform.position = new Vector3(posicaoInicial.x, novaPosicaoY, posicaoInicial.z);
+        // Faz o item flutuar
+        float novaY = posicaoInicial.y + Mathf.Sin(Time.time * velocidadeFlutuacao) * alturaFlutuacao;
+        transform.position = new Vector3(posicaoInicial.x, novaY, posicaoInicial.z);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // se for o player
+        if (!other.CompareTag("Player")) return;
+
+        AplicarEfeito(other.gameObject);
+
+        // Toca o som antes de destruir o objeto
+        if (audioSource != null && audioSource.clip != null)
         {
-            AplicarEfeito(other.gameObject); // aplica o efeito do item
-            Destroy(gameObject); // remove o coletável
+            // Cria um clone do AudioSource para tocar o som fora do coletável
+            AudioSource clone = Instantiate(audioSource, transform.position, Quaternion.identity);
+            clone.Play();
+            Destroy(clone.gameObject, clone.clip.length);
         }
+
+        Destroy(gameObject); // destrói o coletável
     }
 
-    void AplicarEfeito(GameObject Rambo)
+    private void AplicarEfeito(GameObject player)
     {
-        if (tipo == TipoColetavel.Kit)
+        switch (tipo)
         {
-            LifeScript vidaMaxima = Rambo.GetComponent<LifeScript>();
-            if (vidaMaxima != null)
-            {
-                vidaMaxima.vidaAtual += valorCura; // dá vida
-            }
-        }
-        else if (tipo == TipoColetavel.Granada)
-        {
-            PlayerController granada = Rambo.GetComponent<PlayerController>();
-            if (granada != null)
-            {
-                // aumenta granadas, máximo 3
-                granada.granadasRestantes = Mathf.Min(granada.granadasRestantes + granadas, 3);
-            }
-        }
-        else if (tipo == TipoColetavel.Escudo)
-        {
-            PlayerController player = Rambo.GetComponent<PlayerController>();
-            if (player != null)
-            {
-                player.AtivarEscudo(duracaoEscudo); // ativa escudo
-            }
-        }
-        else if (tipo == TipoColetavel.Especial)
-        {
-            PlayerController especial = Rambo.GetComponent<PlayerController>();
-            if (especial != null)
-            {
-                especial.especial = true; // ativa modo especial
-            }
+            case TipoColetavel.Kit:
+                LifeScript vida = player.GetComponent<LifeScript>();
+                if (vida != null)
+                    vida.vidaAtual += valorCura;
+                break;
+
+            case TipoColetavel.Granada:
+                PlayerController pc = player.GetComponent<PlayerController>();
+                if (pc != null)
+                    pc.granadasRestantes = Mathf.Min(pc.granadasRestantes + granadas, 3);
+                break;
+
+            case TipoColetavel.Escudo:
+                PlayerController escudoPlayer = player.GetComponent<PlayerController>();
+                if (escudoPlayer != null)
+                    escudoPlayer.AtivarEscudo(duracaoEscudo);
+                break;
+
+            case TipoColetavel.Especial:
+                PlayerController especialPlayer = player.GetComponent<PlayerController>();
+                if (especialPlayer != null)
+                    especialPlayer.especial = true;
+                break;
         }
     }
 }

@@ -4,29 +4,37 @@ using System.Collections;
 
 public class ChefeHiller : MonoBehaviour
 {
-    private Animator animator; // controla as animações do chefe
-    public Transform jogador; // referência ao jogador
+    private Animator animator;
+    public Transform jogador;
 
+    [Header("Tiro do Chefe")]
     public Transform PontoTiroVisual;
     public Transform PontoTiroAtaque;
     public GameObject prefabProjeteil;
     public GameObject prefabProjetilVisual;
 
+    [Header("Configurações de Tiro")]
     public float offsetForward = 0.2f;
     public float velocidadeTiro = 10f;
     public float velocidadeTiroVisual = 5f;
     public float cooldownTiro = 2f;
 
+    [Header("Soldados")]
     public Transform[] pontosSpawnSoldado;
     public GameObject prefabSoldado;
     public float cooldownSpawnSoldado = 5f;
     public float forcaSpawnVertical = 5f;
 
+    [Header("Outros")]
     public GameObject chaoDoHillerRoot;
-
     public float raioAtivacao = 5f;
     public int contagemAtingidoPorEspecial = 0;
     public const int LIMITE_ESPECIAL = 2;
+    public string nomeCenaMorte;
+    public float delayAntesMorte = 2f;
+
+    [Header("Som do Disparo")]
+    public AudioSource audioSourceDisparo; // arrasta aqui no inspector
 
     private readonly int AnimAtirar = Animator.StringToHash("Atirar");
 
@@ -35,9 +43,6 @@ public class ChefeHiller : MonoBehaviour
     private bool ativo = false;
     private Vector3 initialScale;
     private Collider2D[] hillerColliders;
-
-    public string nomeCenaMorte;
-    public float delayAntesMorte = 2f; // tempo antes de começar animação de morte
 
     void Start()
     {
@@ -55,13 +60,11 @@ public class ChefeHiller : MonoBehaviour
     {
         if (jogador == null) return;
 
-        // ativa o chefe quando o jogador chega perto
         if (!ativo && Vector2.Distance(transform.position, jogador.position) <= raioAtivacao)
             ativo = true;
 
         if (!ativo) return;
 
-        // controla tempo de tiro
         timerTiro -= Time.deltaTime;
         if (timerTiro <= 0f)
         {
@@ -69,7 +72,6 @@ public class ChefeHiller : MonoBehaviour
             timerTiro = cooldownTiro;
         }
 
-        // controla spawn de soldados
         timerSpawnSoldado -= Time.deltaTime;
         if (timerSpawnSoldado <= 0f)
         {
@@ -78,7 +80,6 @@ public class ChefeHiller : MonoBehaviour
         }
     }
 
-    // quando leva dano especial, soma e morre se passar do limite
     public void ReceberDanoEspecial()
     {
         contagemAtingidoPorEspecial++;
@@ -87,21 +88,16 @@ public class ChefeHiller : MonoBehaviour
         if (contagemAtingidoPorEspecial >= LIMITE_ESPECIAL)
         {
             Debug.Log("Boss Hiller derrotado! Preparando animação de morte...");
-
-            ativo = false; // para o comportamento
-            StopAllCoroutines(); // interrompe spawns e ataques
-
+            ativo = false;
+            StopAllCoroutines();
             StartCoroutine(EsperarEIniciarMorte());
         }
     }
 
-    // espera X segundos e depois inicia a animação de morte
     private IEnumerator EsperarEIniciarMorte()
     {
         yield return new WaitForSeconds(delayAntesMorte);
-
-        if (animator != null)
-            animator.SetTrigger("InimigoMorrendo"); // toca a animação de morte
+        animator?.SetTrigger("InimigoMorrendo");
     }
 
     public void DispararTiroVisual()
@@ -120,28 +116,34 @@ public class ChefeHiller : MonoBehaviour
 
     public void DispararTiroAtaque()
     {
-        if (prefabProjeteil == null || jogador == null) return;
+        if (prefabProjeteil == null || jogador == null || PontoTiroAtaque == null)
+            return;
 
-        if (PontoTiroAtaque != null)
+        // Direção e rotação
+        Vector2 direcao = (jogador.position - PontoTiroAtaque.position).normalized;
+        Vector3 spawnPos = PontoTiroAtaque.position + (Vector3)direcao * offsetForward;
+        float angle = Mathf.Atan2(direcao.y, direcao.x) * Mathf.Rad2Deg;
+        Quaternion rot = Quaternion.Euler(0f, 0f, angle);
+
+        // Instancia o projétil
+        GameObject proj = Instantiate(prefabProjeteil, spawnPos, rot);
+        Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+        if (rb != null)
+            rb.linearVelocity = direcao * velocidadeTiro;
+
+        // Ignora colisões
+        IgnoreCollisionWithObject(proj, hillerColliders);
+        if (chaoDoHillerRoot != null)
         {
-            Vector2 direcao = (jogador.position - PontoTiroAtaque.position).normalized;
-            Vector3 spawnPos = PontoTiroAtaque.position + (Vector3)direcao * offsetForward;
+            Collider2D[] chaoColliders = chaoDoHillerRoot.GetComponentsInChildren<Collider2D>();
+            IgnoreCollisionWithObject(proj, chaoColliders);
+        }
 
-            float angle = Mathf.Atan2(direcao.y, direcao.x) * Mathf.Rad2Deg;
-            Quaternion rot = Quaternion.Euler(0f, 0f, angle);
-
-            GameObject proj = Instantiate(prefabProjeteil, spawnPos, rot);
-            Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
-            if (rb != null)
-                rb.linearVelocity = direcao * velocidadeTiro;
-
-            IgnoreCollisionWithObject(proj, hillerColliders);
-
-            if (chaoDoHillerRoot != null)
-            {
-                Collider2D[] chaoColliders = chaoDoHillerRoot.GetComponentsInChildren<Collider2D>();
-                IgnoreCollisionWithObject(proj, chaoColliders);
-            }
+        // 🎯 Toca o som direto no AudioSource arrastado
+        if (audioSourceDisparo != null)
+        {
+            audioSourceDisparo.Stop(); // garante que reinicia o som
+            audioSourceDisparo.Play();
         }
     }
 
@@ -176,7 +178,6 @@ public class ChefeHiller : MonoBehaviour
         }
     }
 
-    // chamado no final da animação de morte (via Animation Event)
     public void FinalizarMorte()
     {
         StartCoroutine(DestruirEDepoisTrocarCena());
@@ -184,8 +185,7 @@ public class ChefeHiller : MonoBehaviour
 
     private IEnumerator DestruirEDepoisTrocarCena()
     {
-        yield return new WaitForSeconds(0.2f); // pequeno tempo pra garantir transição
-
+        yield return new WaitForSeconds(0.2f);
         Destroy(gameObject);
 
         if (!string.IsNullOrEmpty(nomeCenaMorte))

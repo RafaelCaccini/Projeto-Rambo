@@ -16,7 +16,7 @@ public class BossController : MonoBehaviour
     public float chargeTime = 3f;
     public int damage = 20;
     public float dashHitRadius = 1.5f;
-    public LayerMask playerLayer; // Layer do Player
+    public LayerMask playerLayer;
 
     [Header("Espinhos")]
     public GameObject spikePrefab;
@@ -27,6 +27,10 @@ public class BossController : MonoBehaviour
     public Transform player;
     public float activationRadius = 5f;
     private bool isActivated = false;
+
+    [Header("Áudio")]
+    public AudioSource dashAudio;   // som do dash
+    public AudioSource spikeAudio;  // som dos espinhos
 
     private bool movingToB = true;
     private Collider2D bossCollider;
@@ -55,13 +59,12 @@ public class BossController : MonoBehaviour
     {
         while (currentHealth > 0)
         {
-            // 1. Carrega ataque
             yield return new WaitForSeconds(chargeTime);
 
-            // 2. Executa dash
+            // DASH
             yield return StartCoroutine(Dash());
 
-            // 3. Spawn espinhos após dash
+            // ESPINHOS
             yield return new WaitForSeconds(spikeSpawnDelay);
             SpawnSpikes();
         }
@@ -71,8 +74,12 @@ public class BossController : MonoBehaviour
     {
         Vector3 target = movingToB ? pointB.position : pointA.position;
 
-        // DESATIVA collider do boss para atravessar o player
-        if (bossCollider != null) bossCollider.enabled = false;
+        // toca som do dash
+        if (dashAudio != null)
+            dashAudio.Play();
+
+        if (bossCollider != null)
+            bossCollider.enabled = false;
 
         bool hasDamagedPlayer = false;
 
@@ -80,63 +87,59 @@ public class BossController : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, target, dashSpeed * Time.deltaTime);
 
-            // cria hitbox temporária para dano
-            if (!hasDamagedPlayer)
+            // checa hit no player
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, dashHitRadius, playerLayer);
+            foreach (var hit in hits)
             {
-                Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, dashHitRadius, playerLayer);
-                foreach (var hit in hits)
+                LifeScript life = hit.GetComponent<LifeScript>();
+                if (life != null)
                 {
-                    LifeScript life = hit.GetComponent<LifeScript>();
-                    if (life != null)
-                    {
-                        life.TomarDano(damage);
-                        hasDamagedPlayer = true; // só uma vez
-                        break;
-                    }
+                    life.TomarDano(damage);
+                    hasDamagedPlayer = true;
+                    break;
                 }
             }
 
             yield return null;
         }
 
-        // garante que ele esteja exatamente no ponto
         transform.position = target;
-
-        // Alterna ponto
         movingToB = !movingToB;
 
-        // REATIVA collider
-        if (bossCollider != null) bossCollider.enabled = true;
+        if (bossCollider != null)
+            bossCollider.enabled = true;
     }
 
     private void SpawnSpikes()
     {
+        // toca som dos espinhos
+        if (spikeAudio != null)
+            spikeAudio.Play();
+
         if (spikeSpawnPoints.Length == 0 || spikePrefab == null) return;
 
         foreach (Transform spawnPoint in spikeSpawnPoints)
         {
             GameObject spike = Instantiate(spikePrefab, spawnPoint.position, Quaternion.identity);
 
-            // garante que o spike não colida com o boss
             Collider2D spikeCol = spike.GetComponent<Collider2D>();
             if (spikeCol != null && bossCollider != null)
                 Physics2D.IgnoreCollision(spikeCol, bossCollider);
 
-            // garante que o spike tenha o script de dano ativo
             Spike spikeScript = spike.GetComponent<Spike>();
             if (spikeScript == null)
             {
                 spikeScript = spike.AddComponent<Spike>();
-                spikeScript.damage = 15; // ou qualquer valor que você quiser
+                spikeScript.damage = 15;
             }
         }
     }
 
-
     public void TomarDano(int amount)
     {
         currentHealth -= amount;
-        if (currentHealth <= 0) Destroy(gameObject);
+        if (currentHealth <= 0)
+            Destroy(gameObject);
     }
 
     void OnDrawGizmosSelected()

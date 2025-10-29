@@ -7,14 +7,6 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Sons")]
-    public AudioSource audioSource;
-    public AudioClip somPulo;
-    public AudioClip somPasso;
-    public AudioClip somTiro;
-    public float intervaloSomPasso = 0.3f;
-    private float proximoSomPasso = 0f;
-
     [Header("Animações")]
     public Animator animatorCorpo;
     public Animator animatorPerna;
@@ -58,6 +50,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Referências de Som")]
     public AudioSource passos;
+    public AudioSource tiro;
+    public AudioSource pulo;
 
     private Rigidbody2D rb;
     private bool estaAgachado = false;
@@ -117,7 +111,6 @@ public class PlayerController : MonoBehaviour
                 especialObj.AtivarEspecial();
         }
 
-        // Detecta morte
         if (lifeScript != null && lifeScript.GetVidaAtual() <= 0 && !morto)
             OnPlayerMorreu();
     }
@@ -145,31 +138,36 @@ public class PlayerController : MonoBehaviour
         escala.x = olhandoParaDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
         transform.localScale = escala;
 
-        // Controle de animações e som de passos
-        bool estaAndando = moveX != 0 && podePular && !estaAgachado && !morto;
+        bool estaAndandoNormal = moveX != 0 && podePular && !estaAgachado && !morto;
+        bool estaAndandoAgachado = moveX != 0 && podePular && estaAgachado && !morto;
+        bool estaAndando = (estaAndandoNormal || estaAndandoAgachado);
+
         animatorPerna.SetBool(andandoAgachadoHash, estaAgachado && moveX != 0);
         animatorPerna.SetBool(movendoHash, !estaAgachado && moveX != 0);
         animatorCorpo.SetBool(movendoCimaHash, moveX != 0);
 
+        // 🔊 Som de passos (loop)
         if (estaAndando)
         {
-            animatorPerna.SetBool(andandoAgachadoHash, estaAgachado);
-            animatorPerna.SetBool(movendoHash, !estaAgachado);
-            animatorCorpo.SetBool(movendoCimaHash, true);
-
-            // Som de passo
-            if (contatoComChao > 0 && Time.time >= proximoSomPasso)
+            if (passos != null)
             {
-                if (audioSource && somPasso)
-                    audioSource.PlayOneShot(somPasso);
-                proximoSomPasso = Time.time + intervaloSomPasso;
+                // Ajusta o pitch (velocidade do som)
+                if (estaAgachado)
+                    passos.pitch = 0.7f; // mais lento quando agachado
+                else
+                    passos.pitch = 1f; // normal
+
+                // Toca se ainda não estiver tocando
+                if (!passos.isPlaying)
+                    passos.Play();
             }
         }
         else
         {
-            if (passos.isPlaying)
-                passos.Stop(); // para o som ao parar de andar
+            if (passos != null && passos.isPlaying)
+                passos.Stop();
         }
+
     }
     #endregion
 
@@ -202,9 +200,12 @@ public class PlayerController : MonoBehaviour
             podePular = false;
             animatorPerna.SetBool(saltandoHash, true);
 
-            // Som de pulo
-            if (audioSource && somPulo)
-                audioSource.PlayOneShot(somPulo);
+            if (passos != null && passos.isPlaying)
+                passos.Stop();
+
+            // 🔊 Som do pulo (PlayOneShot evita som falhado)
+            if (pulo != null && pulo.clip != null)
+                pulo.PlayOneShot(pulo.clip);
         }
     }
     #endregion
@@ -229,22 +230,23 @@ public class PlayerController : MonoBehaviour
             rotacao = Quaternion.Euler(0, 0, 180);
         }
 
-        GameObject tiro = Instantiate(prefabTiro, posicaoDisparo, rotacao);
-        tiro.tag = "Danger";
+        GameObject novoTiro = Instantiate(prefabTiro, posicaoDisparo, rotacao);
+        novoTiro.tag = "Danger";
 
-        Rigidbody2D rbTiro = tiro.GetComponent<Rigidbody2D>();
+        Rigidbody2D rbTiro = novoTiro.GetComponent<Rigidbody2D>();
         if (rbTiro != null)
             rbTiro.linearVelocity = direcao * velocidadeTiro;
 
-        // Som de tiro
-        if (audioSource && somTiro)
-            audioSource.PlayOneShot(somTiro);
+        // 🔊 Som do tiro (sem falhar)
+        if (tiro != null && tiro.clip != null)
+            tiro.PlayOneShot(tiro.clip);
     }
+    #endregion
 
+    #region Granada / Especial / Escudo
     void LancarGranada()
     {
         if (Time.time < proximoLancamentoGranada || granadasRestantes <= 0) return;
-
         granadasRestantes--;
         proximoLancamentoGranada = Time.time + cooldownGranada;
         animatorCorpo.SetTrigger(granadaHash);
@@ -253,7 +255,6 @@ public class PlayerController : MonoBehaviour
     public void SpawnGranada()
     {
         if (prefabGranada == null || pontoDisparo == null) return;
-
         GameObject granada = Instantiate(prefabGranada, pontoDisparo.position, Quaternion.identity);
         Rigidbody2D rbGranada = granada.GetComponent<Rigidbody2D>();
         if (rbGranada != null)
@@ -273,7 +274,6 @@ public class PlayerController : MonoBehaviour
                 ChefeHiller boss = col.GetComponentInParent<ChefeHiller>();
                 if (boss != null)
                 {
-                    Debug.Log($"Especial atingiu o Boss: {boss.gameObject.name}");
                     boss.ReceberDanoEspecial();
                     return;
                 }
@@ -281,9 +281,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    #endregion
 
-    #region Escudo
     public void AtivarEscudo(float duracao)
     {
         if (lifeScript == null) return;
@@ -298,7 +296,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    #region Chão
+    #region Chão / Animações / Morte
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
@@ -317,7 +315,6 @@ public class PlayerController : MonoBehaviour
             podePular = contatoComChao > 0;
         }
     }
-    #endregion
 
     void AtualizarAnimacoes()
     {
@@ -326,7 +323,6 @@ public class PlayerController : MonoBehaviour
         animatorCorpo.SetBool(atirandoCimaHash, Keyboard.current.oKey.isPressed && Keyboard.current.wKey.isPressed);
     }
 
-    // === Chamado quando a vida chega a 0 ===
     public void OnPlayerMorreu()
     {
         morto = true;
@@ -336,11 +332,10 @@ public class PlayerController : MonoBehaviour
         if (animatorCorpo != null)
             animatorCorpo.SetTrigger(morrendoHash);
 
-        if (passos.isPlaying)
-            passos.Stop(); // garante que o som pare ao morrer
+        if (passos != null && passos.isPlaying)
+            passos.Stop();
     }
 
-    // === Chamado pelo Animation Event ===
     public void FicarComPernaTransparente()
     {
         if (animatorPerna != null)
@@ -354,4 +349,5 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    #endregion
 }

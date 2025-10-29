@@ -7,7 +7,8 @@ public class BossCorvo : MonoBehaviour
     private Animator animator;
 
     private bool fase2Ativada = false;
-    private bool executandoTransicaoFase2 = false; // trava enquanto roda a animação
+    private bool executandoTransicaoFase2 = false;
+    private bool jaGritouAoDetectar = false;
     private float vidaMetade;
 
     public Transform pontoA;
@@ -26,10 +27,13 @@ public class BossCorvo : MonoBehaviour
     public float velocidadeProjetilFase2 = 6f;
     private float fireCooldownAtual;
 
-    Transform player;
-    float fireTimer = 0f;
-
+    private Transform player;
+    private float fireTimer = 0f;
     private Vector3 escalaOriginal;
+
+    [Header("Sons do Corvo")]
+    public AudioSource gritoSource; // arraste o som de grito
+    public AudioSource pocaoSource; // arraste o som da poção caindo
 
     void Start()
     {
@@ -55,11 +59,19 @@ public class BossCorvo : MonoBehaviour
 
         VerificarFase();
 
-        if (executandoTransicaoFase2) return; // trava tudo durante animação de transição
+        if (executandoTransicaoFase2) return;
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        float distancia = Vector2.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= detectionRange)
+        // Grito ao detectar o player
+        if (distancia <= detectionRange && !jaGritouAoDetectar)
+        {
+            jaGritouAoDetectar = true;
+            if (gritoSource != null)
+                gritoSource.Play();
+        }
+
+        if (distancia <= detectionRange)
         {
             Patrulhar();
             VirarParaPlayer();
@@ -78,22 +90,21 @@ public class BossCorvo : MonoBehaviour
             fase2Ativada = true;
             executandoTransicaoFase2 = true;
 
-            // trava movimento e desliga LifeScript
+            // Grito de fúria na metade da vida
+            if (gritoSource != null)
+                gritoSource.Play();
+
             velocidadeAtual = 0f;
             if (lifeScript != null)
                 lifeScript.enabled = false;
 
-            // dispara animação da fase 2
             animator.SetTrigger("Fase2");
         }
     }
 
-    // chamado via Animation Event no final da animação "Fase2"
     public void FinalizarTransicaoFase2()
     {
         executandoTransicaoFase2 = false;
-
-        // libera movimento e aumenta velocidade
         velocidadeAtual = velocidadeFase2;
         fireCooldownAtual = fireCooldownFase2;
 
@@ -115,20 +126,11 @@ public class BossCorvo : MonoBehaviour
 
         bool olhandoDireita = player.position.x > transform.position.x;
 
-        // aqui ajustamos porque o sprite ORIGINAL olha pra ESQUERDA
         if (olhandoDireita)
-        {
-            // se o player está à direita → invertemos a escala
             transform.localScale = new Vector3(-Mathf.Abs(escalaOriginal.x), escalaOriginal.y, escalaOriginal.z);
-        }
         else
-        {
-            // se o player está à esquerda → mantemos a escala original
             transform.localScale = new Vector3(Mathf.Abs(escalaOriginal.x), escalaOriginal.y, escalaOriginal.z);
-        }
     }
-
-
 
     void Atacar()
     {
@@ -137,7 +139,7 @@ public class BossCorvo : MonoBehaviour
         if (fireTimer >= fireCooldownAtual)
         {
             fireTimer = 0f;
-            animator.SetTrigger("Atacando"); // animação de ataque
+            animator.SetTrigger("Atacando");
 
             if (fase2Ativada)
             {
@@ -149,6 +151,10 @@ public class BossCorvo : MonoBehaviour
             {
                 DispararProjetil(velocidadeProjetilFase1);
             }
+
+            // Som da poção sendo jogada
+            if (pocaoSource != null)
+                pocaoSource.Play();
         }
     }
 
@@ -181,12 +187,8 @@ public class BossCorvo : MonoBehaviour
     public void TrocarCena(string nomeCena)
     {
         if (!string.IsNullOrEmpty(nomeCena))
-        {
             SceneManager.LoadScene(nomeCena);
-        }
         else
-        {
             Debug.LogWarning("Nome da cena não definido para troca!");
-        }
     }
 }

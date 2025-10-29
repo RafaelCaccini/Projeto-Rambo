@@ -6,7 +6,7 @@ public class Espartano : MonoBehaviour
     [Header("Referências")]
     public Transform jogador;
     public Animator animator;
-    public Collider2D zonaAtaque;    // Trigger de ataque
+    public Collider2D zonaAtaque;
 
     [Header("Atributos")]
     public float velocidade = 2f;
@@ -15,6 +15,10 @@ public class Espartano : MonoBehaviour
     public float tempoEntreAtaques = 2f;
     public int danoAtaque = 10;
     public float delayVirar = 0.5f;
+
+    [Header("Áudio")]
+    public AudioSource audioSource;   // 👉 Arrasta o AudioSource aqui
+    public AudioClip somLanca;        // 👉 E aqui o som da lança
 
     private bool viradoDireita = true;
     private bool podeVirar = true;
@@ -59,11 +63,10 @@ public class Espartano : MonoBehaviour
 
     void AndarAteJogador()
     {
-        if (!podeAndar) return; // não anda durante virada ou ataque
+        if (!podeAndar) return;
 
         animator.SetBool("Andando", true);
 
-        // Vira pro lado certo com delay
         bool jogadorADireita = jogador.position.x > transform.position.x;
         if (jogadorADireita != viradoDireita && podeVirar)
         {
@@ -81,11 +84,13 @@ public class Espartano : MonoBehaviour
         contadorAtaque = tempoEntreAtaques;
         animator.SetTrigger("Atacar");
 
-        // Durante o ataque, ele para de andar
-        StartCoroutine(PausarMovimento(0.5f)); // 0.5s opcional — depende do timing da animação
+        // toca o som da lança
+        if (audioSource != null && somLanca != null)
+            audioSource.PlayOneShot(somLanca);
+
+        StartCoroutine(PausarMovimento(0.5f));
     }
 
-    // 🔹 CHAMADO POR UM ANIMATION EVENT NO MOMENTO DO IMPACTO
     public void AplicarDano()
     {
         if (zonaAtaque == null) return;
@@ -140,5 +145,4 @@ public class Espartano : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, distanciaDeteccao);
     }
-
 }
