@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LifeScript : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class LifeScript : MonoBehaviour
     public int danoDanger3 = 20;
     public int danoDanger4 = 25;
     public bool ignorarDano = false;
+    
 
     [Header("Feedback de Dano")]
     public Color corDano = Color.red;
@@ -210,4 +212,10 @@ public class LifeScript : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void TrocarCena(string Parabens)
+    {
+        SceneManager.LoadScene(Parabens);
+    }
+
 }

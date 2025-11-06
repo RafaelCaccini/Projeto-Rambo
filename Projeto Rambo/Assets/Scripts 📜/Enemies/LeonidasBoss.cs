@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossController : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class BossController : MonoBehaviour
     public float dashSpeed = 25f;
 
     [Header("Ataque")]
-    public float chargeTime = 3f;
+    [Tooltip("Tempo de preparação do ataque (pose antes do dash)")]
+    public float chargeTime = 1.2f; // reduzido — ataques mais rápidos
     public int damage = 20;
     public float dashHitRadius = 1.5f;
     public LayerMask playerLayer;
@@ -23,27 +25,36 @@ public class BossController : MonoBehaviour
     public Transform[] spikeSpawnPoints;
     public float spikeSpawnDelay = 2f;
 
-    [Header("Ativa��o")]
+    [Header("Ativação")]
     public Transform player;
     public float activationRadius = 5f;
     private bool isActivated = false;
 
-    [Header("�udio")]
-    public AudioSource dashAudio;   // som do dash
-    public AudioSource spikeAudio;  // som dos espinhos
+    [Header("Áudio")]
+    public AudioSource dashAudio;
+    public AudioSource spikeAudio;
 
-    private bool movingToB = true;
+    private bool movingToB = false; // começa indo de B → A
     private Collider2D bossCollider;
+    private Animator anim;
+    private bool movimentoTravado = false;
 
     void Start()
     {
         currentHealth = maxHealth;
         bossCollider = GetComponent<Collider2D>();
+        anim = GetComponent<Animator>();
         gameObject.tag = "Boss";
+
+        // começa virado para o ponto A
+        if (pointA != null)
+            FlipTowards(pointA.position);
     }
 
     void Update()
     {
+        if (movimentoTravado) return;
+
         if (!isActivated && player != null)
         {
             float distance = Vector2.Distance(transform.position, player.position);
@@ -59,25 +70,32 @@ public class BossController : MonoBehaviour
     {
         while (currentHealth > 0)
         {
+            // 1️⃣ Bater o pé (invocar lanças)
+            anim.SetTrigger("BaterPe");
+            yield return new WaitForSeconds(1f);
+
+            SpawnSpikes();
+            yield return new WaitForSeconds(spikeSpawnDelay);
+
+            // 2️⃣ Pose de ataque (vira e prepara)
+            Vector3 nextTarget = movingToB ? pointB.position : pointA.position;
+            FlipTowards(nextTarget);
+            anim.SetTrigger("PoseAtaque");
             yield return new WaitForSeconds(chargeTime);
 
-            // DASH
+            // 3️⃣ Dash (ataque)
             yield return StartCoroutine(Dash());
-
-            // ESPINHOS
-            yield return new WaitForSeconds(spikeSpawnDelay);
-            SpawnSpikes();
         }
     }
 
     private IEnumerator Dash()
     {
+        if (movimentoTravado) yield break;
+
         Vector3 target = movingToB ? pointB.position : pointA.position;
+        anim.SetBool("Atacando", true);
 
-        // toca som do dash
-        if (dashAudio != null)
-            dashAudio.Play();
-
+        dashAudio?.Play();
         if (bossCollider != null)
             bossCollider.enabled = false;
 
@@ -87,16 +105,14 @@ public class BossController : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, target, dashSpeed * Time.deltaTime);
 
-            // checa hit no player
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, dashHitRadius, playerLayer);
             foreach (var hit in hits)
             {
                 LifeScript life = hit.GetComponent<LifeScript>();
-                if (life != null)
+                if (life != null && !hasDamagedPlayer)
                 {
                     life.TomarDano(damage);
                     hasDamagedPlayer = true;
-                    break;
                 }
             }
 
@@ -104,17 +120,19 @@ public class BossController : MonoBehaviour
         }
 
         transform.position = target;
-        movingToB = !movingToB;
+        anim.SetBool("Atacando", false);
+        movingToB = !movingToB; // alterna para o próximo alvo
 
         if (bossCollider != null)
             bossCollider.enabled = true;
+
+        if (player != null)
+            FlipTowards(player.position);
     }
 
     private void SpawnSpikes()
     {
-        // toca som dos espinhos
-        if (spikeAudio != null)
-            spikeAudio.Play();
+        spikeAudio?.Play();
 
         if (spikeSpawnPoints.Length == 0 || spikePrefab == null) return;
 
@@ -135,11 +153,39 @@ public class BossController : MonoBehaviour
         }
     }
 
+    private void FlipTowards(Vector3 target)
+    {
+        Vector3 scale = transform.localScale;
+
+        // 🔁 Lógica invertida de flip
+        if (target.x > transform.position.x && scale.x > 0)
+            scale.x *= -1;
+        else if (target.x < transform.position.x && scale.x < 0)
+            scale.x *= -1;
+
+        transform.localScale = scale;
+    }
+
     public void TomarDano(int amount)
     {
         currentHealth -= amount;
         if (currentHealth <= 0)
-            Destroy(gameObject);
+        {
+            anim.SetTrigger("Morrendo");
+            Destroy(gameObject, 2f);
+        }
+    }
+
+    // 🔒 Travar/destravar movimento — chamado por Animation Event
+    public void TravarMovimento(bool travar)
+    {
+        movimentoTravado = travar;
+    }
+
+    // 🔄 Trocar cena — chamado por Animation Event
+    public void TrocarCena(string nomeCena)
+    {
+        SceneManager.LoadScene(nomeCena);
     }
 
     void OnDrawGizmosSelected()

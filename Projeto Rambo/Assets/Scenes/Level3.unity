@@ -293,7 +293,7 @@ Transform:
   m_GameObject: {fileID: 110433753}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -66.26433, y: -1.9812994, z: -20}
+  m_LocalPosition: {x: -24.004328, y: -1.9812994, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11321,7 +11321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6567516884247189404, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -66.66
+      value: -24.4
       objectReference: {fileID: 0}
     - target: {fileID: 6567516884247189404, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11384,6 +11384,7 @@ GameObject:
   - component: {fileID: 483827504}
   - component: {fileID: 483827507}
   - component: {fileID: 483827506}
+  - component: {fileID: 483827508}
   m_Layer: 0
   m_Name: Leonidas
   m_TagString: Boss
@@ -11403,9 +11404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc207b017cac5646b058ce1d2f49444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidaMaxima: 200
+  vidaMaxima: 500
   vidaAtual: 0
-  danoDanger: 10
+  danoDanger: 5
   danoDanger2: 15
   danoDanger3: 20
   danoDanger4: 25
@@ -11416,7 +11417,7 @@ MonoBehaviour:
   chanceDeDrop: 3
   especialObj: {fileID: 0}
   animadorCima: {fileID: 0}
-  animadorInimigo: {fileID: 0}
+  animadorInimigo: {fileID: 483827508}
 --- !u!114 &483827501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11433,9 +11434,9 @@ MonoBehaviour:
   pointA: {fileID: 214313864}
   pointB: {fileID: 1120621858}
   dashSpeed: 10
-  chargeTime: 3
-  damage: 10
-  dashHitRadius: 1
+  chargeTime: 2
+  damage: 30
+  dashHitRadius: 0.6
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -11514,7 +11515,7 @@ Transform:
   m_GameObject: {fileID: 483827499}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.57, y: -0.987, z: 0}
+  m_LocalPosition: {x: 1.86, y: -1.134, z: 0}
   m_LocalScale: {x: 2.0934029, y: 2.4317331, z: 1.4455818}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11787,6 +11788,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &483827508
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483827499}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 491fe1ac99dc3f94088ff4f82bd14a2e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &494002193
 GameObject:
   m_ObjectHideFlags: 0
@@ -12782,7 +12805,7 @@ Transform:
   m_GameObject: {fileID: 1120621856}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.77, y: -1.1599119, z: 0}
+  m_LocalPosition: {x: 1.77, y: -1.15, z: 0}
   m_LocalScale: {x: 0.34846914, y: 0.472486, z: 0.99116}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13273,17 +13296,17 @@ Transform:
   m_GameObject: {fileID: 1290446991}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.14806, y: -2.335, z: 0}
+  m_LocalPosition: {x: -9.14806, y: -2.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 483827503}
   - {fileID: 214313864}
   - {fileID: 1120621858}
   - {fileID: 1924909216}
   - {fileID: 639847306}
   - {fileID: 90797404}
   - {fileID: 1558021052}
-  - {fileID: 483827503}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1467904776 stripped
@@ -15325,7 +15348,7 @@ PrefabInstance:
       objectReference: {fileID: 1163008563}
     - target: {fileID: 7420638506996856221, guid: a0bdf24cf3245b74a82c80877ff9e8db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -66.26433
+      value: -24.004328
       objectReference: {fileID: 0}
     - target: {fileID: 7420638506996856221, guid: a0bdf24cf3245b74a82c80877ff9e8db, type: 3}
       propertyPath: m_LocalPosition.y
