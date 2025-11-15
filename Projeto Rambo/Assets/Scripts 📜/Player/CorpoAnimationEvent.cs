@@ -10,7 +10,20 @@ public class CorpoAnimationEvents : MonoBehaviour
         player = GetComponentInParent<PlayerController>();
     }
 
+
+
+
+    public void SpawnGranadaEvent()
+    {
+        if (player != null)
+            player.SpawnGranada();
+    }
+
+
+
     // Chamado por Animation Event durante a animação de morte
+
+
     public void IniciarMortePlayer()
     {
         if (player != null && player.animatorPerna != null)

@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objetoExplosao: {fileID: 5168734825008711887, guid: d49b28248d5dd984a978712e3e5458e7, type: 3}
   tempoAteExplodir: 2
-  duracaoExplosao: 0.3
+  duracaoExplosao: 0.6
 --- !u!82 &-7584711140311306245
 AudioSource:
   m_ObjectHideFlags: 0

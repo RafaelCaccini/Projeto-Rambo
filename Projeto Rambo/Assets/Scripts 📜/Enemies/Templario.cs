@@ -58,7 +58,7 @@ public class Templario : MonoBehaviour
 
 
 
-    void Update()
+    void FixedUpdate()
 
     {
 

@@ -207,7 +207,7 @@ MonoBehaviour:
   jogadorTransform: {fileID: 0}
   objetoDeDanoPrefab: {fileID: 4752347124141737984, guid: 4834b9b5cd4af5546830c227749577db, type: 3}
   raioDeDeteccao: 5
-  TempoDano: 0.05
+  TempoDano: 0.01
   Animator: {fileID: 5869392733283900893}
 --- !u!95 &5869392733283900893
 Animator:

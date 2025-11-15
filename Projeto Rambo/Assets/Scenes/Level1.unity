@@ -5414,6 +5414,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 159592313568502548, guid: a150665c2568b744996531586a3fa671, type: 3}
   m_PrefabInstance: {fileID: 7601381954225915457}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &612168288 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7209114750706776643, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
+  m_PrefabInstance: {fileID: 8219343564711487834}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &622894287
 GameObject:
   m_ObjectHideFlags: 0
@@ -21183,6 +21188,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5238552317659960880, guid: 01ecbfc848abee244b5e70860114ec7d, type: 3}
   m_PrefabInstance: {fileID: 342298862}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &2133141366 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6202970182977703338, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
+  m_PrefabInstance: {fileID: 8219343564711487834}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &83402126485494778 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5867114161448365947, guid: 9a089d754ecf27e4a94a7111efb0a426, type: 3}
@@ -21690,6 +21700,18 @@ PrefabInstance:
       propertyPath: ignorarDano
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3307029560324585084, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
+      propertyPath: animadorCima
+      value: 
+      objectReference: {fileID: 612168288}
+    - target: {fileID: 3307029560324585084, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
+      propertyPath: chanceDeDrop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3307029560324585084, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
+      propertyPath: animadorInimigo
+      value: 
+      objectReference: {fileID: 2133141366}
     - target: {fileID: 3807429263428489759, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_Name
       value: Rambo
@@ -21714,6 +21736,10 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 294727924}
+    - target: {fileID: 4756472880265504538, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
+      propertyPath: prefabGranada
+      value: 
+      objectReference: {fileID: 7836771694518431761, guid: 81f081c96f9fd3e4abf3d4b81af2e59b, type: 3}
     - target: {fileID: 6567516884247189404, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.53
