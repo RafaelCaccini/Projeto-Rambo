@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class BotaoSair : MonoBehaviour
+public class BotaoAbortar : MonoBehaviour
 {
     public void Sair()
     {
-        Debug.Log("Fechando o jogo...");
+        Debug.Log("Saindo do jogo...");
         Application.Quit();
     }
 }
