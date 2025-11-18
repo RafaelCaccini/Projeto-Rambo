@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -655,10 +655,18 @@ PrefabInstance:
     - target: {fileID: 6996700789280619865, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
       propertyPath: vinheta
       value: 
-      objectReference: {fileID: 1370449206}
+      objectReference: {fileID: 1463339216}
+    - target: {fileID: 6996700789280619865, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
+      propertyPath: fatorZoom
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6996700789280619865, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
+      propertyPath: duracaoZoom
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6996700789280619865, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
       propertyPath: usarAnimacaoZoom
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
