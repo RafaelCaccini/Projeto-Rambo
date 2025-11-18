@@ -190,7 +190,7 @@ MonoBehaviour:
   chanceDeDrop: 3
   especialObj: {fileID: 0}
   animadorCima: {fileID: 0}
-  animadorInimigo: {fileID: 0}
+  animadorInimigo: {fileID: 5869392733283900893}
 --- !u!114 &7569051707313618695
 MonoBehaviour:
   m_ObjectHideFlags: 0

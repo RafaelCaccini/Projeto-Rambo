@@ -67,8 +67,8 @@ public class BossCorvo : MonoBehaviour
         if (distancia <= detectionRange && !jaGritouAoDetectar)
         {
             jaGritouAoDetectar = true;
-            if (gritoSource != null)
-                gritoSource.Play();
+            if (gritoSource != null) ;
+               
         }
 
         if (distancia <= detectionRange)
@@ -89,10 +89,6 @@ public class BossCorvo : MonoBehaviour
         {
             fase2Ativada = true;
             executandoTransicaoFase2 = true;
-
-            // Grito de fúria na metade da vida
-            if (gritoSource != null)
-                gritoSource.Play();
 
             velocidadeAtual = 0f;
             if (lifeScript != null)
@@ -190,5 +186,10 @@ public class BossCorvo : MonoBehaviour
             SceneManager.LoadScene(nomeCena);
         else
             Debug.LogWarning("Nome da cena não definido para troca!");
+    }
+
+    public void Grito()
+    {
+            gritoSource.Play();
     }
 }

@@ -722,7 +722,7 @@ GameObject:
   - component: {fileID: 294416991}
   m_Layer: 0
   m_Name: tEMPLARIOS
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -743,8 +743,6 @@ Transform:
   - {fileID: 1708410216}
   - {fileID: 1316208042}
   - {fileID: 627459287}
-  - {fileID: 1953576333}
-  - {fileID: 1776131920}
   - {fileID: 1340379969}
   - {fileID: 1062064494}
   m_Father: {fileID: 0}
@@ -2262,7 +2260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc207b017cac5646b058ce1d2f49444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidaMaxima: 10
+  vidaMaxima: 200
   vidaAtual: 0
   danoDanger: 5
   danoDanger2: 15
@@ -26255,80 +26253,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.21718171, y: 0.20640695}
   m_EdgeRadius: 0
---- !u!1001 &1776131919
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 294416991}
-    m_Modifications:
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 29.47
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.858
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5788544149139799238, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5788544149139799238, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7569051707313618695, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: jogadorTransform
-      value: 
-      objectReference: {fileID: 1428638258}
-    - target: {fileID: 8168273202333107040, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_Name
-      value: Templario (4)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
---- !u!4 &1776131920 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-  m_PrefabInstance: {fileID: 1776131919}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1940232837
 GameObject:
   m_ObjectHideFlags: 0
@@ -26370,80 +26294,6 @@ Transform:
   - {fileID: 1775224265}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1953576332
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 294416991}
-    m_Modifications:
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 26.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.858
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5788544149139799238, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5788544149139799238, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7569051707313618695, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: jogadorTransform
-      value: 
-      objectReference: {fileID: 1428638258}
-    - target: {fileID: 8168273202333107040, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-      propertyPath: m_Name
-      value: Templario (3)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
---- !u!4 &1953576333 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2404466200769046301, guid: a20b18a61c2c26a4f96e573d6dc2fd43, type: 3}
-  m_PrefabInstance: {fileID: 1953576332}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1994169227 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2029812180552911241, guid: 0fcd43c291e0fcf4b91ca03cb110a128, type: 3}
