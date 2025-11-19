@@ -21314,6 +21314,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rambo
       objectReference: {fileID: 0}
+    - target: {fileID: 5446420757094172869, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
+      propertyPath: m_Size.x
+      value: 0.13985786
+      objectReference: {fileID: 0}
+    - target: {fileID: 5446420757094172869, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.017651182
+      objectReference: {fileID: 0}
+    - target: {fileID: 5446420757094172869, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.03443189
+      objectReference: {fileID: 0}
     - target: {fileID: 8576105901262306453, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.53
