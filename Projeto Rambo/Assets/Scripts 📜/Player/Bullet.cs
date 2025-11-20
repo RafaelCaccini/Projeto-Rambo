@@ -2,23 +2,45 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float lifeTime = 10f; // tempo que a bala vai existir
-    public GameObject danoPrefab; // O prefab que causa dano
+    public float lifeTime = 10f;
+    public GameObject danoPrefab;
+
+    private Collider2D meuCollider;
 
     void Start()
     {
-        Destroy(gameObject, lifeTime); // destrói a bala depois do tempo definido
+        Destroy(gameObject, lifeTime);
+
+        //==== IGNORAR OUTRAS BALAS DA MESMA LAYER ====
+        meuCollider = GetComponent<Collider2D>();
+        int minhaLayer = gameObject.layer;
+
+        GameObject[] todos = FindObjectsOfType<GameObject>();
+
+        foreach (GameObject obj in todos)
+        {
+            if (obj == null || obj == this.gameObject) continue;
+
+            if (obj.layer == minhaLayer)
+            {
+                Collider2D col = obj.GetComponent<Collider2D>();
+                if (col != null)
+                {
+                    Physics2D.IgnoreCollision(meuCollider, col, true);
+                }
+            }
+        }
+        //================================================
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        // verifica se colidiu com uma caixa
         CaixaTeste caixa = col.collider.GetComponent<CaixaTeste>();
         if (caixa != null)
         {
-            caixa.DestruirCaixa(); // faz a caixa gerar item e sumir
+            caixa.DestruirCaixa();
         }
 
-        Destroy(gameObject); // destrói a bala sempre que colide
+        Destroy(gameObject);
     }
 }

@@ -1,55 +1,42 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 
 public class ColetavelScript : MonoBehaviour
 {
-    private Vector3 posicaoInicial;
+    private bool coletado = false;
 
-    [Header("FlutuaÁ„o")]
-    public float velocidadeFlutuacao = 1f;
-    public float alturaFlutuacao = 0.5f;
+    [Header("Anima√ß√£o ao Coletar")]
+    public float velocidadeSubida = 1.5f;
+    public float tempoDesaparecer = 0.4f;
 
     public enum TipoColetavel { Kit, Granada, Escudo, Especial }
 
-    [Header("Tipo de Colet·vel")]
+    [Header("Tipo de Colet√°vel")]
     public TipoColetavel tipo;
-
 
     [Header("Valores")]
     public int valorCura = 20;
     public int granadas = 3;
     public float duracaoEscudo = 5f;
 
-    [Header("Som do Colet·vel")]
-    public AudioSource audioSource; // arraste aqui no prefab
-
-    private void Start()
-    {
-        posicaoInicial = transform.position;
-    }
-
-    private void Update()
-    {
-        // Faz o item flutuar
-        float novaY = posicaoInicial.y + Mathf.Sin(Time.time * velocidadeFlutuacao) * alturaFlutuacao;
-        transform.position = new Vector3(posicaoInicial.x, novaY, posicaoInicial.z);
-    }
+    [Header("Som do Colet√°vel")]
+    public AudioSource audioSource; // arraste seu AudioSource aqui no prefab
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (coletado) return;                          // evita Coleta dupla
         if (!other.CompareTag("Player")) return;
 
+        coletado = true;                               // trava na hora
+
+        // desativa o collider para impedir nova colis√£o
+        Collider2D col = GetComponent<Collider2D>();
+        if (col) col.enabled = false;
+
         AplicarEfeito(other.gameObject);
+        TocarSom();
 
-        // Toca o som antes de destruir o objeto
-        if (audioSource != null && audioSource.clip != null)
-        {
-            // Cria um clone do AudioSource para tocar o som fora do colet·vel
-            AudioSource clone = Instantiate(audioSource, transform.position, Quaternion.identity);
-            clone.Play();
-            Destroy(clone.gameObject, clone.clip.length);
-        }
-
-        Destroy(gameObject); // destrÛi o colet·vel
+        // inicia a anima√ß√£o de sumir
+        StartCoroutine(SubirEDesaparecer());
     }
 
     private void AplicarEfeito(GameObject player)
@@ -80,5 +67,37 @@ public class ColetavelScript : MonoBehaviour
                     especialPlayer.especial = true;
                 break;
         }
+    }
+
+    private void TocarSom()
+    {
+        if (audioSource != null && audioSource.clip != null)
+        {
+            AudioSource clone = Instantiate(audioSource, transform.position, Quaternion.identity);
+            clone.Play();
+            Destroy(clone.gameObject, clone.clip.length);
+        }
+    }
+
+    private System.Collections.IEnumerator SubirEDesaparecer()
+    {
+        float timer = 0f;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        Color cor = sr.color;
+
+        while (timer < tempoDesaparecer)
+        {
+            // sobe suavemente
+            transform.position += Vector3.up * velocidadeSubida * Time.deltaTime;
+
+            // fade-out
+            cor.a = Mathf.Lerp(1f, 0f, timer / tempoDesaparecer);
+            sr.color = cor;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(gameObject);
     }
 }

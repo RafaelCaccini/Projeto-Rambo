@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7668325297892416575}
   - component: {fileID: 8027432753732329749}
   - component: {fileID: 4665501287518304703}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiroHiller
   m_TagString: Danger3
   m_Icon: {fileID: 0}
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 10
+  danoPrefab: {fileID: 0}
 --- !u!50 &4665501287518304703
 Rigidbody2D:
   serializedVersion: 5

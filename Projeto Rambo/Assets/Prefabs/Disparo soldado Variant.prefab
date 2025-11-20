@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 683903175239507577, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 683903175239507577, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1557356695907444830, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.0205
@@ -60,8 +68,21 @@ PrefabInstance:
       propertyPath: ignoreTag
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7211784935084861597, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: objetoAserIgnorado
+      value: 
+      objectReference: {fileID: 5174712456505058540, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+    - target: {fileID: 7211784935084861597, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+      propertyPath: 'objetosParaIgnorar.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1142100514540725775}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+--- !u!1 &1142100514540725775 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5174712456505058540, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+  m_PrefabInstance: {fileID: 5190904148630455011}
+  m_PrefabAsset: {fileID: 0}

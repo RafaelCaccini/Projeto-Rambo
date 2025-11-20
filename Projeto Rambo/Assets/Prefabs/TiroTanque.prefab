@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7097065309313064946}
   - component: {fileID: 7933263305174433837}
   - component: {fileID: -6111180093807704486}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TiroTanque
   m_TagString: Danger2
   m_Icon: {fileID: 0}
@@ -177,3 +177,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tempoDeVida: 6
   dano: 20
+  objetosParaIgnorar:
+  - {fileID: 5174712456505058540, guid: a7a4e1ed0f1b1d24f907776f93d12a41, type: 3}
+  - {fileID: 1142100514540725775, guid: eaa2b9c8b71d9af4aa1a605b0c04bf5b, type: 3}

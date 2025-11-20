@@ -1,34 +1,53 @@
 ﻿using UnityEngine;
 
-public class Projeteil : MonoBehaviour
+public class Projetil : MonoBehaviour
 {
-    public float tempoDeVida = 6f; // tempo até o projétil sumir sozinho
-    public int dano = 20;          // quanto de dano ele causa
+    public float tempoDeVida = 6f;
+    public int dano = 20;
+
+    private Collider2D meuCollider;
 
     void Start()
     {
-        // faz o projétil sumir depois de um tempo
         Destroy(gameObject, tempoDeVida);
 
-        // ⚠️ ignorar colisões com o chefe e chão é feito no script do chefe
+        //==== IGNORAR COLISÕES COM OUTROS PROJÉTEIS DA MESMA LAYER ====
+        meuCollider = GetComponent<Collider2D>();
+        int minhaLayer = gameObject.layer;
+
+        GameObject[] todos = FindObjectsOfType<GameObject>();
+
+        foreach (GameObject obj in todos)
+        {
+            if (obj == null || obj == this.gameObject) continue;
+
+            // mesmo layer = ignorar
+            if (obj.layer == minhaLayer)
+            {
+                Collider2D col = obj.GetComponent<Collider2D>();
+                if (col != null)
+                {
+                    Physics2D.IgnoreCollision(meuCollider, col, true);
+                }
+            }
+        }
+        //===============================================================
     }
 
     void OnCollisionEnter2D(Collision2D colisao)
     {
-        GameObject other = colisao.gameObject; // pega com quem bateu
+        GameObject other = colisao.gameObject;
 
-        // se acertar o jogador
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player levou " + dano + " de dano");
-            Destroy(gameObject); // destrói o projétil depois do acerto
+            Destroy(gameObject);
             return;
         }
 
-        // se bater em qualquer outra coisa que não seja o chefe ou algo sem tag
         if (!other.CompareTag("Boss") && !other.CompareTag("Untagged"))
         {
-            Destroy(gameObject); // destrói o projétil
+            Destroy(gameObject);
         }
     }
 }

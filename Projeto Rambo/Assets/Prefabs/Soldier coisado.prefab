@@ -183,7 +183,7 @@ MonoBehaviour:
   usarPontoC: 1
   pontoC: {fileID: 8945148360078847752}
   firePoint: {fileID: 316950561219007658}
-  bulletPrefab: {fileID: 4460097297499920711, guid: 8f413c5b3c2eb8c4f8716d413a22fa96, type: 3}
+  bulletPrefab: {fileID: 1142100514540725775, guid: eaa2b9c8b71d9af4aa1a605b0c04bf5b, type: 3}
   fireCooldown: 1
   detectionRange: 3
   bulletSpeed: 8
@@ -210,6 +210,9 @@ MonoBehaviour:
   tempoPiscar: 0.1
   itemParaDropar: {fileID: 2626048299497229805, guid: c0e0eeaccfc89d245aaf4cce901bab49, type: 3}
   chanceDeDrop: 5
+  especialObj: {fileID: 0}
+  animadorCima: {fileID: 0}
+  animadorInimigo: {fileID: 0}
 --- !u!1 &2580749165629052806
 GameObject:
   m_ObjectHideFlags: 0
