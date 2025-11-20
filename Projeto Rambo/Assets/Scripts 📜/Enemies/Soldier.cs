@@ -12,6 +12,7 @@ public class Soldier : MonoBehaviour
     public Transform pontoB;
     public bool usarPontoC = false;
     public Transform pontoC;
+
     private Transform alvoAtual;
     private Vector3 escalaOriginal;
     private bool completouPontoC;
@@ -32,15 +33,17 @@ public class Soldier : MonoBehaviour
         lifeScript = GetComponent<LifeScript>();
         animator = GetComponent<Animator>();
 
-        // conecta LifeScript com Soldier (opcional: pode reagir a morte)
+        // quando morrer
         lifeScript.OnMorte += OnMorte;
     }
 
     void Start()
     {
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        if (playerObject != null) player = playerObject.transform;
+        if (playerObject != null)
+            player = playerObject.transform;
 
+        // define o ponto inicial da patrulha
         if (usarPontoC && pontoC != null)
         {
             alvoAtual = pontoC;
@@ -53,12 +56,15 @@ public class Soldier : MonoBehaviour
         }
 
         escalaOriginal = transform.localScale;
-        if (animator != null) animator.SetBool("Andando", true);
+
+        if (animator)
+            animator.SetBool("Andando", true);
     }
 
     void Update()
     {
-        if (lifeScript.GetVidaAtual() <= 0) return; // bloqueia updates após morte
+        if (lifeScript.GetVidaAtual() <= 0)
+            return;
 
         if (player == null)
         {
@@ -66,25 +72,29 @@ public class Soldier : MonoBehaviour
             return;
         }
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        playerInRange = distanceToPlayer <= detectionRange;
+        float distance = Vector2.Distance(transform.position, player.position);
+        playerInRange = distance <= detectionRange;
 
         if (playerInRange)
         {
-            VirarParaPlayer();
+            VirarPara(player.position.x);
             Atacar();
-            if (animator != null) animator.SetBool("Andando", false);
+            if (animator) animator.SetBool("Andando", false);
         }
         else
         {
             Patrulhar();
-            if (animator != null) animator.SetBool("Andando", true);
+            if (animator) animator.SetBool("Andando", true);
         }
     }
 
     void Patrulhar()
     {
-        transform.position = Vector2.MoveTowards(transform.position, alvoAtual.position, velocidade * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(
+            transform.position,
+            alvoAtual.position,
+            velocidade * Time.deltaTime
+        );
 
         if (Vector2.Distance(transform.position, alvoAtual.position) < 0.2f)
         {
@@ -99,52 +109,61 @@ public class Soldier : MonoBehaviour
             }
         }
 
-        FlipVisual(alvoAtual.position.x > transform.position.x);
+        VirarPara(alvoAtual.position.x);
     }
 
-    void VirarParaPlayer()
-    {
-        FlipVisual(player.position.x > transform.position.x);
-    }
-
-    void FlipVisual(bool olhandoDireita)
+    void VirarPara(float posX)
     {
         Vector3 escala = escalaOriginal;
-        escala.x = olhandoDireita ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
+        escala.x = (posX > transform.position.x) ? Mathf.Abs(escalaOriginal.x) : -Mathf.Abs(escalaOriginal.x);
         transform.localScale = escala;
     }
 
     void Atacar()
     {
         fireTimer += Time.deltaTime;
-        if (fireTimer >= fireCooldown)
+        if (fireTimer < fireCooldown) return;
+
+        fireTimer = 0f;
+
+        if (firePoint == null || bulletPrefab == null)
         {
-            fireTimer = 0f;
-            Vector2 dir = (transform.localScale.x > 0) ? Vector2.right : Vector2.left;
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * bulletSpeed;
-            if (animator != null) animator.SetTrigger("Atirar");
+            Debug.LogWarning("Soldier sem FirePoint ou BulletPrefab!");
+            return;
         }
+
+        Vector2 dir = (transform.localScale.x > 0) ? Vector2.right : Vector2.left;
+
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            Debug.LogError("A bulletPrefab n�o tem Rigidbody2D!");
+            Destroy(bullet);
+            return;
+        }
+
+        rb.linearVelocity = dir * bulletSpeed;
+
+        if (animator)
+            animator.SetTrigger("Atirar");
     }
 
-    // este método é chamado quando o LifeScript detecta que morreu
     void OnMorte()
     {
-        // dispara a animação de morte
-        if (animator != null)
+        if (animator)
             animator.SetTrigger("InimigoMorrendo");
-
-        // aqui não destrói nem troca de cena: Animation Event na animação cuida disso
-        // se quiser, pode bloquear movimento e ataque
     }
 
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        if (pontoA != null && pontoB != null)
+
+        if (pontoA && pontoB)
             Gizmos.DrawLine(pontoA.position, pontoB.position);
 
-        if (usarPontoC && pontoC != null)
+        if (usarPontoC && pontoC)
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(transform.position, pontoC.position);
