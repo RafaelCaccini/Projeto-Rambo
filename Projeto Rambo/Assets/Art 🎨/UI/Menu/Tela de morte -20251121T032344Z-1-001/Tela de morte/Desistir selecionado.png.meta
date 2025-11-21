@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Desistir selecionado_0: 6977828352420287250
+      Desistir selecionado_1: 5321987003002949138
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
