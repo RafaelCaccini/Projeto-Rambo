@@ -34,7 +34,8 @@ public class ChefeHiller : MonoBehaviour
     public float delayAntesMorte = 2f;
 
     [Header("Som do Disparo")]
-    public AudioSource audioSourceDisparo; // arrasta aqui no inspector
+    public AudioSource audioSourceDisparo;
+    public AudioSource musica;
 
     private readonly int AnimAtirar = Animator.StringToHash("Atirar");
 
@@ -61,7 +62,12 @@ public class ChefeHiller : MonoBehaviour
         if (jogador == null) return;
 
         if (!ativo && Vector2.Distance(transform.position, jogador.position) <= raioAtivacao)
+        {
             ativo = true;
+            playMusica();
+        }
+        
+        
 
         if (!ativo) return;
 
@@ -217,5 +223,13 @@ public class ChefeHiller : MonoBehaviour
             Gizmos.color = Color.magenta;
             Gizmos.DrawSphere(PontoTiroAtaque.position, 0.3f);
         }
+    }
+    public void playMusica()
+    {
+        musica.Play();
+    }
+    public void stopMusica()
+    {
+        musica.Stop();
     }
 }

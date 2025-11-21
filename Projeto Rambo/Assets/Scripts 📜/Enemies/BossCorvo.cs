@@ -34,6 +34,7 @@ public class BossCorvo : MonoBehaviour
     [Header("Sons do Corvo")]
     public AudioSource gritoSource; // arraste o som de grito
     public AudioSource pocaoSource; // arraste o som da poção caindo
+    public AudioSource musica;
 
     void Start()
     {
@@ -68,6 +69,8 @@ public class BossCorvo : MonoBehaviour
         {
             jaGritouAoDetectar = true;
             if (gritoSource != null) ;
+
+            PlayMusica();
                
         }
 
@@ -191,5 +194,14 @@ public class BossCorvo : MonoBehaviour
     public void Grito()
     {
             gritoSource.Play();
+    }
+
+    public void PlayMusica()
+    {
+        musica.Play();
+    }
+    public void StopMusica()
+    {
+        musica.Stop();
     }
 }
