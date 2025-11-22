@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1314039046479925073}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.247, y: 0, z: 0}
+  m_LocalPosition: {x: 0.211, y: 0, z: 0}
   m_LocalScale: {x: 3.8375, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -415,8 +415,10 @@ MonoBehaviour:
   animator: {fileID: 8196908097808190233}
   zonaAtaque: {fileID: 1394103625866513313}
   velocidade: 2
-  distanciaMinima: 1.5
+  distanciaMinima: 0.8
   distanciaDeteccao: 3
   tempoEntreAtaques: 1.2
   danoAtaque: 20
-  delayVirar: 1.5
+  delayVirar: 1
+  audioSource: {fileID: 0}
+  somLanca: {fileID: 0}

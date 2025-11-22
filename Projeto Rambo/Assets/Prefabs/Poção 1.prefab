@@ -176,8 +176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e268d0486a4b4494e93e4af0ce44a1bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  danoPorTick: 2
-  duracaoTotalDoDano: 3
+  danoPorTick: 4
+  duracaoTotalDoDano: 5
   intervaloDeDano: 1
   velocidadeProjetil: 2
   tempoDeVida: 5

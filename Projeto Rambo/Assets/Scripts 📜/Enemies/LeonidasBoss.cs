@@ -33,6 +33,7 @@ public class BossController : MonoBehaviour
     [Header("Áudio")]
     public AudioSource dashAudio;
     public AudioSource spikeAudio;
+    public AudioSource musica;
 
     private bool movingToB = false; // começa indo de B → A
     private Collider2D bossCollider;
@@ -62,6 +63,7 @@ public class BossController : MonoBehaviour
             {
                 isActivated = true;
                 StartCoroutine(AttackCycle());
+                musica.Play();
             }
         }
     }

@@ -63,19 +63,32 @@ public class Espartano : MonoBehaviour
 
     void AndarAteJogador()
     {
-        if (!podeAndar) return;
+        // Se não puder andar → fica no idle
+        if (!podeAndar)
+        {
+            animator.SetBool("Andando", false);
+            return;
+        }
 
-        animator.SetBool("Andando", true);
-
+        // Verifica lado do jogador
         bool jogadorADireita = jogador.position.x > transform.position.x;
+
+        // Se estiver virado errado → parar e esperar virar
         if (jogadorADireita != viradoDireita && podeVirar)
         {
+            animator.SetBool("Andando", false);
             StartCoroutine(VirarComDelay());
+            return;
         }
+
+        // Agora pode andar
+        animator.SetBool("Andando", true);
 
         float direcao = viradoDireita ? 1f : -1f;
         transform.Translate(Vector2.right * direcao * velocidade * Time.deltaTime);
     }
+
+
 
     void Atacar()
     {
@@ -113,11 +126,17 @@ public class Espartano : MonoBehaviour
     {
         podeVirar = false;
         podeAndar = false;
+
+        animator.SetBool("Andando", false); // força idle
+
         yield return new WaitForSeconds(delayVirar);
+
         Virar();
+
         podeAndar = true;
         podeVirar = true;
     }
+
 
     IEnumerator PausarMovimento(float tempo)
     {
