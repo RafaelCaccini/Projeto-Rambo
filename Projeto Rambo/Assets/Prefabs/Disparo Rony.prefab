@@ -77,7 +77,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 493417609
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 3
   m_Sprite: {fileID: 288066046524062540, guid: bbcb9119968d0f8429bb3ac17586c940, type: 3}
   m_Color: {r: 0.86268616, g: 1, b: 0.8349056, a: 1}
@@ -115,7 +115,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &191992562926391617
 BoxCollider2D:
@@ -177,7 +177,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 7
   danoPrefab: {fileID: 0}
-  objetosParaIgnorar:
-  - {fileID: 1606036200061908796, guid: 6f29b2e2968dcc74e953427601a93328, type: 3}
-  - {fileID: 1142100514540725775, guid: eaa2b9c8b71d9af4aa1a605b0c04bf5b, type: 3}
-  - {fileID: 7854213962083971166, guid: 3dc60f3a8fff0904c8e1cfe5b163a86b, type: 3}

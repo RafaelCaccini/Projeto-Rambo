@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f858702770c3a0b42a73d178722fabe8
+guid: be126897d64d45949a81cce32d6dd6b1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 301727022624828747
-    second: Doceria 1_0
+      213: -8970986976688940096
+    second: Parallax torre eiffel_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Doceria 1_0
+      name: Parallax torre eiffel_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 704
-        height: 320
+        y: 126
+        width: 1536
+        height: 514
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4d60b2e023ff2400800000000000000
-      internalID: 301727022624828747
+      spriteID: 0cbdcc100e6a08380800000000000000
+      internalID: -8970986976688940096
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f2c76fb13dd30804eb30b0181dd1f76d
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Doceria 1_0: 301727022624828747
+      Parallax torre eiffel_0: -8970986976688940096
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

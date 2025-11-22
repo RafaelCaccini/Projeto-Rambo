@@ -1,0 +1,980 @@
+fileFormatVersion: 2
+guid: 3260dbbf4b6d64b4a9901052a11890f9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3251634580665675840
+    second: Parallax nuvens 1_0
+  - first:
+      213: -9125578692553234575
+    second: Parallax nuvens 1_1
+  - first:
+      213: 2121924334138524243
+    second: Parallax nuvens 1_2
+  - first:
+      213: -7572726044956072564
+    second: Parallax nuvens 1_3
+  - first:
+      213: -546664064465403793
+    second: Parallax nuvens 1_4
+  - first:
+      213: -2151653190193132343
+    second: Parallax nuvens 1_5
+  - first:
+      213: 7507994691101768269
+    second: Parallax nuvens 1_6
+  - first:
+      213: -5251893123433439790
+    second: Parallax nuvens 1_7
+  - first:
+      213: 6840387352486305847
+    second: Parallax nuvens 1_8
+  - first:
+      213: -5307623324656960786
+    second: Parallax nuvens 1_9
+  - first:
+      213: -8572592789909859041
+    second: Parallax nuvens 1_10
+  - first:
+      213: 5845507795979117482
+    second: Parallax nuvens 1_11
+  - first:
+      213: 3288703576175841993
+    second: Parallax nuvens 1_12
+  - first:
+      213: 5630461657481461633
+    second: Parallax nuvens 1_13
+  - first:
+      213: 113915687899318489
+    second: Parallax nuvens 1_14
+  - first:
+      213: -4715149860169756951
+    second: Parallax nuvens 1_15
+  - first:
+      213: 6856739276842959262
+    second: Parallax nuvens 1_16
+  - first:
+      213: -5246741996240943141
+    second: Parallax nuvens 1_17
+  - first:
+      213: 7082550558361693580
+    second: Parallax nuvens 1_18
+  - first:
+      213: -3352740593711964239
+    second: Parallax nuvens 1_19
+  - first:
+      213: -2570486657952707721
+    second: Parallax nuvens 1_20
+  - first:
+      213: -8972798598064659918
+    second: Parallax nuvens 1_21
+  - first:
+      213: -716906624934353442
+    second: Parallax nuvens 1_22
+  - first:
+      213: 3988228698358646924
+    second: Parallax nuvens 1_23
+  - first:
+      213: -8678722592641187279
+    second: Parallax nuvens 1_24
+  - first:
+      213: -414394375584040736
+    second: Parallax nuvens 1_25
+  - first:
+      213: 415275911402686172
+    second: Parallax nuvens 1_26
+  - first:
+      213: -5354498840470415084
+    second: Parallax nuvens 1_27
+  - first:
+      213: 5296516524121611636
+    second: Parallax nuvens 1_28
+  - first:
+      213: -2054560254498568917
+    second: Parallax nuvens 1_29
+  - first:
+      213: 7505685915142802190
+    second: Parallax nuvens 1_30
+  - first:
+      213: 8125627964118444921
+    second: Parallax nuvens 1_31
+  - first:
+      213: 8438299940067294552
+    second: Parallax nuvens 1_32
+  - first:
+      213: -3816519680922824301
+    second: Parallax nuvens 1_33
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Parallax nuvens 1_0
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 307
+        width: 2018
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cfcb08a39fdfd2d0800000000000000
+      internalID: -3251634580665675840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_1
+      rect:
+        serializedVersion: 2
+        x: 2055
+        y: 507
+        width: 94
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 177ad7c478e6b5180800000000000000
+      internalID: -9125578692553234575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_2
+      rect:
+        serializedVersion: 2
+        x: 2191
+        y: 435
+        width: 1226
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 352859080f6927d10800000000000000
+      internalID: 2121924334138524243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_3
+      rect:
+        serializedVersion: 2
+        x: 3247
+        y: 363
+        width: 1282
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c856b0db8c548e690800000000000000
+      internalID: -7572726044956072564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_4
+      rect:
+        serializedVersion: 2
+        x: 3399
+        y: 507
+        width: 198
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6081120eebd968f0800000000000000
+      internalID: -546664064465403793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_5
+      rect:
+        serializedVersion: 2
+        x: 4003
+        y: 511
+        width: 310
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ccc3bec2dac322e0800000000000000
+      internalID: -2151653190193132343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_6
+      rect:
+        serializedVersion: 2
+        x: 4339
+        y: 507
+        width: 34
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4ab3aa7461c13860800000000000000
+      internalID: 7507994691101768269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 499
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ddde6ba7078d17b0800000000000000
+      internalID: -5251893123433439790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_8
+      rect:
+        serializedVersion: 2
+        x: 2187
+        y: 495
+        width: 30
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 730650f1e00fdee50800000000000000
+      internalID: 6840387352486305847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_9
+      rect:
+        serializedVersion: 2
+        x: 4531
+        y: 499
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eea7e3c05b88756b0800000000000000
+      internalID: -5307623324656960786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_10
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 459
+        width: 22
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f151951f648080980800000000000000
+      internalID: -8572592789909859041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_11
+      rect:
+        serializedVersion: 2
+        x: 4535
+        y: 439
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa3ac1f9e5a6f1150800000000000000
+      internalID: 5845507795979117482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_12
+      rect:
+        serializedVersion: 2
+        x: 2723
+        y: 427
+        width: 26
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c2948d6a72d3ad20800000000000000
+      internalID: 3288703576175841993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 135
+        width: 441
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18fb3a7cb0b632e40800000000000000
+      internalID: 5630461657481461633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_14
+      rect:
+        serializedVersion: 2
+        x: 1931
+        y: 303
+        width: 622
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d8459fe6b5b49100800000000000000
+      internalID: 113915687899318489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_15
+      rect:
+        serializedVersion: 2
+        x: 2287
+        y: 155
+        width: 1370
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ee49d12f2c609eb0800000000000000
+      internalID: -4715149860169756951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_16
+      rect:
+        serializedVersion: 2
+        x: 2955
+        y: 367
+        width: 122
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9181b13b08082f50800000000000000
+      internalID: 6856739276842959262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_17
+      rect:
+        serializedVersion: 2
+        x: 3103
+        y: 371
+        width: 134
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd74fede3f3df27b0800000000000000
+      internalID: -5246741996240943141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_18
+      rect:
+        serializedVersion: 2
+        x: 3523
+        y: 87
+        width: 1021
+        height: 322
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8da4e635364a4260800000000000000
+      internalID: 7082550558361693580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_19
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 299
+        width: 26
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bf14cf813ca871d0800000000000000
+      internalID: -3352740593711964239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_20
+      rect:
+        serializedVersion: 2
+        x: 443
+        y: 255
+        width: 34
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77b09dce00cc35cd0800000000000000
+      internalID: -2570486657952707721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_21
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 255
+        width: 30
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 232ab3907373a7380800000000000000
+      internalID: -8972798598064659918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_22
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 263
+        width: 22
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed5e9a319390d06f0800000000000000
+      internalID: -716906624934353442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_23
+      rect:
+        serializedVersion: 2
+        x: 1499
+        y: 247
+        width: 206
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c888fa0eed8095730800000000000000
+      internalID: 3988228698358646924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_24
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 31
+        width: 902
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1320779a8cbfe8780800000000000000
+      internalID: -8678722592641187279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_25
+      rect:
+        serializedVersion: 2
+        x: 731
+        y: 163
+        width: 602
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e8b46ec286cf3af0800000000000000
+      internalID: -414394375584040736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_26
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 91
+        width: 1058
+        height: 170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd60feebd3b53c500800000000000000
+      internalID: 415275911402686172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_27
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 119
+        width: 18
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41915878caff0b5b0800000000000000
+      internalID: -5354498840470415084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_28
+      rect:
+        serializedVersion: 2
+        x: 3199
+        y: 107
+        width: 122
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47d514f67b1018940800000000000000
+      internalID: 5296516524121611636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_29
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 87
+        width: 134
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b250af4855cbc73e0800000000000000
+      internalID: -2054560254498568917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_30
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 67
+        width: 50
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0b4dbfa29d892860800000000000000
+      internalID: 7505685915142802190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_31
+      rect:
+        serializedVersion: 2
+        x: 1479
+        y: 87
+        width: 10
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97ba24af49704c070800000000000000
+      internalID: 8125627964118444921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_32
+      rect:
+        serializedVersion: 2
+        x: 3299
+        y: 67
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85d39e3661dda1570800000000000000
+      internalID: 8438299940067294552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Parallax nuvens 1_33
+      rect:
+        serializedVersion: 2
+        x: 3667
+        y: 59
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 391de4c229ff80bc0800000000000000
+      internalID: -3816519680922824301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
