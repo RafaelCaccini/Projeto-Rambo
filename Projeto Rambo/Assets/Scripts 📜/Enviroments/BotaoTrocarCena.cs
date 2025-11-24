@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class BotaoTrocarCena : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class BotaoTrocarCena : MonoBehaviour
 
     [Header("Configuração de Animação do Zoom")]
     public bool usarAnimacaoZoom = true;
-    public CanvasScaler canvasScaler;  // NOVO: Referência ao Canvas Scaler
+    public CanvasScaler canvasScaler;  
     public float duracaoZoom = 0.5f;
     public float fatorZoom = 1.2f;
 
@@ -22,15 +22,20 @@ public class BotaoTrocarCena : MonoBehaviour
     public Image vinheta;
     public float duracaoVinheta = 0.8f;
 
-    private float escalaOriginal; // NOVO: Armazena a escala do Canvas Scaler
+    private float escalaOriginal; 
     private bool jaCliquei = false;
+
+    
+    [Header("Fade de Áudio")]
+    public AudioSource audioSourceParaDiminuir;
+    public float duracaoFadeAudio = 1f;
+ 
 
     void Start()
     {
         if (imagemDoBotao != null)
             imagemDoBotao.color = new Color(imagemDoBotao.color.r, imagemDoBotao.color.g, imagemDoBotao.color.b, 0);
 
-        // NOVO: Pega a referência e guarda a escala do Canvas Scaler
         if (canvasScaler == null)
         {
             canvasScaler = FindObjectOfType<Canvas>().GetComponent<CanvasScaler>();
@@ -48,6 +53,11 @@ public class BotaoTrocarCena : MonoBehaviour
     {
         if (jaCliquei) return;
         jaCliquei = true;
+
+        // NOVO: começa a reduzir o volume junto com o clique
+        if (audioSourceParaDiminuir != null)
+            StartCoroutine(FadeAudio());
+
         StartCoroutine(AnimarBotaoEFazerTransicao());
     }
 
@@ -77,7 +87,6 @@ public class BotaoTrocarCena : MonoBehaviour
             vinheta.transform.SetAsLastSibling();
         }
 
-        // NOVO: Zoom no Canvas usando o Canvas Scaler
         if (usarAnimacaoZoom && canvasScaler != null)
         {
             Debug.Log("Iniciando a animação de zoom.");
@@ -91,7 +100,6 @@ public class BotaoTrocarCena : MonoBehaviour
             }
         }
 
-        // Anima a vinheta (fade in)
         if (vinheta != null)
         {
             float t = 0;
@@ -105,10 +113,27 @@ public class BotaoTrocarCena : MonoBehaviour
             }
         }
 
-        // Carrega a cena
         if (!string.IsNullOrEmpty(nomeCena))
         {
             SceneManager.LoadScene(nomeCena);
         }
     }
+
+    
+    private IEnumerator FadeAudio()
+    {
+        float volumeInicial = audioSourceParaDiminuir.volume;
+        float t = 0;
+
+        while (t < duracaoFadeAudio)
+        {
+            t += Time.deltaTime;
+            float progresso = t / duracaoFadeAudio;
+            audioSourceParaDiminuir.volume = Mathf.Lerp(volumeInicial, 0, progresso);
+            yield return null;
+        }
+
+        audioSourceParaDiminuir.volume = 0;
+    }
+  
 }

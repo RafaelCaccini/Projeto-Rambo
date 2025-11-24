@@ -11783,7 +11783,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 249939404452609082, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_Volume
-      value: 0.4
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3307029560324585084, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: ignorarDano
@@ -11855,11 +11855,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8638162792106323523, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_Volume
-      value: 0.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8915894369557230812, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_Volume
-      value: 0.4
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 9183855738922400756, guid: 5d234077366f8f04b8a2d860ff7e972b, type: 3}
       propertyPath: m_LocalPosition.y

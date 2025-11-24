@@ -24086,6 +24086,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rambo
       objectReference: {fileID: 0}
+    - target: {fileID: 3411201557381044019, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
+      propertyPath: m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 5446420757094172869, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
       propertyPath: m_Size.x
       value: 0.13985786
@@ -24097,6 +24101,18 @@ PrefabInstance:
     - target: {fileID: 5446420757094172869, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
       propertyPath: m_Offset.y
       value: 0.03443189
+      objectReference: {fileID: 0}
+    - target: {fileID: 6611311073076151626, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932442390603484623, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936065800504396819, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
+      propertyPath: especial
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8088654312992112007, guid: fccca09636dcf9a42bee40a1c940db54, type: 3}
       propertyPath: m_SortingLayer
