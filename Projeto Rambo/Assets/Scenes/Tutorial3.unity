@@ -544,11 +544,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4188459920065336878, guid: 848555d83efb31a4fb0bbb5f0d064cad, type: 3}
       propertyPath: fullText
-      value: "Sentinela - \"Agente Rony, voc\xEA foi enviado para o olho desse furac\xE3o,
-        a caixa\\nest\xE1 mais pr\xF3xima que nunca, mas n\xE3o ser\xE1 nada f\xE1cil
-        fecha-la. A maldi\xE7\xE3o atingiu\\nresidentes da Gr\xE9cia antiga, os famosos
-        espartanos. Voc\xEA ter\xE1 que lidar com os\\nantigos espartanos e seu l\xEDder
-        principal.\\n \\nAgente Rony - \"Entendido Sentinela. Encerrarei\_minha\_miss\xE3o\""
+      value: "Sentinela - \"Agente Rony, voc\xEA foi enviado para o olho desse furac\xE3o.
+        A caixa\\nest\xE1 mais pr\xF3xima que nunca, mas n\xE3o ser\xE1 nada f\xE1cil
+        fech\xE1-la. A maldi\xE7\xE3o atingiu\\nresidentes da Gr\xE9cia Antiga, os
+        famosos espartanos. Voc\xEA ter\xE1 que lidar com os\\nantigos espartanos
+        e seu l\xEDder principal.\"\\n \\nAgente Rony - \"Entendido, Sentinela. Encerrarei
+        minha miss\xE3o.\" "
       objectReference: {fileID: 0}
     - target: {fileID: 4188459920065336878, guid: 848555d83efb31a4fb0bbb5f0d064cad, type: 3}
       propertyPath: textObject
@@ -855,6 +856,22 @@ PrefabInstance:
     - target: {fileID: 4834066211825376553, guid: 3b6d9abed75b4db48935f5618c796cdf, type: 3}
       propertyPath: m_Name
       value: Canvas Variant 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6237367179171216645, guid: 3b6d9abed75b4db48935f5618c796cdf, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6237367179171216645, guid: 3b6d9abed75b4db48935f5618c796cdf, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6237367179171216645, guid: 3b6d9abed75b4db48935f5618c796cdf, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 6237367179171216645, guid: 3b6d9abed75b4db48935f5618c796cdf, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 8817912712100939696, guid: 3b6d9abed75b4db48935f5618c796cdf, type: 3}
       propertyPath: m_LocalScale.x

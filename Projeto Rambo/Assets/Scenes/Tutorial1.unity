@@ -750,6 +750,22 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5324435672441195662, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324435672441195662, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324435672441195662, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324435672441195662, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 6664672088809893026, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
       propertyPath: m_Name
       value: CanvasTuto
@@ -795,18 +811,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1944508334595781837, guid: a11fc1a758e52544f84b56968a202459, type: 3}
       propertyPath: fullText
-      value: "Sentinela - \"Agente Rony?! Na escuta?\"\\n \\n  Rony - \"Na esculta
-        Sentinela.\"\\n \\n  Sentinela - \"\xD3timo, o relat\xF3rio da miss\xE3o
-        \xE9 o seguinte, algum bastardo inventou de tocar em uma caixa maldita que
-        estava escondida em algum lugar da Europa. Isso desencadeou eventos que n\xE3o
-        deviam acontecer. Sua miss\xE3o nesse momento \xE9 exterminar as criaturas
-        que foram despertadas na Alemanha. A caixa levantou os mortos da segunda
-        guerra mundial, voc\xEA ter\xE1 que lidar com soldados zumbis, tanques de
-        guerra e o comandante deles, ele n\xE3o morrer\xE1 com balas, voc\xEA precisar\xE1
-        usar um bombardeio de Esperan\xE7a. Te desejo uma boa sorte e mantenha a
-        esperan\xE7a!\"\\n \\n  Rony - \"Entendido Sentinela. Farei o meu melhor\"\\n
-        \\n  Sentinela - \"Agora vamos! saia do lugar antes que voc\xEA seja bombardeado!\"
-        \\n \\n...(Aguarde)"
+      value: "Sentinela - \"Agente Rony?! Na escuta?\"\\n \\n  Rony - \"Na escuta,
+        Sentinela.\"\\n \\n  Sentinela - \"\xD3timo. O relat\xF3rio da miss\xE3o
+        \xE9 o seguinte: algum bastardo resolveu mexer em uma caixa maldita que estava
+        escondida em algum lugar da Europa. Isso desencadeou eventos que n\xE3o deveriam
+        acontecer. Sua miss\xE3o neste momento \xE9 exterminar as criaturas que foram
+        despertadas na Alemanha. A caixa levantou os mortos da Segunda Guerra Mundial;
+        voc\xEA ter\xE1 que lidar com soldados zumbis, tanques de guerra e o comandante
+        deles. Ele n\xE3o morrer\xE1 com balas \u2014 voc\xEA precisar\xE1 usar um
+        bombardeio de Esperan\xE7a. Desejo-lhe boa sorte e mantenha a esperan\xE7a!\"\\n
+        \\n  Rony - \"Entendido, Sentinela. Farei o meu melhor.\"\\n \\n  Sentinela
+        - \"Agora v\xE1! Saia do lugar antes que voc\xEA seja bombardeado!\" \\n
+        \\n...(Aguarde) "
       objectReference: {fileID: 0}
     - target: {fileID: 1944508334595781837, guid: a11fc1a758e52544f84b56968a202459, type: 3}
       propertyPath: textObject

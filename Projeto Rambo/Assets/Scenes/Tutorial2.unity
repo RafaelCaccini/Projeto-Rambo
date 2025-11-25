@@ -457,6 +457,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5324435672441195662, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324435672441195662, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324435672441195662, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324435672441195662, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 6664672088809893026, guid: 44c334fa92477e9429b5573a3c3788d9, type: 3}
       propertyPath: m_Name
       value: CanvasTuto
@@ -904,6 +920,19 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4188459920065336878, guid: 848555d83efb31a4fb0bbb5f0d064cad, type: 3}
+      propertyPath: fullText
+      value: "Sentinela - \"Agente Rony?! Ainda na escuta?\" \\n \\n  Rony - \"Positivo,
+        Sentinela.\"\\n \\n  Sentinela - \"Certo. Dando continuidade \xE0 miss\xE3o:
+        voc\xEA foi encaminhado para o centro da Fran\xE7a. A maldi\xE7\xE3o est\xE1
+        se espalhando cada vez mais por todo o continente europeu. Desta vez, ela
+        atingiu seres ainda mais antigos. Voc\xEA ter\xE1 que lidar com templ\xE1rios
+        e com um doutor da antiga peste. Feridas externas n\xE3o o afetam; voc\xEA
+        ter\xE1 que usar suas balas. Lhe desejo uma boa sor\u2014 espera, o que \xE9
+        aquilo?! AGENTE RONY, SE MOVA IMEDIATAMENTE! NOSSOS RADARES DETECTARAM UMA
+        ONDA DE PESTE MISTURADA COM A MALDI\xC7\xC3O INDO DIRETAMENTE PARA VOC\xCA.
+        CORRA!\"\\n \\n  Rony - \"ENTENDIDO, SENTINELA!\" "
+      objectReference: {fileID: 0}
     - target: {fileID: 4188459920065336878, guid: 848555d83efb31a4fb0bbb5f0d064cad, type: 3}
       propertyPath: textObject
       value: 
